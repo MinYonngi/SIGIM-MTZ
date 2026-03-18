@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIGIM-MTZ | Panel Técnico</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="bg-body-tertiary">
+  <nav class="navbar topbar-mtz sticky-top bg-dark shadow-sm">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <img src="./assets/escudo.png" class="logo-box bg-white p-1 rounded" style="width: 40px;" alt="Escudo">
+        <div><div class="text-white fw-bold fs-5 lh-1">SIGIM-MTZ <span class="badge bg-secondary ms-2 fs-6">Técnico</span></div></div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="dropdown">
+          <button class="btn btn-dark dropdown-toggle border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+            <img src="https://ui-avatars.com/api/?name=Tecnico&background=4e73df&color=fff" class="rounded-circle" width="32" alt="Avatar">
+            <span class="d-none d-md-inline small">Técnico</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person"></i> Mi Perfil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="index.html"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+          </ul>
+        </div>
+        <button class="btn btn-light btn-sm fw-bold btn-pill ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="menuLateral">
+    <div class="offcanvas-header"><h5 class="offcanvas-title fw-bold"><i class="bi bi-building"></i> Menú</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div>
+    <div class="offcanvas-body">
+      <div class="list-group mb-3">
+        <a href="tecnico.html" class="list-group-item list-group-item-action active"><i class="bi bi-speedometer2"></i> Mis Incidencias</a>
+        <a href="cuidadano.html" class="list-group-item list-group-item-action"><i class="bi bi-megaphone"></i> Portal Ciudadano</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-3"><ol class="breadcrumb mb-0"><li class="breadcrumb-item"><i class="bi bi-house-door"></i> Inicio</li><li class="breadcrumb-item active">Mis incidencias</li></ol></nav>
+    <section class="row g-3 mb-3">
+      <div class="col-6 col-lg"><div class="card kpi-card hover-lift"><div class="card-body"><div class="kpi-title text-primary">Asignadas</div><div class="kpi-value text-primary" id="kpi-asignadas">0</div></div></div></div>
+      <div class="col-6 col-lg"><div class="card kpi-card hover-lift"><div class="card-body"><div class="kpi-title text-warning">En proceso</div><div class="kpi-value text-warning" id="kpi-enproceso">0</div></div></div></div>
+      <div class="col-6 col-lg"><div class="card kpi-card hover-lift border-success border-start border-4"><div class="card-body"><div class="kpi-title text-success">Resueltas</div><div class="kpi-value text-success" id="kpi-resueltas">0</div></div></div></div>
+    </section>
+
+    <section class="card shadow-sm border-0">
+      <div class="card-header bg-white d-flex align-items-center justify-content-between py-3">
+        <div><div class="fw-bold">Mis incidencias asignadas</div></div>
+        <button id="btn-recargar" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-clockwise"></i> Recargar</button>
+      </div>
+      <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>Folio</th><th>Título</th><th>Estatus</th><th>Prioridad</th><th>Tipo</th><th style="width: 160px;">Acciones</th></tr></thead><tbody id="tbody-incidencias"><tr><td colspan="6" class="text-center py-4 text-secondary">Esperando BD...</td></tr></tbody></table></div>
+    </section>
+  </main>
+
+  <div class="modal fade" id="modalActualizarEstatus" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title fw-bold"><i class="bi bi-arrow-repeat"></i> Actualizar estatus</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="form-actualizar-estatus"><div class="modal-body"><p id="estatus-folio" class="text-secondary small fw-bold mb-3"></p><label class="form-label fw-bold">Nuevo estatus</label><select id="select-nuevo-estatus" class="form-select mb-3" required></select><div class="mb-3 d-none p-3 border rounded bg-light border-success" id="div-evidencia"><label class="form-label fw-bold small text-success"><i class="bi bi-camera"></i> Evidencia Fotográfica</label><input type="file" class="form-control" id="input-evidencia" accept="image/png, image/jpeg" capture="environment"></div><label class="form-label fw-bold">Comentario / Reporte</label><textarea id="input-comentario-estatus" class="form-control" rows="3"></textarea></div><div class="modal-footer"><button type="submit" class="btn btn-primary btn-pill">Actualizar</button></div></form></div></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/tecnico.js"></script>
+</body>
+</html>

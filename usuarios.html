@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIGIM-MTZ | Gestión de Usuarios</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="bg-body-tertiary">
+  <nav class="navbar topbar-mtz sticky-top bg-dark shadow-sm">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <img src="./assets/escudo.png" class="logo-box bg-white p-1 rounded" style="width: 40px;" alt="Escudo">
+        <div class="text-white fw-bold fs-5 lh-1">SIGIM-MTZ</div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-dark dropdown-toggle border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+            <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" class="rounded-circle" width="32" alt="Avatar">
+            <span class="d-none d-md-inline small">Administrador</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person"></i> Mi Perfil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="index.html"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+          </ul>
+        </div>
+        <button class="btn btn-light btn-sm fw-bold btn-pill ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="menuLateral">
+    <div class="offcanvas-header"><h5 class="offcanvas-title fw-bold"><i class="bi bi-building"></i> Menú</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div>
+    <div class="offcanvas-body">
+      <div class="list-group mb-3">
+        <a href="dashboard.html" class="list-group-item list-group-item-action"><i class="bi bi-speedometer2"></i> Panel de incidencias</a>
+        <a href="reportes.html" class="list-group-item list-group-item-action"><i class="bi bi-clipboard-data"></i> Reportes Estadísticos</a>
+        <a href="usuarios.html" class="list-group-item list-group-item-action active"><i class="bi bi-people"></i> Usuarios</a>
+        <a href="cuidadano.html" class="list-group-item list-group-item-action"><i class="bi bi-megaphone"></i> Portal Ciudadano</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-3"><ol class="breadcrumb mb-0"><li class="breadcrumb-item"><i class="bi bi-house-door"></i> Inicio</li><li class="breadcrumb-item active">Gestión de Usuarios</li></ol></nav>
+
+    <ul class="nav nav-tabs mb-4" id="usuariosTab" role="tablist">
+      <li class="nav-item"><button class="nav-link active fw-bold text-dark" id="empleados-tab" data-bs-toggle="tab" data-bs-target="#empleados" type="button">Empleados Municipales</button></li>
+      <li class="nav-item"><button class="nav-link fw-bold text-dark" id="ciudadanos-tab" data-bs-toggle="tab" data-bs-target="#ciudadanos" type="button">Ciudadanos Reportantes</button></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="empleados">
+        <section class="card shadow-sm border-0">
+          <div class="card-header bg-white d-flex align-items-center justify-content-between py-3">
+            <div><div class="fw-bold">Directorio de Empleados</div></div>
+            <button class="btn btn-primary btn-sm" onclick="abrirModalUsuario()"><i class="bi bi-plus-lg"></i> Nuevo</button>
+          </div>
+          <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th style="width:100px;">Acciones</th></tr></thead><tbody id="tbody-empleados"><tr><td colspan="4" class="text-center py-4">Esperando BD...</td></tr></tbody></table></div>
+        </section>
+      </div>
+      <div class="tab-pane fade" id="ciudadanos">
+        <section class="card shadow-sm border-0">
+          <div class="card-header bg-white py-3"><div class="fw-bold">Directorio de Ciudadanos</div></div>
+          <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>Nombre</th><th>Teléfono</th><th>Reportes Creados</th></tr></thead><tbody id="tbody-ciudadanos"><tr><td colspan="3" class="text-center py-4">Esperando BD...</td></tr></tbody></table></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal fade" id="modalUsuario" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title fw-bold" id="modalUsuarioTitle">Registrar Empleado</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form id="form-usuario"><div class="modal-body"><input type="hidden" id="usuario-id"><div class="mb-3"><label class="form-label small">Nombre Completo</label><input type="text" class="form-control" id="usuario-nombre" required></div><div class="mb-3"><label class="form-label small">Correo</label><input type="email" class="form-control" id="usuario-correo" required></div><div class="mb-3"><label class="form-label small">Rol</label><select class="form-select" id="usuario-rol" required><option value="">Seleccione...</option><option value="ADMIN">Administrador</option><option value="TECNICO">Técnico Operativo</option></select></div><div class="mb-3"><label class="form-label small">Contraseña</label><input type="password" class="form-control" id="usuario-password"></div></div><div class="modal-footer"><button type="submit" class="btn btn-primary">Guardar</button></div></form></div></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/usuarios.js"></script>
+</body>
+</html>
