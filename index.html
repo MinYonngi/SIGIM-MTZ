@@ -3,290 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SIGIM-MTZ | Panel de Incidencias</title>
-
-  <!-- Bootstrap 5.3 -->
+  <title>SIGIM-MTZ | Mi Perfil</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
-  <!-- Estilo institucional (Ayuntamiento) -->
   <link rel="stylesheet" href="./css/styles.css">
 </head>
-
 <body class="bg-body-tertiary">
-
-  <!-- TOPBAR estilo Ayuntamiento -->
-  <nav class="navbar topbar-mtz sticky-top">
+  <nav class="navbar topbar-mtz sticky-top bg-dark shadow-sm">
     <div class="container d-flex align-items-center justify-content-between">
-
       <div class="d-flex align-items-center gap-3">
-        <!-- Logos (opcionales) -->
-        <div class="d-flex align-items-center gap-2">
-          <!-- Si no tienes logos, deja comentado -->
-          <div class="d-flex align-items-center gap-3">
-
-  <!-- ESCUDO OFICIAL -->
-  <img src="./assets/escudo.png"
-       class="logo-box"
-       alt="Escudo Oficial Ayuntamiento Martínez de la Torre">
-
-  <div>
-    <div class="text-white fw-bold fs-5 lh-1">SIGIM-MTZ</div>
-  </div>
-
-</div>
-        </div>
-
-        <div>
-          <div class="text-white fw-bold fs-5 lh-1">SIGIM-MTZ</div>
-        </div>
+        <img src="./assets/escudo.png" class="logo-box bg-white p-1 rounded" style="width: 40px;" alt="Escudo">
+        <div class="text-white fw-bold fs-5 lh-1">SIGIM-MTZ</div>
       </div>
-
-      <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-light btn-sm fw-bold btn-pill"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#menuLateral"
-                aria-controls="menuLateral"
-                data-bs-toggle="tooltip"
-                data-bs-title="Abrir menú">
-          <i class="bi bi-list"></i>
-    
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-dark dropdown-toggle border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+            <img src="https://ui-avatars.com/api/?name=Usuario&background=0D8ABC&color=fff" class="rounded-circle" width="32" alt="Avatar">
+            <span class="d-none d-md-inline small">Usuario</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person"></i> Mi Perfil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="index.html"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+          </ul>
+        </div>
+        <button class="btn btn-light btn-sm fw-bold btn-pill ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"><i class="bi bi-list"></i></button>
       </div>
-
     </div>
-    
   </nav>
 
-  <!-- Menú lateral -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="menuLateral" aria-labelledby="menuLateralLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title fw-bold" id="menuLateralLabel">
-        <i class="bi bi-building"></i> Menú
-      </h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
-    </div>
-
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="menuLateral">
+    <div class="offcanvas-header"><h5 class="offcanvas-title fw-bold"><i class="bi bi-building"></i> Menú</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div>
     <div class="offcanvas-body">
-      <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action active">
-          <i class="bi bi-speedometer2"></i> Panel de incidencias
-        </a>
-        <a href="#" class="list-group-item list-group-item-action disabled">
-          <i class="bi bi-clipboard-data"></i> Reportes (próximamente)
-        </a>
-        <a href="#" class="list-group-item list-group-item-action disabled">
-          <i class="bi bi-people"></i> Usuarios (próximamente)
-        </a>
-      </div>
-
-      <hr>
-
-      <div class="small text-secondary">
-        Sistema interno de gestión y seguimiento de incidencias municipales (SIGIM-MTZ).
+      <div class="list-group mb-3">
+        <a href="dashboard.html" class="list-group-item list-group-item-action"><i class="bi bi-speedometer2"></i> Panel de incidencias</a>
+        <a href="reportes.html" class="list-group-item list-group-item-action"><i class="bi bi-clipboard-data"></i> Reportes Estadísticos</a>
+        <a href="usuarios.html" class="list-group-item list-group-item-action"><i class="bi bi-people"></i> Usuarios</a>
+        <a href="cuidadano.html" class="list-group-item list-group-item-action"><i class="bi bi-megaphone"></i> Portal Ciudadano</a>
       </div>
     </div>
   </div>
 
   <main class="container py-4">
-
-    <!-- Breadcrumb tipo institucional -->
-    <nav aria-label="breadcrumb" class="mb-3">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><i class="bi bi-house-door"></i> Inicio</li>
-        <li class="breadcrumb-item">Desarrollo Urbano</li>
-        <li class="breadcrumb-item active" aria-current="page">Panel de incidencias</li>
-      </ol>
-    </nav>
-
-    <!-- KPIs -->
-    <section class="row g-3 mb-3">
-      <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
-          <div class="card-body">
-            <div class="kpi-title">Total</div>
-            <div class="kpi-value" id="kpi-total">0</div>
+    <nav aria-label="breadcrumb" class="mb-3"><ol class="breadcrumb mb-0"><li class="breadcrumb-item"><i class="bi bi-house-door"></i> Inicio</li><li class="breadcrumb-item active" aria-current="page">Mi Perfil</li></ol></nav>
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <div class="text-center mb-4"><img src="https://ui-avatars.com/api/?name=Usuario&background=0D8ABC&color=fff&size=100" class="rounded-circle mb-3" id="img-avatar"><h4 class="fw-bold" id="txt-nombre-perfil">Cargando BD...</h4></div>
+            <hr class="mb-4">
+            <form id="form-perfil">
+              <h6 class="fw-bold mb-3">Actualizar Datos Personales</h6>
+              <div class="mb-3"><label class="form-label small fw-bold">Nombre Completo</label><input type="text" class="form-control" id="perfil-nombre" required></div>
+              <div class="mb-3"><label class="form-label small fw-bold">Correo Electrónico</label><input type="email" class="form-control bg-light" id="perfil-correo" readonly></div>
+              <h6 class="fw-bold mt-4 mb-3">Cambiar Contraseña</h6>
+              <div class="mb-3"><label class="form-label small fw-bold">Nueva Contraseña</label><input type="password" class="form-control" id="perfil-pass1"></div>
+              <div class="mb-4"><label class="form-label small fw-bold">Confirmar Nueva Contraseña</label><input type="password" class="form-control" id="perfil-pass2"></div>
+              <div class="d-grid"><button type="submit" id="btn-guardar-perfil" class="btn btn-primary btn-pill fw-bold py-2"><i class="bi bi-save"></i> Guardar Cambios</button></div>
+            </form>
           </div>
         </div>
-      </div>
-
-      <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
-          <div class="card-body">
-            <div class="kpi-title">Nuevas</div>
-            <div class="kpi-value" id="kpi-nuevas">0</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
-          <div class="card-body">
-            <div class="kpi-title">Asignadas</div>
-            <div class="kpi-value" id="kpi-asignadas">0</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
-          <div class="card-body">
-            <div class="kpi-title">En proceso</div>
-            <div class="kpi-value" id="kpi-enproceso">0</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
-          <div class="card-body">
-            <div class="kpi-title">Cerradas</div>
-            <div class="kpi-value" id="kpi-cerradas">0</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Panel tabla -->
-    <section class="card">
-  <div class="card-header bg-white d-flex align-items-center justify-content-between">
-
-    <div>
-      <div class="fw-bold">Incidencias</div>
-      <div class="text-secondary small">
-        Visualiza estatus y realiza asignación manual
       </div>
     </div>
-
-    <div class="d-flex align-items-center gap-2">
-  <span id="lbl-loading" class="loading-chip d-none">
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    Actualizando...
-  </span>
-
-  <button id="btn-recargar" class="btn-mtz btn-mtz-primary"
-          data-bs-toggle="tooltip"
-          data-bs-title="Actualizar KPIs y tabla">
-    <i class="bi bi-arrow-clockwise"></i>
-    <span class="btn-text">Recargar</span>
-  </button>
-</div>
-
-  </div>
-
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th>Folio</th>
-              <th>Título</th>
-              <th>Estatus</th>
-              <th>Prioridad</th>
-              <th>Tipo</th>
-              <th style="width: 160px;">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-incidencias"></tbody>
-        </table>
-      </div>
-    </section>
-
   </main>
-
-  <!-- Modal asignar -->
-  <div class="modal fade" id="modalAsignar" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title fw-bold"><i class="bi bi-person-check"></i> Asignar incidencia</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-
-        <div class="modal-body">
-          <p id="modal-folio" class="text-secondary small mb-3"></p>
-
-          <label class="form-label fw-bold">Técnico</label>
-          <select id="select-tecnicos" class="form-select mb-3"></select>
-
-          <label class="form-label fw-bold">Comentario (opcional)</label>
-          <input id="input-comentario" class="form-control" placeholder="Ej. Se asigna por zona centro" />
-          <div class="form-text">Este comentario se registra en el historial.</div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-pill" data-bs-dismiss="modal">Cancelar</button>
-          <button id="btn-asignar" type="button" class="btn btn-primary btn-pill">
-            <i class="bi bi-check2-circle"></i> Asignar
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-<!-- Modal Seguimiento (tipo paquetería) -->
-<div class="modal fade" id="modalSeguimiento" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title fw-bold">
-          <i class="bi bi-clock-history"></i> Seguimiento de incidencia
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-
-      <div class="modal-body">
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-          <div class="text-secondary small" id="seg-folio">Folio: -</div>
-          <div class="text-secondary small" id="seg-estatus">Estatus: -</div>
-        </div>
-
-        <div class="table-responsive">
-          <table class="table table-sm align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Fecha</th>
-                <th>Acción</th>
-                <th>Comentario</th>
-                <th>De</th>
-                <th>A</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-seguimiento"></tbody>
-          </table>
-        </div>
-
-        <div class="text-secondary small mt-2">
-          *Este historial funciona como bitácora (trazabilidad) del sistema.
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-outline-secondary btn-pill" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-  <!-- Toast notificación -->
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastOk" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <strong class="me-auto"><i class="bi bi-bell"></i> SIGIM-MTZ</strong>
-        <small class="text-secondary">Ahora</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Cerrar"></button>
-      </div>
-      <div class="toast-body" id="toastOkMsg">Listo ✅</div>
-    </div>
-  </div>
-
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Tu JS -->
-  <script src="./js/dashboard.js"></script>
+  <script src="./js/perfil.js"></script>
 </body>
 </html>
