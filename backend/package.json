@@ -1,0 +1,33 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed:users": "node scripts/seed-internal-users.js",
+    "reset:passwords": "node scripts/reset-internal-passwords.js",
+    "check:password-hashes": "node scripts/check-password-hashes.js",
+    "normalize:user": "node scripts/normalize-internal-user.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-mysql-session": "^3.0.3",
+    "express-rate-limit": "^8.3.2",
+    "express-session": "^1.19.0",
+    "helmet": "^8.1.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.18.1",
+    "nodemailer": "^8.0.5",
+    "nodemon": "^3.1.14"
+  }
+}

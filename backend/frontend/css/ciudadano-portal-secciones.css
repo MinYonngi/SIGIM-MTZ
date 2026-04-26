@@ -1,0 +1,955 @@
+/* ==========================================
+   CARRUSEL
+   ========================================== */
+.carousel-wrap-ajustado {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.75rem);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--portal-shadow-card-hover);
+  box-sizing: border-box;
+}
+
+.carousel-moderno {
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: none;
+  background: var(--mtz-card);
+}
+
+.carousel-imagen {
+  height: clamp(280px, 38vw, 540px);
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  max-width: 100%;
+  display: block;
+}
+
+.carousel-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.5rem);
+  text-align: left;
+}
+
+.carousel-titulo {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-texto {
+  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#carouselReportesSIGIM {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+}
+
+#carouselReportesSIGIM .carousel-inner {
+  border-radius: 20px;
+  overflow: hidden;
+  height: clamp(300px, 58vw, 620px);
+}
+
+#carouselReportesSIGIM .carousel-item {
+  height: clamp(300px, 58vw, 620px);
+  position: relative;
+  overflow: hidden;
+}
+
+#carouselReportesSIGIM .carousel-item img {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+#carouselReportesSIGIM .carousel-caption {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+  background: rgba(123, 27, 39, 0.85);
+  border-radius: 12px;
+  padding: 1.2rem;
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+
+#carouselReportesSIGIM .carousel-caption h5 {
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+#carouselReportesSIGIM .carousel-caption p {
+  display: none;
+}
+
+#carouselReportesSIGIM .carousel-indicators {
+  bottom: 1rem;
+  z-index: 10;
+  margin-bottom: 0.5rem;
+}
+
+#carouselReportesSIGIM .carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  margin: 0 6px;
+  opacity: 1;
+}
+
+#carouselReportesSIGIM .carousel-indicators [data-bs-target].active {
+  background-color: var(--mtz-wine);
+  border-color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 0 0 2px var(--mtz-gold);
+}
+
+.carousel-control-moderno {
+  width: clamp(40px, 5vw, 50px);
+  height: clamp(40px, 5vw, 50px);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.carousel-control-moderno:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-50%) scale(1.05);
+}
+
+#carouselReportesSIGIM .carousel-control-prev,
+#carouselReportesSIGIM .carousel-control-next {
+  width: 50px;
+  height: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: rgba(123, 27, 39, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  opacity: 0.9;
+}
+
+#carouselReportesSIGIM .carousel-control-prev:hover,
+#carouselReportesSIGIM .carousel-control-next:hover {
+  background: rgba(123, 27, 39, 0.95);
+  opacity: 1;
+}
+
+#carouselReportesSIGIM .carousel-control-prev-icon,
+#carouselReportesSIGIM .carousel-control-next-icon,
+.carousel-control-moderno .carousel-control-prev-icon,
+.carousel-control-moderno .carousel-control-next-icon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+/* ==========================================
+   BLOQUE INFORMATIVO DEBAJO DEL CARRUSEL
+   ========================================== */
+.portal-info-ciudadana {
+  width: 100%;
+  padding: var(--portal-space-seccion) clamp(1rem, 3vw, 1.5rem) calc(var(--portal-space-seccion) + 0.5rem);
+  background: linear-gradient(180deg, var(--mtz-bg) 0%, var(--mtz-bg2) 100%);
+}
+
+.portal-info-wrap {
+  width: 100%;
+  max-width: 1520px;
+  margin: 0 auto;
+}
+
+.portal-bloque {
+  margin-bottom: clamp(1.75rem, 3vw, 2.35rem);
+}
+
+.portal-bloque:last-child {
+  margin-bottom: 0;
+}
+
+.portal-bloque-titulo {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 28px;
+}
+
+.portal-bloque-titulo h2 {
+  margin: 0 0 12px;
+  color: var(--mtz-wine);
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  font-size: clamp(2rem, 3.4vw + 1.1rem, 3.15rem);
+  line-height: 1.14;
+}
+
+.portal-bloque-titulo p {
+  margin: 0;
+  font-size: clamp(1.08rem, 1.35vw, 1.22rem);
+  color: var(--mtz-muted);
+  line-height: 1.62;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================
+   ACCIONES PRINCIPALES
+   ========================================== */
+.portal-acciones-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.portal-accion-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: clamp(1.25rem, 2.5vw, 1.65rem) clamp(1.15rem, 2.2vw, 1.5rem);
+  border-radius: var(--card-radius);
+  background: var(--mtz-card);
+  border: 1px solid var(--mtz-border);
+  box-shadow: var(--portal-shadow-card);
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.portal-accion-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+}
+
+.portal-accion-card-verde::before {
+  background: linear-gradient(90deg, var(--mtz-wine), var(--mtz-wine-2));
+}
+
+.portal-accion-card-azul::before {
+  background: linear-gradient(90deg, var(--mtz-gold), #d4b45e);
+}
+
+.portal-accion-card-verde {
+  background: linear-gradient(180deg, #fffefd 0%, rgba(251, 241, 238, 0.65) 100%);
+}
+
+.portal-accion-card-azul {
+  background: linear-gradient(180deg, #fffefd 0%, rgba(200, 164, 71, 0.08) 100%);
+}
+
+.portal-accion-icono {
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.portal-accion-card-verde .portal-accion-icono {
+  background: rgba(123, 27, 39, 0.1);
+  color: var(--mtz-wine);
+}
+
+.portal-accion-card-azul .portal-accion-icono {
+  background: rgba(200, 164, 71, 0.18);
+  color: #6b4d0f;
+}
+
+.portal-accion-contenido {
+  flex: 1;
+}
+
+.portal-accion-contenido h3 {
+  margin: 0 0 10px;
+  color: #1f2937;
+  font-size: clamp(1.32rem, 2vw, 1.52rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.22;
+}
+
+.portal-accion-contenido p {
+  margin: 0 0 18px;
+  color: #374151;
+  max-width: 560px;
+  font-size: clamp(1.05rem, 1.2vw, 1.14rem);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+}
+
+.portal-btn-decorativo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  user-select: none;
+  pointer-events: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.portal-btn-verde {
+  background: linear-gradient(180deg, var(--mtz-wine), var(--mtz-wine-2));
+}
+
+.portal-btn-azul {
+  background: linear-gradient(180deg, #b8923a, var(--mtz-gold));
+  color: #1a1406;
+}
+
+/* ==========================================
+   DESTACADOS — “¿Qué puedes hacer en SIGIM-MTZ?”
+   ========================================== */
+.portal-bloque-destacados .portal-bloque-titulo {
+  margin-bottom: clamp(1.75rem, 3vw, 2.35rem);
+}
+
+.portal-destacados-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.15rem, 2.2vw, 1.65rem);
+  align-items: stretch;
+}
+
+@media (max-width: 1100px) and (min-width: 901px) {
+  .portal-destacados-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.portal-destacado-card {
+  position: relative;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--mtz-border);
+  background: var(--mtz-card);
+  box-shadow: var(--portal-shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
+}
+
+.portal-destacado-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+}
+
+.portal-destacado-card--wine::before {
+  background: linear-gradient(90deg, var(--mtz-wine), var(--mtz-wine-2));
+}
+
+.portal-destacado-card--gold::before {
+  background: linear-gradient(90deg, var(--mtz-gold), #d4b45e);
+}
+
+.portal-destacado-card:hover {
+  box-shadow: var(--portal-shadow-card-hover);
+  transform: translateY(-3px);
+  border-color: rgba(123, 27, 39, 0.12);
+}
+
+.portal-destacado-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  padding: clamp(1.35rem, 2.4vw, 1.85rem) clamp(1.2rem, 2vw, 1.55rem) clamp(1.25rem, 2vw, 1.5rem);
+  text-align: left;
+}
+
+.portal-destacado-icon {
+  width: clamp(52px, 8vw, 60px);
+  height: clamp(52px, 8vw, 60px);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.35rem, 2.2vw, 1.55rem);
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.portal-destacado-card--wine .portal-destacado-icon {
+  background: rgba(123, 27, 39, 0.1);
+  color: var(--mtz-wine);
+}
+
+.portal-destacado-card--gold .portal-destacado-icon {
+  background: rgba(200, 164, 71, 0.2);
+  color: #5a4510;
+}
+
+.portal-destacado-titulo {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.15rem, 1.5vw + 0.5rem, 1.35rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--mtz-ink);
+}
+
+.portal-destacado-texto {
+  margin: 0 0 1.25rem;
+  flex: 1 1 auto;
+  font-size: clamp(1.04rem, 0.5vw + 0.95rem, 1.14rem);
+  line-height: 1.68;
+  letter-spacing: 0.01em;
+  color: var(--mtz-muted);
+}
+
+body.portal-ciudadano .portal-destacado-ver-mas.btn-mtz-outline {
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+  font-weight: 700;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--btn-radius);
+  gap: 0.15rem;
+}
+
+body.portal-ciudadano .portal-destacado-ver-mas.btn-mtz-outline:focus-visible {
+  box-shadow: var(--portal-ring);
+}
+
+/* Modales informativos del portal */
+.portal-info-modal .modal-content {
+  border: none;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(123, 27, 39, 0.08);
+}
+
+.portal-info-modal .modal-header {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--mtz-wine) 0%, var(--mtz-wine-2) 100%);
+  color: #fff;
+  border-bottom: 3px solid var(--mtz-gold);
+  padding: 1rem 1.25rem;
+  isolation: isolate;
+}
+
+body.portal-ciudadano .portal-info-modal .modal-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.2;
+  background-image: repeating-linear-gradient(
+      -32deg,
+      transparent,
+      transparent 3px,
+      rgba(255, 255, 255, 0.04) 3px,
+      rgba(255, 255, 255, 0.04) 4px
+    ),
+    repeating-linear-gradient(58deg, transparent, transparent 5px, rgba(0, 0, 0, 0.05) 5px, rgba(0, 0, 0, 0.05) 6px);
+  mix-blend-mode: overlay;
+}
+
+.portal-info-modal .modal-title {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  padding-right: 0.5rem;
+}
+
+body.portal-ciudadano .portal-info-modal .modal-header .btn-close {
+  position: relative;
+  z-index: 1;
+}
+
+.portal-info-modal .modal-body {
+  padding: clamp(1.15rem, 2.2vw, 1.5rem) clamp(1.15rem, 2.2vw, 1.65rem);
+  background: #fffefd;
+}
+
+.portal-modal-lead {
+  font-size: clamp(1.08rem, 0.55vw + 0.98rem, 1.2rem);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  color: #374151;
+  margin-bottom: 1.15rem;
+}
+
+.portal-modal-pasos {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+  color: #374151;
+  line-height: 1.65;
+}
+
+.portal-modal-pasos li {
+  margin-bottom: 0.85rem;
+  padding-left: 0.35rem;
+}
+
+.portal-modal-pasos li::marker {
+  color: var(--mtz-wine);
+  font-weight: 700;
+}
+
+.portal-modal-lista-detalle {
+  margin: 0 0 1rem;
+  padding-left: 1.15rem;
+  color: #374151;
+  line-height: 1.65;
+}
+
+.portal-modal-lista-detalle.list-unstyled {
+  padding-left: 0;
+}
+
+.portal-modal-lista-detalle li {
+  margin-bottom: 0.75rem;
+}
+
+.portal-modal-lista-detalle.list-unstyled li {
+  padding-left: 0;
+  margin-bottom: 0.9rem;
+  border-left: 3px solid rgba(200, 164, 71, 0.55);
+  padding-left: 0.85rem;
+}
+
+.portal-modal-nota {
+  border-top: 1px solid var(--mtz-border);
+  padding-top: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-destacado-card:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================
+   CATEGORÍAS — premium (8 tipos del catálogo)
+   ========================================== */
+.portal-bloque-categorias {
+  padding-top: 6px;
+}
+
+.portal-bloque-categorias .portal-bloque-titulo {
+  margin-bottom: clamp(1.85rem, 3.5vw, 2.65rem);
+}
+
+.portal-bloque-categorias .portal-bloque-titulo p {
+  font-size: clamp(1.1rem, 1.45vw, 1.32rem);
+  line-height: 1.62;
+  max-width: 52rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: #4b5568;
+}
+
+.portal-categorias-premium-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.85rem, 3.8vw, 3rem);
+  row-gap: clamp(1.85rem, 3.8vw, 3rem);
+  align-items: stretch;
+}
+
+.portal-categoria-premium {
+  position: relative;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 148px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+  isolation: isolate;
+}
+
+.portal-categoria-premium-texture {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.14;
+  background-image: repeating-linear-gradient(
+    -28deg,
+    rgba(255, 255, 255, 0.22) 0,
+    rgba(255, 255, 255, 0.22) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+  mix-blend-mode: overlay;
+}
+
+.portal-categoria-premium-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: clamp(0.95rem, 2.1vw, 1.25rem);
+  padding: clamp(1.05rem, 2.2vw, 1.4rem) clamp(1.1rem, 2.4vw, 1.5rem);
+  height: 100%;
+  min-height: inherit;
+}
+
+.portal-categoria-premium-icon {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  width: clamp(50px, 9vw, 60px);
+  height: clamp(50px, 9vw, 60px);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.3rem, 2.6vw, 1.55rem);
+  background: rgba(255, 255, 255, 0.26);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.portal-categoria-premium-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.portal-categoria-premium-titulo {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.05vw + 0.82rem, 1.28rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 0 1px rgba(0, 0, 0, 0.4);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.portal-categoria-premium-subtitulo {
+  margin: 0;
+  font-size: clamp(0.88rem, 0.5vw + 0.78rem, 1.02rem);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.018em;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.35);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.portal-categoria-premium-vermas {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: clamp(0.86rem, 0.5vw + 0.78rem, 0.95rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: auto;
+  padding-top: 0.35rem;
+  align-self: flex-end;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.portal-categoria-premium-chevron {
+  display: inline-grid;
+  place-items: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  font-size: 0.8rem;
+}
+
+.portal-categoria-premium--bacheo {
+  background: linear-gradient(135deg, #e8a838 0%, #c27612 55%, #a35f0c 100%);
+}
+
+.portal-categoria-premium--alumbrado {
+  background: linear-gradient(135deg, #7b1b27 0%, #5c1530 50%, #3d0f24 100%);
+}
+
+.portal-categoria-premium--areas-verdes {
+  background: linear-gradient(135deg, #5a8f6e 0%, #3d6b4f 55%, #2d523c 100%);
+}
+
+.portal-categoria-premium--danos {
+  background: linear-gradient(135deg, #3d4a5c 0%, #2a3444 50%, #1c2330 100%);
+}
+
+.portal-categoria-premium--drenaje {
+  background: linear-gradient(135deg, #2a7a8c 0%, #1e5f6e 55%, #164a56 100%);
+}
+
+.portal-categoria-premium--fugas {
+  background: linear-gradient(135deg, #3a9eb8 0%, #2a7a90 50%, #1f5f72 100%);
+}
+
+.portal-categoria-premium--basura {
+  background: linear-gradient(135deg, #7a8f5c 0%, #5c6b45 55%, #465536 100%);
+}
+
+.portal-categoria-premium--senalizacion {
+  background: linear-gradient(135deg, #2c3e64 0%, #1f2d4a 50%, #141d33 100%);
+}
+
+/* ==========================================
+   FOOTER INSTITUCIONAL
+   ========================================== */
+.footer-institucional {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(172deg, #551520 0%, var(--mtz-wine) 48%, #641821 100%);
+  color: white;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border-top: 5px solid var(--mtz-gold);
+  isolation: isolate;
+}
+
+body.portal-ciudadano .footer-institucional::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.28;
+  background-image: repeating-linear-gradient(
+      -32deg,
+      transparent,
+      transparent 3px,
+      rgba(255, 255, 255, 0.035) 3px,
+      rgba(255, 255, 255, 0.035) 4px
+    ),
+    repeating-linear-gradient(
+      58deg,
+      transparent,
+      transparent 5px,
+      rgba(0, 0, 0, 0.05) 5px,
+      rgba(0, 0, 0, 0.05) 6px
+    ),
+    url("../assets/barra-textura-organica.png");
+  background-repeat: repeat, repeat, repeat;
+  background-size: auto, auto, clamp(200px, 22vw, 280px) auto;
+  background-position: 0 0, 0 0, center top;
+  background-blend-mode: overlay, overlay, soft-light;
+  mix-blend-mode: overlay;
+}
+
+body.portal-ciudadano .footer-institucional .layout-full {
+  position: relative;
+  z-index: 1;
+}
+
+.footer-principal {
+  padding: clamp(2rem, 3vw, 2.5rem) 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: clamp(2rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-identidad {
+  grid-column: 1;
+}
+
+.identidad-contenido {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+.footer-logo {
+  height: clamp(50px, 6vw, 60px);
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.identidad-texto {
+  flex: 1;
+}
+
+.footer-titulo {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.2;
+}
+
+.footer-subtitulo {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  margin: 0 0 0.75rem 0;
+  opacity: 0.9;
+}
+
+.footer-descripcion {
+  font-size: clamp(0.94rem, 1.55vw, 1.04rem);
+  line-height: 1.58;
+  letter-spacing: 0.02em;
+  margin: 0;
+  opacity: 0.88;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.footer-horario,
+.footer-ayuda {
+  grid-column: auto;
+}
+
+.horario-contenido,
+.ayuda-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.horario-header,
+.ayuda-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-icono {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  color: rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+}
+
+.footer-columna-titulo {
+  font-size: clamp(1.14rem, 2.1vw, 1.42rem);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.32;
+  letter-spacing: 0.02em;
+}
+
+.horario-detalle,
+.ayuda-detalle {
+  margin-left: clamp(2rem, 2.5vw, 2.25rem);
+}
+
+.footer-texto {
+  font-size: clamp(0.94rem, 1.55vw, 1.02rem);
+  line-height: 1.58;
+  letter-spacing: 0.02em;
+  margin: 0.25rem 0;
+  opacity: 0.92;
+}
+
+.footer-legal {
+  padding: clamp(1rem, 1.5vw, 1.25rem) 0;
+  text-align: center;
+}
+
+.footer-linea {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: clamp(1rem, 1.5vw, 1.25rem);
+}
+
+.footer-copy {
+  font-size: clamp(0.82rem, 1.35vw, 0.92rem);
+  margin: 0;
+  opacity: 0.78;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+}
+
+/* ==========================================
+   BOTONES PRINCIPALES CENTRADOS
+   ========================================== */
+.botones-principales-centrados {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.85rem, 2vw, 1.25rem);
+  margin: clamp(1.75rem, 3vw, 2.25rem) 0 clamp(2rem, 3.5vw, 2.5rem);
+  flex-wrap: wrap;
+}
+
+.botones-principales-centrados .btn {
+  min-width: min(100%, 220px);
+  padding: 0.95rem 1.65rem;
+  font-size: clamp(1rem, 1.1vw, 1.08rem);
+  font-weight: 700;
+  border-radius: 999px;
+  box-shadow: 0 3px 14px rgba(123, 27, 39, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.botones-principales-centrados .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(123, 27, 39, 0.22);
+}
+
+.botones-principales-centrados .btn-mtz {
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.botones-principales-centrados .btn-mtz:hover {
+  transform: translateY(-2px) !important;
+  filter: none !important;
+}
+

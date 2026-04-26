@@ -1,0 +1,1314 @@
+/* ==========================================
+   HERO BIENVENIDA (inicio portal — referencia institucional)
+   ========================================== */
+.portal-hero-bienvenida {
+  position: relative;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding: clamp(1.35rem, 3.2vw, 2.85rem) clamp(0.35rem, 1.5vw, 1rem)
+    clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 0 0 clamp(18px, 3vw, 28px) clamp(18px, 3vw, 28px);
+  background: linear-gradient(
+    180deg,
+    #fff9f7 0%,
+    #faf4f1 38%,
+    rgba(251, 241, 238, 0.92) 100%
+  );
+  box-shadow: 0 18px 48px rgba(123, 27, 39, 0.045);
+}
+
+.portal-hero-bienvenida::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.38;
+  background-image: radial-gradient(rgba(123, 27, 39, 0.035) 0.5px, transparent 0.5px);
+  background-size: 5px 5px;
+  mix-blend-mode: multiply;
+}
+
+.portal-hero-bienvenida .row,
+.portal-hero-bienvenida-row {
+  position: relative;
+  z-index: 1;
+}
+
+/* Texto lo más cerca posible de la ilustración (solo unos píxeles de aire, sin solapar) */
+.portal-hero-bienvenida-row {
+  --bs-gutter-x: clamp(0.85rem, 2.5vw, 1.25rem);
+}
+
+@media (min-width: 992px) {
+  .portal-hero-bienvenida-row {
+    --bs-gutter-x: 0.25rem;
+  }
+}
+
+.portal-hero-bienvenida-titulo {
+  margin: 0 0 clamp(1.15rem, 2.4vw, 1.65rem);
+  font-size: clamp(2.1rem, 2.35vw + 1rem, 3.25rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.032em;
+  word-spacing: 0.02em;
+  color: #1a2332;
+  text-wrap: balance;
+}
+
+.portal-hero-bienvenida-lead {
+  margin: 0 auto clamp(2.35rem, 5.5vw, 3.65rem);
+  font-size: clamp(1.2rem, 0.72vw + 1rem, 1.48rem);
+  line-height: 1.68;
+  letter-spacing: 0.006em;
+  color: #4a5568;
+  max-width: 38rem;
+}
+
+@media (min-width: 992px) {
+  .portal-hero-bienvenida-lead {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+  }
+}
+
+.portal-hero-bienvenida-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 2.5vw, 1.35rem);
+}
+
+@media (min-width: 992px) {
+  .portal-hero-bienvenida-acciones {
+    justify-content: flex-start;
+  }
+}
+
+.portal-hero-bienvenida-ayuda {
+  margin-top: clamp(2.35rem, 5.5vw, 3.75rem);
+  text-align: center;
+}
+
+@media (min-width: 992px) {
+  .portal-hero-bienvenida-ayuda {
+    text-align: left;
+  }
+}
+
+.portal-hero-link-como {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(2.05rem, 4.8vw + 1rem, 5.1rem);
+  font-weight: 800;
+  letter-spacing: 0.006em;
+  line-height: 1.18;
+  color: var(--mtz-wine);
+  text-decoration: none;
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+
+.portal-hero-link-como:hover {
+  color: #5c1520;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.portal-hero-link-como:focus-visible {
+  outline: none;
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px rgba(200, 164, 71, 0.55);
+}
+
+.portal-hero-link-como-icon {
+  font-size: 1.15em;
+  transition: transform 0.2s ease;
+}
+
+.portal-hero-link-como:hover .portal-hero-link-como-icon {
+  transform: translateX(3px);
+}
+
+/* Animación / brillo compartido (misma familia que login interno) */
+@keyframes portal-hero-cta-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.75) inset,
+      0 8px 26px rgba(230, 170, 40, 0.4),
+      0 2px 8px rgba(123, 27, 39, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.82) inset,
+      0 12px 34px rgba(230, 170, 40, 0.48),
+      0 4px 12px rgba(123, 27, 39, 0.12);
+  }
+}
+
+@keyframes portal-hero-cta-shine {
+  0% {
+    transform: translateX(-35%) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  45% {
+    transform: translateX(35%) rotate(0deg);
+    opacity: 1;
+  }
+  55%,
+  100% {
+    transform: translateX(45%);
+    opacity: 0;
+  }
+}
+
+body.portal-ciudadano .portal-hero-cta-inner {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.portal-ciudadano .portal-hero-btn-registrar,
+body.portal-ciudadano .portal-hero-btn-consultar {
+  position: relative;
+  overflow: hidden;
+}
+
+body.portal-ciudadano .portal-hero-btn-registrar::before,
+body.portal-ciudadano .portal-hero-btn-consultar::before {
+  content: "";
+  position: absolute;
+  inset: -45% -65%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.5) 48%,
+    rgba(255, 255, 255, 0.1) 52%,
+    transparent 65%
+  );
+  transform: translateX(-30%);
+  animation: portal-hero-cta-shine 3.2s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body.portal-ciudadano .portal-hero-btn-registrar {
+  border: 2px solid rgba(123, 27, 39, 0.24);
+  color: #4a154b;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border-radius: 16px;
+  padding: 1.08rem 2rem;
+  min-width: min(100%, 248px);
+  font-size: clamp(1rem, 0.22vw + 0.95rem, 1.08rem);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 42%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.05) 2px,
+      rgba(255, 255, 255, 0.05) 4px
+    ),
+    linear-gradient(155deg, #fff4b8 0%, #ffe566 20%, #f0c040 55%, #d9a020 100%);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.75) inset,
+    0 8px 26px rgba(230, 170, 40, 0.4),
+    0 2px 8px rgba(123, 27, 39, 0.1);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.2s ease,
+    filter 0.2s ease;
+}
+
+body.portal-ciudadano .portal-hero-btn-registrar:hover {
+  color: #3a103c;
+  filter: brightness(1.02);
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(123, 27, 39, 0.38);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.88) inset,
+    0 14px 38px rgba(230, 170, 40, 0.5),
+    0 6px 16px rgba(123, 27, 39, 0.14);
+  animation: none;
+}
+
+body.portal-ciudadano .portal-hero-btn-registrar:hover::before {
+  animation: none;
+  opacity: 0;
+}
+
+body.portal-ciudadano .portal-hero-btn-registrar:active {
+  transform: translateY(-1px) scale(1.005);
+}
+
+body.portal-ciudadano .portal-hero-btn-registrar:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px #fff8f6, 0 0 0 6px var(--mtz-wine),
+    0 8px 26px rgba(230, 170, 40, 0.4);
+}
+
+body.portal-ciudadano .portal-hero-btn-consultar {
+  border-radius: 16px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.02em;
+  padding: 1.08rem 2rem !important;
+  min-width: min(100%, 248px);
+  font-size: clamp(1rem, 0.22vw + 0.95rem, 1.08rem);
+  border: 2px solid rgba(123, 27, 39, 0.28) !important;
+  color: #4a154b !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 248, 230, 0.55) 100%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 2px,
+      rgba(200, 164, 71, 0.06) 2px,
+      rgba(200, 164, 71, 0.06) 4px
+    ),
+    linear-gradient(160deg, #ffffff 0%, #fff9e8 45%, #fff3d0 100%) !important;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.9) inset,
+    0 8px 26px rgba(230, 170, 40, 0.22),
+    0 4px 14px rgba(123, 27, 39, 0.08) !important;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.2s ease !important;
+}
+
+body.portal-ciudadano .portal-hero-btn-consultar:hover {
+  color: #3a103c !important;
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(123, 27, 39, 0.42) !important;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.95) inset,
+    0 14px 38px rgba(230, 170, 40, 0.32),
+    0 6px 18px rgba(123, 27, 39, 0.12) !important;
+  filter: brightness(1.02);
+  animation: none;
+}
+
+body.portal-ciudadano .portal-hero-btn-consultar:hover::before {
+  animation: none;
+  opacity: 0;
+}
+
+body.portal-ciudadano .portal-hero-btn-consultar:active {
+  transform: translateY(-1px) scale(1.005);
+}
+
+.portal-hero-bienvenida-visual {
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  .portal-hero-bienvenida-visual {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+
+.portal-hero-ilustracion-wrap {
+  margin: 0 auto;
+  max-width: min(100%, 540px);
+  padding: clamp(0.75rem, 2vw, 1.2rem);
+  border-radius: 46% 54% 58% 42% / 52% 44% 56% 48%;
+  overflow: hidden;
+  background: radial-gradient(
+      ellipse 85% 75% at 50% 45%,
+      rgba(255, 255, 255, 0.55) 0%,
+      transparent 62%
+    ),
+    linear-gradient(145deg, #ebe4dd 0%, #e2d8cf 50%, #d8cdc3 100%);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08), 0 28px 72px rgba(123, 27, 39, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+@media (min-width: 992px) {
+  .portal-hero-ilustracion-wrap {
+    margin-left: 0;
+    margin-right: auto;
+    max-width: none;
+  }
+}
+
+.portal-hero-ilustracion {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 38% 62% 55% 45% / 48% 40% 60% 52%;
+  vertical-align: middle;
+  object-fit: cover;
+}
+
+#portal-como-funciona {
+  scroll-margin-top: 6.75rem;
+}
+
+@media (max-width: 991px) {
+  .portal-hero-ilustracion-wrap {
+    max-width: min(100%, 420px);
+  }
+}
+
+/* ==========================================
+   CORRECCIÓN: TOPBAR NO DEBE TAPAR EL ENCABEZADO
+   ========================================== */
+body.portal-ciudadano {
+  padding-top: 0 !important;
+  background: radial-gradient(ellipse 90% 55% at 50% -8%, rgba(123, 27, 39, 0.045), transparent 58%),
+    linear-gradient(180deg, #fffdfb 0%, var(--mtz-bg) 38%, var(--mtz-bg2) 100%);
+}
+
+body.portal-ciudadano .topbar-mtz .layout-full {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+body.portal-ciudadano main.layout-full {
+  padding-top: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+/* Tablet y móvil */
+@media (max-width: 768px) {
+  body.portal-ciudadano .topbar-mtz .layout-full {
+    justify-content: center;
+    text-align: center;
+    row-gap: 0.75rem;
+  }
+
+  body.portal-ciudadano main.layout-full {
+    padding-top: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body.portal-ciudadano .topbar-mtz {
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+  }
+
+  body.portal-ciudadano main.layout-full {
+    padding-top: 0.7rem;
+  }
+}
+
+/* =========================================
+   ¿CÓMO FUNCIONA?
+========================================= */
+.portal-bloque-como-funciona {
+  padding-top: 10px;
+}
+
+.portal-bloque-como-funciona .portal-bloque-titulo {
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.35rem);
+}
+
+.portal-funcionamiento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: start;
+}
+
+.portal-funcionamiento-paso {
+  position: relative;
+  text-align: center;
+  padding: 0.5rem clamp(0.55rem, 1.15vw, 0.9rem) 0.25rem;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: portalPasoIn 0.62s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+}
+
+.portal-funcionamiento-paso:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.portal-funcionamiento-paso:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.portal-funcionamiento-paso:nth-child(3) {
+  animation-delay: 0.27s;
+}
+
+.portal-funcionamiento-paso:nth-child(4) {
+  animation-delay: 0.38s;
+}
+
+.portal-funcionamiento-paso::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: radial-gradient(circle at 50% 0%, rgba(123, 27, 39, 0.08), rgba(123, 27, 39, 0) 58%);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  pointer-events: none;
+}
+
+.portal-funcionamiento-paso:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: calc(50% + 40px);
+  width: calc(100% - 80px);
+  height: 2px;
+  background: linear-gradient(90deg, rgba(200, 164, 71, 0.18), rgba(123, 27, 39, 0.45), rgba(200, 164, 71, 0.18));
+  background-size: 220% 100%;
+  animation: portalFlowLine 3.2s linear infinite;
+}
+
+.portal-funcionamiento-numero {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #ffffff, #fff7ea);
+  border: 2px solid rgba(200, 164, 71, 0.58);
+  color: var(--mtz-wine);
+  font-size: 1.32rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 0 0 0 rgba(123, 27, 39, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  animation: portalPulse 2.8s ease-in-out infinite;
+}
+
+.portal-funcionamiento-paso h3 {
+  margin: 0 0 8px;
+  color: var(--mtz-ink);
+  font-size: clamp(1.28rem, 2vw, 1.48rem);
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.portal-funcionamiento-paso p {
+  margin: 0;
+  color: var(--mtz-muted);
+  font-size: clamp(1.05rem, 1.5vw, 1.16rem);
+  line-height: 1.62;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: 0.01em;
+}
+
+.portal-funcionamiento-paso:hover .portal-funcionamiento-numero,
+.portal-funcionamiento-paso:focus-within .portal-funcionamiento-numero {
+  transform: translateY(-3px) scale(1.03);
+  border-color: rgba(123, 27, 39, 0.65);
+  box-shadow: 0 10px 20px rgba(123, 27, 39, 0.16);
+}
+
+.portal-funcionamiento-paso:hover::before,
+.portal-funcionamiento-paso:focus-within::before {
+  opacity: 1;
+}
+
+@keyframes portalPasoIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes portalFlowLine {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 220% 50%;
+  }
+}
+
+@keyframes portalPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(123, 27, 39, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(123, 27, 39, 0);
+  }
+}
+
+@media (max-width: 992px) {
+  .portal-funcionamiento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 28px;
+  }
+
+  .portal-funcionamiento-paso::after {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .portal-funcionamiento-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .portal-funcionamiento-paso {
+    padding: 0;
+  }
+
+  .portal-funcionamiento-paso h3 {
+    font-size: clamp(1.22rem, 4vw, 1.4rem);
+  }
+
+  .portal-funcionamiento-paso p {
+    font-size: clamp(1.04rem, 3.2vw, 1.14rem);
+  }
+
+  .portal-funcionamiento-numero {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-funcionamiento-paso {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .portal-funcionamiento-paso:not(:last-child)::after,
+  .portal-funcionamiento-numero {
+    animation: none;
+  }
+}
+
+/* =========================================
+   RECOMENDACIONES
+========================================= */
+.portal-bloque-recomendaciones {
+  padding-top: 10px;
+}
+
+.portal-recomendaciones-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: clamp(1.25rem, 2.5vw, 1.65rem) clamp(1.15rem, 2.2vw, 1.5rem);
+  border-radius: var(--card-radius);
+  background: linear-gradient(180deg, var(--mtz-bg2) 0%, var(--mtz-card) 100%);
+  border: 1px solid var(--mtz-border);
+  box-shadow: var(--portal-shadow-card);
+}
+
+.portal-recomendaciones-icono {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: rgba(123, 27, 39, 0.08);
+  color: var(--mtz-wine);
+  font-size: 1.9rem;
+}
+
+.portal-recomendaciones-contenido {
+  flex: 1;
+}
+
+.portal-recomendaciones-contenido h2 {
+  margin: 0 0 14px;
+  color: var(--mtz-ink);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.portal-recomendaciones-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.portal-recomendaciones-lista li {
+  position: relative;
+  margin: 0 0 12px;
+  padding-left: 30px;
+  color: var(--mtz-muted);
+  font-size: clamp(1.05rem, 1.2vw, 1.14rem);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+}
+
+.portal-recomendaciones-lista li:last-child {
+  margin-bottom: 0;
+}
+
+.portal-recomendaciones-lista li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--success-color);
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .portal-recomendaciones-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    padding: 22px 20px;
+  }
+
+  .portal-recomendaciones-icono {
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+  }
+
+  .portal-recomendaciones-contenido h2 {
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .portal-recomendaciones-contenido h2 {
+    font-size: 1.55rem;
+  }
+
+  .portal-recomendaciones-lista li {
+    font-size: 0.98rem;
+    padding-left: 28px;
+  }
+}
+
+/* ==========================================
+   FASE 3 — Vistas, folio y coherencia con panel interno
+   ========================================== */
+body.portal-ciudadano .portal-main-ciudadano {
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+body.portal-ciudadano .portal-vista-header {
+  gap: 0.75rem;
+}
+
+@media (max-width: 576px) {
+  body.portal-ciudadano .portal-vista-header {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  body.portal-ciudadano .portal-vista-header > .btn {
+    width: 100%;
+  }
+}
+
+body.portal-ciudadano .portal-card-vista {
+  border-left: 4px solid var(--mtz-gold);
+}
+
+body.portal-ciudadano .portal-card-vista .card-header {
+  background: linear-gradient(180deg, #ffffff, rgba(251, 241, 238, 0.35)) !important;
+}
+
+body.portal-ciudadano .portal-card-vista-icon.bg-primary {
+  background: linear-gradient(135deg, var(--mtz-wine), var(--mtz-wine-2)) !important;
+  box-shadow: 0 2px 8px rgba(123, 27, 39, 0.2);
+}
+
+body.portal-ciudadano .portal-card-vista-icon.portal-icon-exito.bg-success {
+  background: linear-gradient(135deg, #1f6f4a, var(--success-color)) !important;
+  box-shadow: 0 2px 8px rgba(25, 135, 84, 0.2);
+}
+
+body.portal-ciudadano .portal-vista-header .btn-outline-secondary {
+  border: 2px solid rgba(200, 164, 71, 0.55);
+  color: var(--mtz-wine);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+body.portal-ciudadano .portal-vista-header .btn-outline-secondary:hover {
+  background: rgba(123, 27, 39, 0.06);
+  border-color: var(--mtz-wine);
+  color: var(--mtz-wine);
+}
+
+body.portal-ciudadano .folio-ciudadano-destacado .portal-folio-caja {
+  border-radius: 14px;
+  border: 2px solid rgba(200, 164, 71, 0.55);
+  background: linear-gradient(180deg, #f4fbf6, #e8f5ec) !important;
+  padding: clamp(1rem, 2.5vw, 1.35rem) 1rem;
+  box-shadow: 0 2px 12px rgba(25, 135, 84, 0.08);
+}
+
+body.portal-ciudadano .folio-ciudadano-destacado .portal-folio-numero {
+  display: inline-block;
+  font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", monospace;
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--mtz-wine);
+  word-break: break-all;
+}
+
+body.portal-ciudadano .portal-folio-resultado {
+  display: inline-block;
+  margin-top: 0.25rem;
+  padding: 0.5rem 0.9rem;
+  font-family: ui-monospace, "Cascadia Code", "Segoe UI Mono", monospace;
+  font-size: clamp(1.15rem, 3.2vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: var(--mtz-wine);
+  background: rgba(251, 241, 238, 0.85);
+  border: 1px solid rgba(200, 164, 71, 0.4);
+  border-radius: 10px;
+  word-break: break-all;
+}
+
+body.portal-ciudadano #resultado-estatus .badge.bg-primary {
+  background: linear-gradient(180deg, var(--mtz-wine), var(--mtz-wine-2)) !important;
+  color: #fff !important;
+  font-weight: 700;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+}
+
+body.portal-ciudadano #resultado-estatus .badge.bg-warning {
+  color: #3d2a06 !important;
+  font-weight: 700;
+  border-radius: 999px;
+}
+
+body.portal-ciudadano #resultado-estatus .badge.bg-secondary {
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+body.portal-ciudadano #resultado-estatus .badge.bg-info {
+  background: rgba(200, 164, 71, 0.25) !important;
+  color: #5c4510 !important;
+  border: 1px solid rgba(200, 164, 71, 0.4);
+  border-radius: 999px;
+}
+
+body.portal-ciudadano #resultado-estatus .badge.bg-success {
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+body.portal-ciudadano #resultado-estatus .badge.bg-danger {
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   Portal — pulido visual, MTZ e interacción
+   ========================================== */
+html:has(body.portal-ciudadano) {
+  scroll-behavior: smooth;
+}
+
+body.portal-ciudadano .portal-cta-principal:not(.portal-hero-btn-registrar),
+body.portal-ciudadano .portal-cta-secundario:not(.portal-hero-btn-consultar) {
+  animation: portalCtaIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+body.portal-ciudadano .portal-cta-principal:not(.portal-hero-btn-registrar) {
+  animation-delay: 0.06s;
+}
+
+body.portal-ciudadano .portal-cta-secundario:not(.portal-hero-btn-consultar) {
+  animation-delay: 0.14s;
+}
+
+/* Entrada + pulso: hero bienvenida (no pisar portal-hero-cta-breathe) */
+body.portal-ciudadano .portal-hero-bienvenida-acciones .portal-hero-btn-registrar.portal-cta-principal {
+  animation:
+    portalCtaIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards,
+    portal-hero-cta-breathe 4s ease-in-out 0.58s infinite;
+  animation-delay: 0.06s, 0s;
+}
+
+body.portal-ciudadano .portal-hero-bienvenida-acciones .portal-hero-btn-consultar.portal-cta-secundario {
+  animation:
+    portalCtaIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards,
+    portal-hero-cta-breathe 4s ease-in-out 0.58s infinite;
+  animation-delay: 0.14s, 0s;
+}
+
+@keyframes portalCtaIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.portal-ciudadano .btn.btn-mtz-outline {
+  border: 2px solid var(--mtz-gold) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  color: var(--mtz-wine) !important;
+}
+
+body.portal-ciudadano .portal-cta-secundario.btn-mtz-outline {
+  box-shadow: 0 2px 14px rgba(123, 27, 39, 0.07);
+  font-weight: 800;
+}
+
+body.portal-ciudadano .portal-cta-secundario.btn-mtz-outline:hover {
+  box-shadow: 0 4px 18px rgba(123, 27, 39, 0.1);
+}
+
+/* Misma línea visual / animación que .portal-hero-btn-consultar (esta regla es más específica) */
+body.portal-ciudadano .portal-hero-bienvenida .portal-hero-btn-consultar.btn-mtz-outline {
+  border: 2px solid rgba(123, 27, 39, 0.28) !important;
+  color: #4a154b !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 248, 230, 0.55) 100%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 2px,
+      rgba(200, 164, 71, 0.06) 2px,
+      rgba(200, 164, 71, 0.06) 4px
+    ),
+    linear-gradient(160deg, #ffffff 0%, #fff9e8 45%, #fff3d0 100%) !important;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.9) inset,
+    0 8px 26px rgba(230, 170, 40, 0.22),
+    0 4px 14px rgba(123, 27, 39, 0.08) !important;
+}
+
+body.portal-ciudadano .portal-hero-bienvenida .portal-hero-btn-consultar.btn-mtz-outline:hover {
+  color: #3a103c !important;
+  border-color: rgba(123, 27, 39, 0.42) !important;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.95) inset,
+    0 14px 38px rgba(230, 170, 40, 0.32),
+    0 6px 18px rgba(123, 27, 39, 0.12) !important;
+  filter: brightness(1.02);
+  animation: none !important;
+}
+
+/* Tarjetas informativas: sin acción; los “botones” son solo diseño */
+body.portal-ciudadano .portal-accion-card-solo-visual {
+  cursor: default;
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva {
+  cursor: pointer;
+  transition: transform var(--portal-transition), box-shadow var(--portal-transition);
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22), 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:focus-visible {
+  outline: none;
+  box-shadow: var(--portal-ring), 0 10px 32px rgba(0, 0, 0, 0.18);
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva .portal-categoria-premium-icon {
+  transition: background var(--portal-transition), transform var(--portal-transition);
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:hover .portal-categoria-premium-icon {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.06);
+}
+
+body.portal-ciudadano .portal-bloque-titulo h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin: 0.65rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--mtz-wine), var(--mtz-gold));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.portal-ciudadano) {
+    scroll-behavior: auto;
+  }
+
+  body.portal-ciudadano .portal-cta-principal,
+  body.portal-ciudadano .portal-cta-secundario {
+    animation: none !important;
+  }
+
+  body.portal-ciudadano .portal-hero-btn-registrar::before,
+  body.portal-ciudadano .portal-hero-btn-consultar::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  body.portal-ciudadano .portal-hero-btn-registrar:hover,
+  body.portal-ciudadano .portal-hero-btn-consultar:hover {
+    transform: none !important;
+  }
+
+  body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva,
+  body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva .portal-categoria-premium-icon {
+    transition: none !important;
+  }
+
+  body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:hover {
+    transform: none;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  .portal-hero-link-como:hover .portal-hero-link-como-icon {
+    transform: none;
+  }
+
+  body.portal-ciudadano .btn-topbar-interno,
+  body.portal-ciudadano .btn-topbar-interno:hover,
+  body.portal-ciudadano .btn-topbar-interno:active {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  body.portal-ciudadano .topbar-hamburger__bar {
+    transition: none !important;
+  }
+
+  body.portal-ciudadano .btn-topbar-interno:hover .topbar-hamburger__bar:nth-child(1),
+  body.portal-ciudadano .btn-topbar-interno:hover .topbar-hamburger__bar:nth-child(2),
+  body.portal-ciudadano .btn-topbar-interno:hover .topbar-hamburger__bar:nth-child(3) {
+    transform: none !important;
+    width: 100% !important;
+    opacity: 1 !important;
+  }
+
+  body.portal-ciudadano .btn-topbar-interno:hover .topbar-hamburger__bar:nth-child(2) {
+    width: 85% !important;
+  }
+}
+
+/* ==========================================
+   TOPBAR RESPONSIVE Y LIMPIA
+   ========================================== */
+body.portal-ciudadano .topbar-mtz {
+  position: sticky !important;
+  top: 0;
+  left: auto;
+  width: 100%;
+  z-index: 1030;
+  min-height: auto;
+  padding: clamp(1.2rem, 2.85vw, 2.15rem) 0;
+  border-bottom: 5px solid var(--mtz-gold);
+  /* Permite que el panel de acceso interno salga del contenedor sin recorte */
+  overflow: visible;
+  background: linear-gradient(168deg, #5f1822 0%, var(--mtz-wine) 45%, #551520 100%);
+  isolation: isolate;
+}
+
+body.portal-ciudadano .topbar-mtz::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+  background-image: repeating-linear-gradient(
+      -32deg,
+      transparent,
+      transparent 3px,
+      rgba(255, 255, 255, 0.04) 3px,
+      rgba(255, 255, 255, 0.04) 4px
+    ),
+    repeating-linear-gradient(
+      58deg,
+      transparent,
+      transparent 5px,
+      rgba(0, 0, 0, 0.055) 5px,
+      rgba(0, 0, 0, 0.055) 6px
+    ),
+    url("../assets/barra-textura-organica.png");
+  background-repeat: repeat, repeat, repeat;
+  background-size: auto, auto, clamp(200px, 22vw, 280px) auto;
+  background-position: 0 0, 0 0, center top;
+  background-blend-mode: overlay, overlay, soft-light;
+  mix-blend-mode: overlay;
+}
+
+/* Grano fino tipo “premium” sobre la barra vino */
+body.portal-ciudadano .topbar-mtz::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.11) 0.45px, transparent 0.45px);
+  background-size: 3px 3px;
+  mix-blend-mode: soft-light;
+}
+
+body.portal-ciudadano .topbar-mtz > .layout-full {
+  position: relative;
+  z-index: 1;
+  padding-left: clamp(0.75rem, 1.65vw, 1.85rem);
+  padding-right: clamp(0.75rem, 1.65vw, 1.85rem);
+}
+
+body.portal-ciudadano .topbar-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  flex-wrap: wrap;
+}
+
+body.portal-ciudadano .topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.45rem, 1.2vw, 0.85rem);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+body.portal-ciudadano .topbar-brand-pipe {
+  width: 1px;
+  align-self: stretch;
+  min-height: clamp(3.25rem, 9.5vw, 5.1rem);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: 1px;
+}
+
+body.portal-ciudadano .topbar-marca-sigim {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1.2vw, 0.95rem);
+  min-width: 0;
+}
+
+body.portal-ciudadano .topbar-logo-app {
+  height: clamp(70px, 8.5vw, 120px);
+  width: auto;
+  max-width: min(360px, 52vw);
+  object-fit: contain;
+  object-position: left center;
+  flex-shrink: 0;
+  display: block;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.2));
+}
+
+body.portal-ciudadano .topbar-brand-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: start;
+}
+
+body.portal-ciudadano .topbar-titulo {
+  font-size: clamp(1.45rem, 2.85vw, 3.05rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0;
+}
+
+body.portal-ciudadano .topbar-subtitulo {
+  font-size: clamp(0.98rem, 1.65vw, 1.48rem);
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
+}
+
+body.portal-ciudadano .topbar-mtz .topbar-logo-escudo {
+  height: clamp(74px, 8.5vw, 140px);
+  width: auto;
+  flex: 0 0 auto;
+  display: block;
+}
+
+/* Acceso interno: icono de tres barras (mismo href / — sin menú desplegable) */
+body.portal-ciudadano .btn-topbar-interno {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(3.15rem, 5.5vw, 3.65rem);
+  height: clamp(3.15rem, 5.5vw, 3.65rem);
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.42);
+  border-radius: 14px;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(0, 0, 0, 0.08) 100%
+  );
+  color: #fff;
+  text-decoration: none;
+  flex: 0 0 auto;
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.12) inset, 0 8px 28px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.portal-ciudadano .btn-topbar-interno:hover {
+  transform: translateY(-2px);
+  border-color: rgba(200, 164, 71, 0.85);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.2) inset, 0 12px 36px rgba(200, 164, 71, 0.28),
+    0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+body.portal-ciudadano .btn-topbar-interno:focus-visible {
+  outline: none;
+  border-color: var(--mtz-gold);
+  box-shadow: 0 0 0 3px rgba(200, 164, 71, 0.45), 0 8px 28px rgba(0, 0, 0, 0.2);
+}
+
+body.portal-ciudadano .topbar-hamburger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 26px;
+  pointer-events: none;
+}
+
+body.portal-ciudadano .topbar-hamburger__bar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 230, 0.9) 50%, rgba(200, 164, 71, 0.75) 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transform-origin: center;
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+}
+
+body.portal-ciudadano .topbar-hamburger__bar:nth-child(2) {
+  width: 85%;
+}
+
+body.portal-ciudadano .btn-topbar-interno:hover .topbar-hamburger__bar:nth-child(1) {
+  transform: translateY(-6px);
+}
+
+body.portal-ciudadano .btn-topbar-interno:hover .topbar-hamburger__bar:nth-child(2) {
+  width: 100%;
+  opacity: 0.92;
+  transform: scaleX(1.06);
+}
+
+body.portal-ciudadano .btn-topbar-interno:hover .topbar-hamburger__bar:nth-child(3) {
+  transform: translateY(6px);
+}
+
+body.portal-ciudadano .btn-topbar-interno:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+body.portal-ciudadano main.layout-full {
+  padding-top: clamp(0.7rem, 1.2vw, 1.15rem);
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  body.portal-ciudadano .topbar-wrap {
+    justify-content: center;
+    text-align: center;
+  }
+
+  body.portal-ciudadano .topbar-brand {
+    justify-content: center;
+  }
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+  body.portal-ciudadano .topbar-wrap {
+    gap: 0.65rem;
+  }
+
+  body.portal-ciudadano .topbar-mtz .topbar-logo-escudo {
+    height: clamp(52px, 15vw, 80px);
+  }
+
+  body.portal-ciudadano .topbar-logo-app {
+    max-width: min(220px, 52vw);
+    height: clamp(50px, 14vw, 72px);
+  }
+
+  body.portal-ciudadano .topbar-marca-sigim {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  body.portal-ciudadano .topbar-brand-texto {
+    text-align: center;
+    flex: 1 1 100%;
+  }
+
+  body.portal-ciudadano .topbar-titulo {
+    font-size: clamp(1.05rem, 5.5vw, 1.55rem);
+  }
+
+  body.portal-ciudadano .topbar-subtitulo {
+    font-size: clamp(0.72rem, 3.4vw, 0.95rem);
+  }
+
+  body.portal-ciudadano .btn-topbar-interno {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+  }
+
+  body.portal-ciudadano .topbar-hamburger {
+    width: 22px;
+    gap: 5px;
+  }
+
+  body.portal-ciudadano .topbar-hamburger__bar {
+    height: 2.5px;
+  }
+}

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIGIM-MTZ | Panel Técnico</title>
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilo institucional -->
+  <link rel="stylesheet" href="./css/styles.css">
+  <!-- Técnico: estilos específicos -->
+  <link rel="stylesheet" href="./css/tecnico.css">
+</head>
+
+<body class="bg-body-tertiary modulo-panel-tecnico">
+
+  <!-- TOPBAR institucional (misma línea visual del Portal Ciudadano, sin barra lateral) -->
+  <nav class="navbar topbar-mtz sticky-top" aria-label="Barra superior del panel técnico">
+    <div class="layout-full topbar-wrap">
+      <div class="topbar-brand">
+        <img src="./assets/escudo.png" class="logo-box topbar-logo-escudo" alt="Escudo Oficial Ayuntamiento Martínez de la Torre">
+        <span class="topbar-brand-pipe" aria-hidden="true"></span>
+        <div class="topbar-marca-sigim">
+          <img src="./assets/Logo.png" class="topbar-logo-app" width="280" height="112" alt="" decoding="async">
+          <div class="topbar-brand-texto">
+            <div class="topbar-titulo">SIGIM-MTZ</div>
+            <div class="topbar-subtitulo">Panel Técnico</div>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-acceso-wrap">
+        <div class="dashboard-user-chip" aria-label="Usuario autenticado">
+          <div class="dashboard-user-avatar" aria-hidden="true">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div class="dashboard-user-texto">
+            <div id="topbar-user-name" class="dashboard-user-name">Técnico</div>
+            <div id="topbar-user-role" class="dashboard-user-role">Panel Operativo</div>
+          </div>
+        </div>
+        <a href="/" class="btn btn-light btn-sm fw-bold btn-pill" aria-label="Volver al inicio">
+          <i class="bi bi-arrow-left" aria-hidden="true"></i> Volver
+        </a>
+        <button type="button"
+                id="btn-cerrar-sesion"
+                class="btn btn-outline-light btn-sm fw-bold btn-pill"
+                aria-label="Cerrar sesión">
+          <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Salir
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <section class="mb-3">
+      <h1 class="dashboard-hero-title mb-1">Mi Dashboard Técnico</h1>
+      <p class="text-secondary mb-0">Controla tus incidencias, prioridades y carga operativa en tiempo real.</p>
+    </section>
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><i class="bi bi-house-door"></i> Inicio</li>
+        <li class="breadcrumb-item active" aria-current="page">Mis incidencias</li>
+      </ol>
+    </nav>
+
+    <!-- KPIs del Técnico -->
+    <section class="row g-3 mb-3">
+      <div class="col-6 col-lg">
+        <div class="card kpi-card hover-lift">
+          <div class="card-body">
+            <div class="kpi-title">Asignadas</div>
+            <div class="kpi-value" id="kpi-asignadas">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg">
+        <div class="card kpi-card hover-lift">
+          <div class="card-body">
+            <div class="kpi-title">En proceso</div>
+            <div class="kpi-value" id="kpi-enproceso">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg">
+        <div class="card kpi-card hover-lift">
+          <div class="card-body">
+            <div class="kpi-title">Resueltas</div>
+            <div class="kpi-value" id="kpi-resueltas">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg">
+        <div class="card kpi-card hover-lift">
+          <div class="card-body">
+            <div class="kpi-title">Atendidas hoy</div>
+            <div class="kpi-value" id="kpi-hoy">0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analítica visual del técnico -->
+    <section class="row g-3 mb-3">
+      <div class="col-12 col-xl-4">
+        <article class="card dashboard-chart-card">
+          <div class="card-body">
+            <h6 class="dashboard-chart-title">Estatus de mis incidencias</h6>
+            <div class="dashboard-chart-canvas-wrap">
+              <canvas id="chart-estatus-tecnico" aria-label="Distribución por estatus" role="img"></canvas>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="col-12 col-xl-4">
+        <article class="card dashboard-chart-card">
+          <div class="card-body">
+            <h6 class="dashboard-chart-title">Prioridad</h6>
+            <div class="dashboard-chart-canvas-wrap">
+              <canvas id="chart-prioridad-tecnico" aria-label="Distribución por prioridad" role="img"></canvas>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="col-12 col-xl-4">
+        <article class="card dashboard-chart-card">
+          <div class="card-body">
+            <h6 class="dashboard-chart-title">Tendencia (últimos 7 días)</h6>
+            <div class="dashboard-chart-canvas-wrap">
+              <canvas id="chart-tendencia-tecnico" aria-label="Tendencia de incidencias por día" role="img"></canvas>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Panel tabla Mis Incidencias -->
+    <section class="card card-mtz-panel">
+      <div class="card-header bg-white d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div>
+          <div class="fw-bold">Mis incidencias asignadas</div>
+          <div class="text-secondary small">Visualiza y da seguimiento a tus incidencias</div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span id="lbl-loading" class="loading-chip d-none">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Actualizando...
+          </span>
+          <button id="btn-recargar" class="btn-mtz btn-mtz-primary">
+            <i class="bi bi-arrow-clockwise"></i>
+            <span class="btn-text">Recargar</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="dashboard-tabla-filtros" aria-label="Filtros de incidencias del técnico">
+        <div class="dashboard-tabla-filtro-item">
+          <label for="filtro-inc-folio" class="form-label">Folio</label>
+          <input type="text" id="filtro-inc-folio" class="form-control" placeholder="Buscar folio...">
+        </div>
+        <div class="dashboard-tabla-filtro-item">
+          <label for="filtro-inc-estatus" class="form-label">Estatus</label>
+          <select id="filtro-inc-estatus" class="form-select">
+            <option value="">Todos</option>
+            <option value="asignada">Asignada</option>
+            <option value="en proceso">En proceso</option>
+            <option value="resuelta">Resuelta</option>
+            <option value="cerrada">Cerrada</option>
+          </select>
+        </div>
+        <div class="dashboard-tabla-filtro-item">
+          <label for="filtro-inc-prioridad" class="form-label">Prioridad</label>
+          <select id="filtro-inc-prioridad" class="form-select">
+            <option value="">Todas</option>
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+        </div>
+        <div class="dashboard-tabla-filtro-item">
+          <label for="filtro-inc-fecha" class="form-label">Fecha</label>
+          <input type="date" id="filtro-inc-fecha" class="form-control">
+        </div>
+        <div class="dashboard-tabla-filtro-accion">
+          <button id="btn-buscar-incidencias" type="button" class="btn btn-mtz btn-mtz-primary">Buscar</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Folio</th>
+              <th>Título</th>
+              <th>Estatus</th>
+              <th>Prioridad</th>
+              <th>Tipo</th>
+              <th style="width: 140px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-incidencias"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer-institucional">
+    <div class="layout-full">
+      <div class="footer-principal">
+        <div class="footer-grid">
+          <div class="footer-column footer-identidad">
+            <div class="identidad-contenido">
+              <img src="assets/escudo.png" alt="Escudo" class="footer-logo">
+              <div class="identidad-texto">
+                <h3 class="footer-titulo">SIGIM-MTZ</h3>
+                <p class="footer-subtitulo">Panel Técnico</p>
+                <p class="footer-descripcion">
+                  Módulo operativo para atención, seguimiento y resolución de incidencias asignadas.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-column footer-horario">
+            <div class="horario-contenido">
+              <div class="horario-header">
+                <i class="bi bi-clock footer-icono"></i>
+                <h4 class="footer-columna-titulo">Horario de atención</h4>
+              </div>
+              <div class="horario-detalle">
+                <p class="footer-texto">Lunes a Viernes</p>
+                <p class="footer-texto">8:00 a 16:00 horas</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-column footer-ayuda">
+            <div class="ayuda-contenido">
+              <div class="ayuda-header">
+                <i class="bi bi-shield-check footer-icono"></i>
+                <h4 class="footer-columna-titulo">Uso interno</h4>
+              </div>
+              <div class="ayuda-detalle">
+                <p class="footer-texto">Acceso restringido a personal autorizado del Ayuntamiento.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-legal">
+        <div class="footer-linea"></div>
+        <p class="footer-copy">
+          © 2025 Ayuntamiento de Martínez de la Torre. Todos los derechos reservados.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Seguimiento (reutilizado del dashboard) -->
+  <div class="modal fade" id="modalSeguimiento" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-clock-history"></i> Seguimiento de incidencia
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+            <div class="text-secondary small" id="seg-folio">Folio: -</div>
+            <div class="text-secondary small" id="seg-estatus">Estatus: -</div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Fecha</th>
+                  <th>Acción</th>
+                  <th>Comentario</th>
+                  <th>De</th>
+                  <th>A</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-seguimiento"></tbody>
+            </table>
+          </div>
+          <div class="text-secondary small mt-2">
+            *Este historial funciona como bitácora (trazabilidad) del sistema.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-mtz btn-mtz-outline" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Evidencias -->
+  <div class="modal fade" id="modalEvidencias" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-camera"></i> Evidencias de incidencia
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+            <div id="evid-folio" class="text-secondary small">Folio: -</div>
+            <div id="evid-estatus" class="text-secondary small">Estatus: -</div>
+          </div>
+          
+          <!-- Área de carga -->
+          <div class="upload-area border border-dashed rounded p-4 text-center mb-3">
+            <i class="bi bi-cloud-upload display-4 text-muted mb-2"></i>
+            <p class="text-muted">Arrastra archivos aquí o haz clic para seleccionar</p>
+            <input type="file" id="input-archivos" class="form-control" multiple accept="image/*,.pdf,.doc,.docx">
+          </div>
+          
+          <!-- Lista de archivos existentes -->
+          <div class="evidencias-list" id="evidencias-list">
+            <!-- Las evidencias se cargarán dinámicamente -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-mtz btn-mtz-outline" data-bs-dismiss="modal">Cerrar</button>
+          <button id="btn-subir-evidencias" type="button" class="btn btn-mtz btn-mtz-primary">
+            <i class="bi bi-upload"></i> Subir evidencias
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Actualizar Estatus -->
+  <div class="modal fade" id="modalActualizarEstatus" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="estatus-modal-title" class="modal-title fw-bold">
+            <i class="bi bi-arrow-repeat"></i> Actualizar estatus
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p id="estatus-folio" class="text-secondary small mb-3"></p>
+          
+          <label class="form-label fw-bold">Estatus actual</label>
+          <input id="estatus-actual" class="form-control mb-3" readonly />
+          
+          <label class="form-label fw-bold">Nuevo estatus</label>
+          <select id="select-nuevo-estatus" class="form-select mb-3">
+            <!-- Se llenará dinámicamente según reglas -->
+          </select>
+          
+          <label class="form-label fw-bold">Comentario</label>
+          <textarea id="input-comentario-estatus" class="form-control" rows="3" 
+                    placeholder="Describe el avance o motivo del cambio..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-mtz btn-mtz-outline" data-bs-dismiss="modal">Cancelar</button>
+          <button id="btn-actualizar-estatus" type="button" class="btn btn-mtz btn-mtz-primary">
+            <i class="bi bi-check2-circle"></i> <span id="estatus-modal-submit-text">Actualizar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Registrar Avance -->
+  <div class="modal fade" id="modalRegistrarAvance" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-journal-check"></i> Registrar avance
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p id="avance-folio" class="text-secondary small mb-3"></p>
+          <label class="form-label fw-bold">Comentario</label>
+          <textarea id="input-comentario-avance" class="form-control" rows="3"
+                    placeholder="Describe la nota de seguimiento..." required></textarea>
+          <div class="form-text mt-2">
+            Si deseas adjuntar evidencia, puedes usar el botón <strong>Evidencias</strong> de la incidencia.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-mtz btn-mtz-outline" data-bs-dismiss="modal">Cancelar</button>
+          <button id="btn-guardar-avance" type="button" class="btn btn-mtz btn-mtz-primary">
+            <i class="bi bi-save"></i> Guardar avance
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalle con Mapa -->
+  <div class="modal fade" id="modalDetalleIncidencia" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-geo-alt"></i> Detalle de incidencia
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6 class="fw-bold text-mtz-wine">Información General</h6>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Folio:</label>
+                <div id="detalle-folio" class="fw-bold"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Título:</label>
+                <div id="detalle-titulo" class="fw-bold"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Descripción:</label>
+                <div id="detalle-descripcion" class="small"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Tipo:</label>
+                <div id="detalle-tipo" class="fw-bold"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Estatus:</label>
+                <div id="detalle-estatus" class="fw-bold"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Prioridad:</label>
+                <div id="detalle-prioridad" class="fw-bold"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6 class="fw-bold text-mtz-wine">Ubicación</h6>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Dirección:</label>
+                <div id="detalle-direccion" class="small"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Referencia:</label>
+                <div id="detalle-referencia" class="small"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-secondary">Coordenadas:</label>
+                <div id="detalle-coordenadas" class="small"></div>
+              </div>
+              <div class="d-flex gap-2">
+                <a id="btn-como-llegar" href="#" target="_blank" class="btn btn-sm btn-success">
+                  <i class="bi bi-navigation"></i> Cómo llegar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-mtz btn-mtz-outline" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastOk" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto"><i class="bi bi-bell"></i> SIGIM-MTZ</strong>
+        <small class="text-secondary">Ahora</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+      </div>
+      <div class="toast-body" id="toastOkMsg">Listo</div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- JS Comunes -->
+  <script src="./js/common.js"></script>
+  
+  <!-- JS del Panel Técnico -->
+  <script src="./js/tecnico.js"></script>
+</body>
+</html>

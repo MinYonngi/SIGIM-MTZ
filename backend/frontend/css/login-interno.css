@@ -1,0 +1,480 @@
+/**
+ * Página exclusiva: login interno SIGIM-MTZ.
+ * No afecta portal ciudadano ni paneles internos.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap");
+
+body.pagina-login-interno {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Montserrat", system-ui, sans-serif;
+  background: linear-gradient(165deg, #f0f1fb 0%, #faf8fc 38%, #ffffff 100%);
+  color: #2d2430;
+  -webkit-font-smoothing: antialiased;
+}
+
+.login-interno-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 2vw, 1.75rem);
+  box-sizing: border-box;
+}
+
+.login-interno-card {
+  width: 100%;
+  max-width: min(1440px, 100%);
+  background: #fff;
+  border-radius: clamp(22px, 2.5vw, 32px);
+  box-shadow:
+    0 36px 100px rgba(74, 21, 75, 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.07),
+    0 0 0 1px rgba(255, 255, 255, 0.65) inset,
+    0 2px 0 rgba(255, 255, 255, 0.95) inset;
+  overflow: hidden;
+  border: 1px solid rgba(74, 21, 75, 0.07);
+}
+
+.login-interno-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 1.18fr);
+  min-height: min(92vh, 880px);
+}
+
+.login-interno-form-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 4vw, 3.25rem);
+  background: #fff;
+}
+
+.login-interno-form-card {
+  width: 100%;
+  max-width: 520px;
+}
+
+.login-interno-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.login-interno-brand img {
+  height: clamp(64px, 10vw, 88px);
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.1));
+}
+
+.login-interno-brand-text {
+  line-height: 1.15;
+}
+
+.login-interno-brand-name {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  font-weight: 700;
+  color: #4a154b;
+  letter-spacing: 0.02em;
+}
+
+.login-interno-brand-line {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #7a6a78;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+.login-interno-title {
+  font-size: clamp(1.55rem, 2.8vw, 2rem);
+  font-weight: 800;
+  color: #4a154b;
+  margin: 0 0 0.55rem;
+  letter-spacing: -0.02em;
+}
+
+.login-interno-lead {
+  font-size: clamp(0.92rem, 1.5vw, 1.02rem);
+  color: #6f6570;
+  line-height: 1.55;
+  margin: 0 0 1.4rem;
+}
+
+.login-interno-alert {
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.login-interno-field {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.82rem 1.1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e0dce8;
+  border-radius: 14px;
+  background: #faf9fc;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.login-interno-field:focus-within {
+  border-color: rgba(200, 164, 71, 0.75);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
+}
+
+.login-interno-field.is-invalid {
+  border-color: #c62828;
+  background: #fff8f8;
+}
+
+.login-interno-field > .bi {
+  font-size: 1.1rem;
+  color: #e8b84a;
+  flex-shrink: 0;
+}
+
+.login-interno-field input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: transparent;
+  color: #2d2430;
+}
+
+.login-interno-field input::placeholder {
+  color: #9e96a3;
+}
+
+.login-interno-eye {
+  border: none;
+  background: none;
+  padding: 0.25rem;
+  color: #9e96a3;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.login-interno-eye:hover {
+  color: #4a154b;
+  background: rgba(74, 21, 75, 0.06);
+}
+
+.login-interno-submit,
+.login-interno-btn-2fa {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.95rem 1.35rem;
+  border: 2px solid rgba(74, 21, 75, 0.22);
+  border-radius: 16px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #4a154b;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 42%),
+    linear-gradient(165deg, #fff0a8 0%, #ffe566 18%, #f0c040 52%, #d9a020 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 8px 28px rgba(230, 170, 40, 0.38),
+    0 2px 8px rgba(74, 21, 75, 0.12);
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.login-interno-submit:hover:not(:disabled),
+.login-interno-btn-2fa:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: rgba(74, 21, 75, 0.35);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 14px 36px rgba(230, 170, 40, 0.48),
+    0 6px 16px rgba(74, 21, 75, 0.14);
+}
+
+.login-interno-submit:active:not(:disabled),
+.login-interno-btn-2fa:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-interno-submit:disabled,
+.login-interno-btn-2fa:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón grande: regresar al portal ciudadano (textura + animación) */
+.login-interno-btn-portal {
+  display: block;
+  width: 100%;
+  margin-top: 1.35rem;
+  padding: 1.15rem 1.5rem;
+  border-radius: 18px;
+  border: 2px solid rgba(74, 21, 75, 0.28);
+  font-family: inherit;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-weight: 800;
+  color: #4a154b;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, transparent 38%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.04) 2px,
+      rgba(255, 255, 255, 0.04) 4px
+    ),
+    linear-gradient(155deg, #fff4b8 0%, #ffe24a 22%, #f0c040 55%, #c9a227 100%);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.8) inset,
+    0 10px 32px rgba(230, 170, 40, 0.42),
+    0 4px 14px rgba(74, 21, 75, 0.15);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.25s ease;
+  animation: login-interno-portal-breathe 4s ease-in-out infinite;
+}
+
+.login-interno-btn-portal::before {
+  content: "";
+  position: absolute;
+  inset: -40% -60%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.5) 48%,
+    rgba(255, 255, 255, 0.1) 52%,
+    transparent 65%
+  );
+  transform: translateX(-30%);
+  animation: login-interno-portal-shine 3.2s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.login-interno-btn-portal__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.login-interno-btn-portal:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(74, 21, 75, 0.45);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.9) inset,
+    0 16px 44px rgba(230, 170, 40, 0.52),
+    0 8px 22px rgba(74, 21, 75, 0.18);
+  animation: none;
+}
+
+.login-interno-btn-portal:active {
+  transform: translateY(-1px) scale(1.005);
+}
+
+.login-interno-btn-portal__inner .bi {
+  font-size: 1.35rem;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.5));
+}
+
+@keyframes login-interno-portal-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.8) inset,
+      0 10px 32px rgba(230, 170, 40, 0.42),
+      0 4px 14px rgba(74, 21, 75, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.85) inset,
+      0 14px 40px rgba(230, 170, 40, 0.5),
+      0 6px 18px rgba(74, 21, 75, 0.18);
+  }
+}
+
+@keyframes login-interno-portal-shine {
+  0% {
+    transform: translateX(-35%) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  45% {
+    transform: translateX(35%) rotate(0deg);
+    opacity: 1;
+  }
+  55%,
+  100% {
+    transform: translateX(45%);
+    opacity: 0;
+  }
+}
+
+.login-interno-2fa-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.35rem 0 1rem;
+  color: #8a7a92;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.login-interno-2fa-divider::before,
+.login-interno-2fa-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e0dce8, transparent);
+}
+
+.login-interno-security {
+  font-size: 0.74rem;
+  color: #8a7a92;
+  line-height: 1.45;
+  margin: 1.1rem 0 0;
+  text-align: center;
+}
+
+/* Columna ilustración (curva orgánica hacia el formulario, estilo mockup) */
+.login-interno-art-col {
+  position: relative;
+  min-height: 320px;
+  background: linear-gradient(145deg, #ede8f5 0%, #e4dff0 50%, #dcd5ea 100%);
+  border-radius: 0 clamp(22px, 2.5vw, 32px) clamp(22px, 2.5vw, 32px) 0;
+  overflow: hidden;
+}
+
+.login-interno-art {
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/fondo-login.png");
+  background-size: cover;
+  background-position: center 32%;
+  background-repeat: no-repeat;
+  clip-path: ellipse(118% 96% at 72% 48%);
+}
+
+.login-interno-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.28) 0%,
+    transparent 32%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Pie dentro de la tarjeta */
+.login-interno-footer {
+  padding: 0.85rem 1.5rem 1.15rem;
+  text-align: right;
+  border-top: 1px solid rgba(74, 21, 75, 0.07);
+  background: linear-gradient(180deg, #fdfcfe 0%, #faf8fc 100%);
+}
+
+.login-interno-footer-links {
+  font-size: 0.72rem;
+  color: #6f6570;
+  margin-bottom: 0.35rem;
+}
+
+.login-interno-footer-links a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.login-interno-footer-links a:hover {
+  color: #4a154b;
+  text-decoration: underline;
+}
+
+.login-interno-footer-copy {
+  margin: 0;
+  font-size: 0.68rem;
+  color: #a098a8;
+}
+
+@media (max-width: 991.98px) {
+  .login-interno-row {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+
+  .login-interno-art-col {
+    min-height: min(48vw, 320px);
+    order: -1;
+    border-radius: clamp(22px, 2.5vw, 32px) clamp(22px, 2.5vw, 32px) 0 0;
+  }
+
+  .login-interno-art {
+    background-position: center center;
+    clip-path: ellipse(140% 88% at 50% 100%);
+  }
+
+  .login-interno-art::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 40%);
+  }
+
+  .login-interno-footer {
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-interno-submit:hover:not(:disabled),
+  .login-interno-btn-2fa:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .login-interno-btn-portal {
+    animation: none;
+  }
+
+  .login-interno-btn-portal::before {
+    animation: none;
+    opacity: 0;
+  }
+
+  .login-interno-btn-portal:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,375 @@
+/* Menú acceso interno (hamburguesa) + modal login estilo portal premium */
+
+body.portal-ciudadano .topbar-acceso-wrap {
+  position: relative;
+  flex: 0 0 auto;
+  z-index: 1060;
+}
+
+body.portal-ciudadano .topbar-acceso-wrap .btn-topbar-interno {
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+body.portal-ciudadano .topbar-acceso-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: min(100vw - 2rem, 260px);
+  padding: 0.5rem;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff 0%, #faf8f6 100%);
+  border: 1px solid rgba(123, 27, 39, 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(123, 27, 39, 0.08);
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s;
+}
+
+body.portal-ciudadano .topbar-acceso-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+body.portal-ciudadano .topbar-acceso-panel__title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7a72;
+  padding: 0.35rem 0.65rem 0.5rem;
+  margin: 0;
+}
+
+body.portal-ciudadano .topbar-acceso-panel__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  margin: 0;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #3d2f35;
+  font-family: var(--portal-font, "Montserrat", system-ui, sans-serif);
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+body.portal-ciudadano .topbar-acceso-panel__btn:hover {
+  background: rgba(123, 27, 39, 0.06);
+  color: var(--mtz-wine, #7b1b27);
+}
+
+body.portal-ciudadano .topbar-acceso-panel__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(200, 164, 71, 0.45);
+}
+
+body.portal-ciudadano .topbar-acceso-panel__btn i:first-child {
+  font-size: 1.15rem;
+  color: #c9a227;
+  opacity: 0.95;
+}
+
+body.portal-ciudadano .topbar-acceso-panel__btn .bi-chevron-right {
+  font-size: 0.85rem;
+  opacity: 0.45;
+}
+
+/* Modal login */
+.modal-backdrop.portal-login-backdrop {
+  background: rgba(253, 248, 249, 0.94) !important;
+}
+
+.portal-login-modal .modal-dialog {
+  max-width: min(100% - 1.5rem, 980px);
+}
+
+.portal-login-modal__content {
+  border-radius: 22px !important;
+  overflow: hidden;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.1), 0 12px 32px rgba(123, 27, 39, 0.08) !important;
+  position: relative;
+  background: #fff;
+}
+
+.portal-login-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 5;
+  opacity: 0.55;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+.portal-login-modal__close:hover {
+  opacity: 1;
+}
+
+.portal-login-modal__row {
+  min-height: 420px;
+}
+
+.portal-login-modal__col-form {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-login-modal__form-card {
+  width: 100%;
+  max-width: 380px;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.portal-login-modal__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.35rem;
+}
+
+.portal-login-modal__brand img {
+  height: clamp(48px, 8vw, 58px);
+  width: auto;
+  object-fit: contain;
+}
+
+.portal-login-modal__brand-name {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 800;
+  color: #4a2328;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.portal-login-modal__brand-sub {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #8a7a72;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+.portal-login-modal__title {
+  font-size: clamp(1.35rem, 2.4vw, 1.6rem);
+  font-weight: 800;
+  color: #4a2328;
+  margin: 0 0 0.45rem;
+  letter-spacing: -0.02em;
+}
+
+.portal-login-modal__lead {
+  font-size: 0.9rem;
+  color: #7a6d6d;
+  line-height: 1.55;
+  margin: 0 0 1.35rem;
+}
+
+.portal-login-modal__field {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.9rem;
+  margin-bottom: 0.85rem;
+  border: 1px solid #e0d8d5;
+  border-radius: 14px;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portal-login-modal__field:focus-within {
+  border-color: rgba(200, 164, 71, 0.65);
+  box-shadow: 0 0 0 3px rgba(255, 209, 84, 0.25);
+}
+
+.portal-login-modal__field > .bi {
+  font-size: 1.05rem;
+  color: #e8b84a;
+  flex-shrink: 0;
+}
+
+.portal-login-modal__field input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: transparent;
+  color: #333;
+}
+
+.portal-login-modal__field input::placeholder {
+  color: #aaa;
+}
+
+.portal-login-modal__eye {
+  border: none;
+  background: none;
+  padding: 0.25rem;
+  color: #9e9e9e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.portal-login-modal__eye:hover {
+  color: #666;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.portal-login-modal__submit {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.85rem 1.25rem;
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1f1c12;
+  cursor: pointer;
+  background: linear-gradient(180deg, #ffe566 0%, #f0c040 48%, #e8b028 100%);
+  box-shadow: 0 6px 22px rgba(230, 170, 40, 0.38);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.portal-login-modal__submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(230, 170, 40, 0.45);
+}
+
+.portal-login-modal__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  justify-content: center;
+  margin-top: 1.1rem;
+}
+
+.portal-login-modal__links a {
+  font-size: 0.8rem;
+  color: #8a7a72;
+  text-decoration: none;
+}
+
+.portal-login-modal__links a:hover {
+  color: var(--mtz-wine, #7b1b27);
+  text-decoration: underline;
+}
+
+.portal-login-modal__form-card hr {
+  margin: 1.15rem 0 0.85rem;
+  opacity: 0.12;
+}
+
+.portal-login-modal__register {
+  display: block;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #6b5c58;
+  text-decoration: none;
+}
+
+.portal-login-modal__register:hover {
+  color: var(--mtz-wine, #7b1b27);
+}
+
+.portal-login-modal__col-art {
+  background: linear-gradient(145deg, #f5f0ec 0%, #ebe4dd 100%);
+  position: relative;
+  min-height: 380px;
+}
+
+.portal-login-modal__art {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  clip-path: ellipse(92% 88% at 58% 50%);
+}
+
+.portal-login-modal__art img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.08));
+}
+
+.portal-login-modal__footer {
+  padding: 1rem 1.5rem 1.25rem;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: #fdfcfb;
+}
+
+.portal-login-modal__footer-links {
+  font-size: 0.75rem;
+  color: #8a7a72;
+  margin-bottom: 0.35rem;
+}
+
+.portal-login-modal__footer-links a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.portal-login-modal__footer-links a:hover {
+  color: var(--mtz-wine, #7b1b27);
+  text-decoration: underline;
+}
+
+.portal-login-modal__copy {
+  margin: 0;
+  font-size: 0.68rem;
+  color: #aaa;
+}
+
+@media (max-width: 991.98px) {
+  .portal-login-modal__art {
+    clip-path: none;
+    padding: 1rem;
+  }
+
+  .portal-login-modal__col-art {
+    min-height: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.portal-ciudadano .topbar-acceso-panel {
+    transition: none;
+  }
+
+  .portal-login-modal__submit:hover {
+    transform: none;
+  }
+}

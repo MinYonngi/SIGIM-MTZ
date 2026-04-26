@@ -1,0 +1,32 @@
+/* ==========================================
+   Portal Ciudadano SIGIM-MTZ - Estilos Institucionales
+   Corregido y consolidado
+   ========================================== */
+
+:root {
+  --mtz-wine: #7b1b27;
+  --mtz-wine-2: #8a2431;
+  --mtz-gold: #c8a447;
+  --mtz-bg: #fff8f6;
+  --mtz-bg2: #fbf1ee;
+  --mtz-card: #ffffff;
+  --mtz-ink: #1c1c1c;
+  --mtz-muted: #5d5d5d;
+  --mtz-border: rgba(0, 0, 0, 0.08);
+  --primary-color: var(--mtz-wine);
+  --secondary-color: var(--mtz-muted);
+  --success-color: #198754;
+  --info-color: #0d6efd;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-color: var(--mtz-bg);
+  --dark-color: var(--mtz-ink);
+  --mtz-focus-ring: rgba(123, 27, 39, 0.22);
+  --card-radius: 18px;
+  --btn-radius: 12px;
+  --portal-shadow-card: 0 2px 14px rgba(0, 0, 0, 0.045);
+  --portal-shadow-card-hover: 0 6px 20px rgba(0, 0, 0, 0.06);
+  --portal-space-seccion: clamp(2rem, 4vw, 2.75rem);
+  --portal-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --portal-ring: 0 0 0 3px rgba(200, 164, 71, 0.45);
+}

@@ -1,0 +1,86 @@
+/* ==========================================
+   PORTAL CIUDADANO - TIPOGRAFÍA GENERAL
+   (Solo body.portal-ciudadano: no afecta dashboard/técnico.)
+   ========================================== */
+body.portal-ciudadano {
+  font-family: "Montserrat", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: clamp(17px, 0.55vw + 15.5px, 19px);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  word-spacing: normal;
+  color: var(--mtz-ink);
+}
+
+/* Párrafos heredan el cuerpo; no forzar 1rem (mejora legibilidad). */
+body.portal-ciudadano label,
+body.portal-ciudadano input,
+body.portal-ciudadano select,
+body.portal-ciudadano textarea,
+body.portal-ciudadano button,
+body.portal-ciudadano a:not(.btn),
+body.portal-ciudadano li {
+  font-size: 1em;
+}
+
+body.portal-ciudadano small,
+body.portal-ciudadano .small {
+  font-size: 0.94em;
+}
+
+body.portal-ciudadano h1 {
+  font-size: clamp(2.35rem, 4.2vw, 3.35rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+body.portal-ciudadano h2 {
+  font-size: clamp(1.72rem, 2.65vw, 2.28rem);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+body.portal-ciudadano h3 {
+  font-size: clamp(1.42rem, 2.2vw, 1.85rem);
+  line-height: 1.24;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+body.portal-ciudadano h4 {
+  font-size: clamp(1.14rem, 1.4vw, 1.28rem);
+  line-height: 1.32;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+body.portal-ciudadano .form-label {
+  font-size: clamp(1.02rem, 0.9vw, 1.1rem);
+  font-weight: 600;
+}
+
+body.portal-ciudadano .form-control,
+body.portal-ciudadano .form-select,
+body.portal-ciudadano input,
+body.portal-ciudadano select,
+body.portal-ciudadano textarea {
+  font-size: clamp(1.02rem, 0.85vw, 1.08rem);
+  min-height: 48px;
+}
+
+body.portal-ciudadano .form-text {
+  font-size: clamp(0.94rem, 0.7vw, 1.02rem);
+}
+
+body.portal-ciudadano .btn,
+body.portal-ciudadano button.btn {
+  font-size: clamp(1.02rem, 0.75vw, 1.08rem);
+  font-weight: 700;
+}
+
+body.portal-ciudadano .card-header h5,
+body.portal-ciudadano .card-title {
+  font-size: clamp(1.22rem, 1.8vw, 1.48rem);
+  letter-spacing: -0.02em;
+}
+
