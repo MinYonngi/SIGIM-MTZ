@@ -1,5 +1,6 @@
 const pool = require("../config/db");
 const db = pool.promise();
+const logger = require("../utils/logger");
 
 // =====================================================
 // 📊 REPORTE DE DIGITALIZACIÓN
@@ -7,33 +8,31 @@ const db = pool.promise();
 // =====================================================
 exports.reporteDigitalizacion = async (req, res) => {
   const { fechaInicio, fechaFin, tipo = 'cumplimiento', totalRecibidos } = req.query;
-  
-  console.log('🔍 reporteDigitalizacion - Parámetros recibidos:', { fechaInicio, fechaFin, tipo, totalRecibidos });
-  
-  // Validar conexión a BD
+
+  logger.log('reporteDigitalizacion - Parámetros:', { fechaInicio, fechaFin, tipo });
+
   if (!db) {
-    console.error('❌ Error: Conexión a BD no disponible');
+    logger.error('Conexión a BD no disponible');
     return res.status(500).json({ message: "Error de conexión a base de datos" });
   }
-  
+
   if (tipo === 'pilotaje' && !totalRecibidos) {
-    return res.status(400).json({ 
-      message: "Para modo pilotaje debe especificar totalRecibidos" 
+    return res.status(400).json({
+      message: "Para modo pilotaje debe especificar totalRecibidos"
     });
   }
-  
+
   try {
     if (tipo === 'pilotaje') {
       // Opción A: Pilotaje con parámetro real
       const sqlCapturados = `SELECT COUNT(*) as capturados_sigim FROM incidencias WHERE created_at >= ? AND created_at < DATE_ADD(?, INTERVAL 1 DAY)`;
-      console.log('🔍 Ejecutando SQL pilotaje:', sqlCapturados);
-      console.log('🔍 Parámetros SQL:', [fechaInicio, fechaFin]);
-      
+      logger.log('Ejecutando query pilotaje');
+
       const [capturados] = await db.query(sqlCapturados, [fechaInicio, fechaFin]);
-      console.log('🔍 Resultado SQL pilotaje:', capturados);
-      
+      logger.log('Resultado pilotaje: %d registros', capturados[0].capturados_sigim);
+
       const porcentaje = (capturados[0].capturados_sigim / parseInt(totalRecibidos)) * 100;
-      
+
       const fechaGeneracion = new Date();
       const fechaGeneracionIso = fechaGeneracion.toISOString();
       const fechaGeneracionLocal = fechaGeneracion.toLocaleString("es-MX", {
@@ -51,21 +50,20 @@ exports.reporteDigitalizacion = async (req, res) => {
     } else {
       // Opción B: Cumplimiento de registro (indicador interno del periodo)
       const sql = `
-        SELECT 
+        SELECT
             COUNT(*) as total_reportes,
             COUNT(*) as registros_digitales,
             100.00 as porcentaje_cumplimiento,
             'Cumplimiento de registro digital del periodo (100% por lógica interna)' as indicador
-        FROM incidencias 
+        FROM incidencias
         WHERE created_at >= ? AND created_at < DATE_ADD(?, INTERVAL 1 DAY)
       `;
-      
-      console.log('🔍 Ejecutando SQL cumplimiento:', sql);
-      console.log('🔍 Parámetros SQL:', [fechaInicio, fechaFin]);
-      
+
+      logger.log('Ejecutando query cumplimiento');
+
       const [result] = await db.query(sql, [fechaInicio, fechaFin]);
-      console.log('🔍 Resultado SQL cumplimiento:', result);
-      
+      logger.log('Resultado cumplimiento: %d registros', result[0].total_reportes);
+
       const fechaGeneracion = new Date();
       const fechaGeneracionIso = fechaGeneracion.toISOString();
       const fechaGeneracionLocal = fechaGeneracion.toLocaleString("es-MX", {
@@ -82,13 +80,9 @@ exports.reporteDigitalizacion = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error('❌ Error en reporteDigitalizacion:', error);
-    console.error('❌ SQL Message:', error.sqlMessage || 'No SQL message');
-    console.error('❌ Stack trace:', error.stack);
-    return res.status(500).json({ 
-      message: "Error al generar reporte de digitalización", 
-      error: error.message,
-      sqlMessage: error.sqlMessage 
+    logger.error('Error en reporteDigitalizacion:', error);
+    return res.status(500).json({
+      message: "Error al generar reporte de digitalización"
     });
   }
 };
@@ -99,35 +93,34 @@ exports.reporteDigitalizacion = async (req, res) => {
 // =====================================================
 exports.reporteTiempoRespuesta = async (req, res) => {
   const { fechaInicio, fechaFin } = req.query;
-  
-  console.log('🔍 reporteTiempoRespuesta - Parámetros recibidos:', { fechaInicio, fechaFin });
-  
-  // Validar conexión a BD
+
+  logger.log('reporteTiempoRespuesta - Parámetros:', { fechaInicio, fechaFin });
+
   if (!db) {
-    console.error('❌ Error: Conexión a BD no disponible');
+    logger.error('Conexión a BD no disponible');
     return res.status(500).json({ message: "Error de conexión a base de datos" });
   }
-  
+
   if (!fechaInicio || !fechaFin) {
     return res.status(400).json({
       message: "Debe especificar fechaInicio y fechaFin",
     });
   }
-  
+
   try {
     // Cálculo desde incidencias (sin dependencia de incidencia_historial)
     // "Primera respuesta" = fecha de asignación inicial (assigned_at)
     const sql = `
-      SELECT 
+      SELECT
           i.folio,
           c.nombre AS tipo_servicio,
           i.created_at as fecha_registro,
           i.assigned_at as fecha_primera_respuesta,
-          CASE 
+          CASE
             WHEN i.assigned_at IS NULL THEN NULL
             ELSE TIMESTAMPDIFF(HOUR, i.created_at, i.assigned_at)
           END as tiempo_horas,
-          CASE 
+          CASE
             WHEN i.assigned_at IS NULL THEN 'SIN RESPUESTA'
             WHEN TIMESTAMPDIFF(HOUR, i.created_at, i.assigned_at) <= 24 THEN 'CUMPLE'
             ELSE 'NO CUMPLE'
@@ -137,31 +130,20 @@ exports.reporteTiempoRespuesta = async (req, res) => {
       WHERE i.created_at >= ? AND i.created_at < DATE_ADD(?, INTERVAL 1 DAY)
       ORDER BY i.created_at
     `;
-    
-    console.log('🔍 Ejecutando SQL tiempo respuesta:', sql);
-    console.log('🔍 Parámetros SQL:', [fechaInicio, fechaFin]);
-    
+
+    logger.log('Ejecutando query tiempo respuesta');
+
     const [results] = await db.query(sql, [fechaInicio, fechaFin]);
-    console.log('🔍 Resultado SQL tiempo respuesta:', results);
-    
-    // Debug detallado de tiempo
-    results.forEach((item, index) => {
-      console.log(`🔍 Incidencia ${index + 1}:`, {
-        folio: item.folio,
-        tiempo_horas: item.tiempo_horas,
-        tipo_tiempo: typeof item.tiempo_horas,
-        cumplimiento: item.cumplimiento
-      });
-    });
-    
+    logger.log('Resultado tiempo respuesta: %d filas', results.length);
+
     // Calcular estadísticas
     const total = results.length;
     const cumplen = results.filter(r => r.cumplimiento === 'CUMPLE').length;
     const noCumplen = results.filter(r => r.cumplimiento === 'NO CUMPLE').length;
     const sinRespuesta = results.filter(r => r.cumplimiento === 'SIN RESPUESTA').length;
-    
-    console.log('🔍 Estadísticas calculadas:', { total, cumplen, noCumplen, sinRespuesta });
-    
+
+    logger.log('Estadísticas:', { total, cumplen, noCumplen, sinRespuesta });
+
     const fechaGeneracion = new Date();
     const fechaGeneracionIso = fechaGeneracion.toISOString();
     const fechaGeneracionLocal = fechaGeneracion.toLocaleString("es-MX", {
@@ -183,13 +165,9 @@ exports.reporteTiempoRespuesta = async (req, res) => {
       fecha_generacion_local: fechaGeneracionLocal,
     });
   } catch (error) {
-    console.error('❌ Error en reporteTiempoRespuesta:', error);
-    console.error('❌ SQL Message:', error.sqlMessage || 'No SQL message');
-    console.error('❌ Stack trace:', error.stack);
-    return res.status(500).json({ 
-      message: "Error al generar reporte de tiempo de respuesta", 
-      error: error.message,
-      sqlMessage: error.sqlMessage 
+    logger.error('Error en reporteTiempoRespuesta:', error);
+    return res.status(500).json({
+      message: "Error al generar reporte de tiempo de respuesta"
     });
   }
 };

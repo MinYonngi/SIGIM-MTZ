@@ -1,17 +1,18 @@
 /* ==========================================
-   PORTAL CIUDADANO - TIPOGRAFÍA GENERAL
-   (Solo body.portal-ciudadano: no afecta dashboard/técnico.)
+   PORTAL CIUDADANO — TIPOGRAFÍA
+   Fuente única de verdad. Scoped a body.portal-ciudadano.
    ========================================== */
+
 body.portal-ciudadano {
   font-family: "Montserrat", "Segoe UI", system-ui, -apple-system, sans-serif;
-  font-size: clamp(17px, 0.55vw + 15.5px, 19px);
-  line-height: 1.65;
+  font-size: clamp(16px, 0.45vw + 15px, 18px);
+  line-height: 1.58;
   letter-spacing: 0.01em;
   word-spacing: normal;
-  color: var(--mtz-ink);
+  color: #202124;
 }
 
-/* Párrafos heredan el cuerpo; no forzar 1rem (mejora legibilidad). */
+/* Elementos inline heredan tamaño del cuerpo */
 body.portal-ciudadano label,
 body.portal-ciudadano input,
 body.portal-ciudadano select,
@@ -27,6 +28,7 @@ body.portal-ciudadano .small {
   font-size: 0.94em;
 }
 
+/* — Escala de encabezados — */
 body.portal-ciudadano h1 {
   font-size: clamp(2.35rem, 4.2vw, 3.35rem);
   line-height: 1.12;
@@ -34,15 +36,15 @@ body.portal-ciudadano h1 {
 }
 
 body.portal-ciudadano h2 {
-  font-size: clamp(1.72rem, 2.65vw, 2.28rem);
-  line-height: 1.2;
+  font-size: clamp(1.55rem, 2.3vw, 2.05rem);
+  line-height: 1.22;
   font-weight: 800;
   letter-spacing: -0.025em;
 }
 
 body.portal-ciudadano h3 {
-  font-size: clamp(1.42rem, 2.2vw, 1.85rem);
-  line-height: 1.24;
+  font-size: clamp(1.18rem, 1.6vw, 1.45rem);
+  line-height: 1.25;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -54,6 +56,7 @@ body.portal-ciudadano h4 {
   letter-spacing: -0.015em;
 }
 
+/* — Formularios — */
 body.portal-ciudadano .form-label {
   font-size: clamp(1.02rem, 0.9vw, 1.1rem);
   font-weight: 600;
@@ -72,15 +75,24 @@ body.portal-ciudadano .form-text {
   font-size: clamp(0.94rem, 0.7vw, 1.02rem);
 }
 
+/* — Botones — */
 body.portal-ciudadano .btn,
 body.portal-ciudadano button.btn {
   font-size: clamp(1.02rem, 0.75vw, 1.08rem);
   font-weight: 700;
 }
 
+/* — Cards — */
 body.portal-ciudadano .card-header h5,
 body.portal-ciudadano .card-title {
   font-size: clamp(1.22rem, 1.8vw, 1.48rem);
   letter-spacing: -0.02em;
 }
 
+/* — Botones en móvil — */
+@media (max-width: 576px) {
+  body.portal-ciudadano .btn,
+  body.portal-ciudadano button.btn {
+    font-size: clamp(0.98rem, 3.2vw, 1.06rem);
+  }
+}

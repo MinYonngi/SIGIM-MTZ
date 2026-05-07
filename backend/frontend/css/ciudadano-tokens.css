@@ -1,32 +1,83 @@
 /* ==========================================
-   Portal Ciudadano SIGIM-MTZ - Estilos Institucionales
-   Corregido y consolidado
+   Portal Ciudadano — Variables específicas del portal
+   La paleta institucional base (--mtz-wine, --mtz-gold, etc.)
+   está definida en styles.css que se carga primero.
+   Aquí solo se agregan tokens exclusivos del portal ciudadano.
    ========================================== */
 
 :root {
-  --mtz-wine: #7b1b27;
-  --mtz-wine-2: #8a2431;
-  --mtz-gold: #c8a447;
-  --mtz-bg: #fff8f6;
-  --mtz-bg2: #fbf1ee;
-  --mtz-card: #ffffff;
-  --mtz-ink: #1c1c1c;
-  --mtz-muted: #5d5d5d;
-  --mtz-border: rgba(0, 0, 0, 0.08);
-  --primary-color: var(--mtz-wine);
-  --secondary-color: var(--mtz-muted);
-  --success-color: #198754;
-  --info-color: #0d6efd;
-  --warning-color: #ffc107;
-  --danger-color: #dc3545;
-  --light-color: var(--mtz-bg);
-  --dark-color: var(--mtz-ink);
-  --mtz-focus-ring: rgba(123, 27, 39, 0.22);
-  --card-radius: 18px;
-  --btn-radius: 12px;
-  --portal-shadow-card: 0 2px 14px rgba(0, 0, 0, 0.045);
+  /* Radios de componentes del portal */
+  --card-radius:  18px;
+  --btn-radius:   12px;
+
+  /* Sombras del portal */
+  --portal-shadow-card:       0 2px 14px rgba(0, 0, 0, 0.045);
   --portal-shadow-card-hover: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+  /* Espaciado de secciones */
   --portal-space-seccion: clamp(2rem, 4vw, 2.75rem);
+
+  /* Transición y focus ring estándar del portal */
   --portal-transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  --portal-ring: 0 0 0 3px rgba(200, 164, 71, 0.45);
+  --portal-ring:       0 0 0 3px rgba(200, 164, 71, 0.45);
+
+  /* ── Transiciones del sistema ── */
+  --t-fast:   150ms cubic-bezier(0.2, 0, 0, 1);
+  --t-base:   220ms cubic-bezier(0.2, 0, 0, 1);
+  --t-slow:   380ms cubic-bezier(0.2, 0.85, 0.25, 1);
+
+  /* ── Elevaciones con tinte institucional (no negro puro) ── */
+  --el-1: 0 1px 3px rgba(43, 9, 17, 0.06), 0 1px 2px rgba(43, 9, 17, 0.04);
+  --el-2: 0 4px 12px rgba(43, 9, 17, 0.08), 0 2px 6px rgba(43, 9, 17, 0.05);
+  --el-3: 0 8px 24px rgba(43, 9, 17, 0.11), 0 4px 12px rgba(43, 9, 17, 0.06);
+  --el-4: 0 20px 48px rgba(43, 9, 17, 0.16), 0 8px 24px rgba(43, 9, 17, 0.09);
+  --el-hover: 0 20px 44px rgba(0, 0, 0, 0.28), 0 0 0 2px rgba(200, 164, 71, 0.52);
+
+  /* ── Superficies ── */
+  --surface-0:    #ffffff;
+  --surface-1:    #fffefb;
+  --surface-2:    #f8f3ef;
+  --surface-dark: #1a0810;
+
+  /* ── Escala de dorado ── */
+  --gold-pale:  rgba(200, 164, 71, 0.08);
+  --gold-light: rgba(200, 164, 71, 0.20);
+  --gold-mid:   rgba(200, 164, 71, 0.45);
+  --gold-full:  #c8a447;
+
+  /* ── Carrusel institucional ── */
+  --carousel-height:  clamp(280px, 38vw, 480px);
+  --carousel-overlay: linear-gradient(
+    to top,
+    rgba(10, 3, 6, 0.92) 0%,
+    rgba(10, 3, 6, 0.60) 35%,
+    rgba(10, 3, 6, 0.18) 65%,
+    transparent 100%
+  );
+
+  /* ── Carrusel — FASE 0: tokens base para refinamiento institucional ── */
+  --carousel-height-inst: clamp(300px, 34vw, 430px);
+  --carousel-overlay-inst: linear-gradient(
+    to top,
+    rgba(12, 4, 8, 0.82) 0%,
+    rgba(12, 4, 8, 0.54) 32%,
+    rgba(12, 4, 8, 0.18) 66%,
+    transparent 90%
+  );
+  --carousel-ol-dir: linear-gradient(
+    102deg,
+    rgba(15, 5, 9, 0.24) 0%,
+    rgba(15, 5, 9, 0.08) 44%,
+    transparent 66%
+  );
+  --carousel-ctrl-pos: clamp(0.8rem, 1.7vw, 1.35rem);
+  --carousel-cap-bar-w: 3px;
+  --carousel-caption-max: min(64%, 560px);
+  --carousel-caption-bottom: clamp(2.75rem, 4.8vw, 4.2rem);
+  --carousel-wrap-shadow:
+    0 6px 24px rgba(43, 9, 17, 0.12),
+    0 2px 8px rgba(43, 9, 17, 0.08);
+  --carousel-title-shd:
+    0 2px 12px rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.75);
 }

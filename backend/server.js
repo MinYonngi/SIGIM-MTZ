@@ -837,6 +837,11 @@ function protectInternalHtml(target) {
   };
 }
 
+function requireSession(req, res, next) {
+  if (req.session && req.session.userId) return next();
+  return res.status(401).type("text/plain").send("No autorizado. Inicia sesión en /login.html");
+}
+
 async function renderBarrasPhp(req, res) {
   let metricas = [];
   let errorConexion = null;
@@ -972,6 +977,9 @@ app.get("/health", (req, res) => {
 
 if (!isProd) {
   app.get("/test-env", (req, res) => {
+    if (!req.session || !req.session.userId || req.session.role !== "ADMIN") {
+      return res.status(403).json({ error: "Acceso restringido a administradores." });
+    }
     res.json({
       DB_HOST: process.env.DB_HOST || null,
       DB_USER: process.env.DB_USER || null,
@@ -1040,15 +1048,15 @@ app.get("/tecnico", (req, res) => {
   res.sendFile(path.join(FRONTEND_DIR, "tecnico.html"));
 });
 
-app.get("/barras.php", renderBarrasPhp);
-app.get("/barras", renderBarrasPhp);
-app.get("/grafica_estatus.php", (req, res, next) => {
+app.get("/barras.php", requireSession, renderBarrasPhp);
+app.get("/barras", requireSession, renderBarrasPhp);
+app.get("/grafica_estatus.php", requireSession, (req, res, next) => {
   if (Object.keys(req.query || {}).length > 0) {
     return res.redirect(302, "/grafica_estatus.php");
   }
   return renderGraficaEstatusPhp(req, res, next);
 });
-app.get("/grafica_estatus", (req, res) => res.redirect(302, "/grafica_estatus.php"));
+app.get("/grafica_estatus", requireSession, (req, res) => res.redirect(302, "/grafica_estatus.php"));
 app.get("/mapa.php", (req, res) => res.redirect(302, "/barras.php"));
 app.get("/mapa", (req, res) => res.redirect(302, "/barras"));
 app.get("/backend/frontend/grafica_estatus.php", (req, res) => res.redirect(302, "/grafica_estatus.php"));

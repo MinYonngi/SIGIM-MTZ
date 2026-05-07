@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const logger = require("../utils/logger");
 
 function operadorPuedeVerIncidencia(req, row) {
   if (!req.user || req.user.role !== "OPERADOR") return true;
@@ -115,7 +116,7 @@ exports.listarIncidencias = (req, res) => {
 
   db.query(sqlCount, params, (errCount, rowsCount) => {
     if (errCount) {
-      console.error("Error count incidencias:", errCount);
+      logger.error("Error count incidencias:", errCount);
       return res.status(500).json({ message: "Error al contar incidencias" });
     }
 
@@ -123,7 +124,7 @@ exports.listarIncidencias = (req, res) => {
 
     db.query(sqlData, [...params, limitNum, offset], (errData, rowsData) => {
       if (errData) {
-        console.error("Error listar incidencias:", errData);
+        logger.error("Error listar incidencias:", errData);
         return res.status(500).json({ message: "Error al listar incidencias" });
       }
 
@@ -177,7 +178,7 @@ exports.obtenerIncidenciaPorId = (req, res) => {
 
   db.query(sql, [incidenciaId], (err, rows) => {
     if (err) {
-      console.error("Error al obtener incidencia:", err);
+      logger.error("Error al obtener incidencia:", err);
       return res.status(500).json({ message: "Error al obtener la incidencia" });
     }
     if (!rows.length) return res.status(404).json({ message: "Incidencia no encontrada" });
@@ -193,7 +194,7 @@ exports.obtenerIncidenciaPorId = (req, res) => {
 // POST /api/incidencias
 // =====================================================
 exports.crearIncidencia = (req, res) => {
-  if (req.user && req.user.role === "CONSULTA") {
+  if (req.user && ["CONSULTA", "QA"].includes(req.user.role)) {
     return res.status(403).json({
       message: "Permiso denegado: su rol es de solo lectura",
       code: "FORBIDDEN_READ_ONLY",
@@ -214,7 +215,7 @@ exports.crearIncidencia = (req, res) => {
 
   db.query(sql, [tipo_servicio_id, descripcion, direccion || "", referencia || null, latitud || null, longitud || null], (err, result) => {
     if (err) {
-      console.error("Error al crear incidencia:", err);
+      logger.error("Error al crear incidencia:", err);
       return res.status(500).json({ message: "Error al crear incidencia" });
     }
 
@@ -243,7 +244,7 @@ exports.asignarIncidencia = (req, res) => {
     [incidenciaId],
     (err, rows) => {
       if (err) {
-        console.error("Error al obtener incidencia:", err);
+        logger.error("Error al obtener incidencia:", err);
         return res.status(500).json({
           message: "Error al obtener incidencia",
           error: err.sqlMessage || err.message
@@ -290,7 +291,7 @@ exports.asignarIncidencia = (req, res) => {
 
       db.query(sqlUpdate, [target_user_id, estatusNuevo, incidenciaId], (err2) => {
         if (err2) {
-          console.error("Error al asignar incidencia (UPDATE):", err2);
+          logger.error("Error al asignar incidencia (UPDATE):", err2);
           return res.status(500).json({
             message: "Error al asignar incidencia",
             error: err2.sqlMessage || err2.message
@@ -324,7 +325,7 @@ exports.asignarIncidencia = (req, res) => {
           ],
           (err3) => {
             if (err3) {
-              console.error("Error al insertar historial:", err3);
+              logger.error("Error al insertar historial:", err3);
               return res.status(500).json({
                 message: "Asignada, pero error al guardar historial",
                 error: err3.sqlMessage || err3.message
@@ -522,7 +523,7 @@ exports.obtenerHistorialPorIncidencia = (req, res) => {
 
   db.query("SELECT assigned_to FROM incidencias WHERE id = ?", [incidenciaId], (err0, rows0) => {
     if (err0) {
-      console.error("Error al verificar incidencia:", err0);
+      logger.error("Error al verificar incidencia:", err0);
       return res.status(500).json({ message: "Error al consultar incidencia" });
     }
     if (!rows0.length) return res.status(404).json({ message: "Incidencia no encontrada" });
@@ -553,7 +554,7 @@ exports.obtenerHistorialPorIncidencia = (req, res) => {
 
   db.query(sql, [incidenciaId], (err, rows) => {
     if (err) {
-      console.error("Error al obtener historial:", err);
+      logger.error("Error al obtener historial:", err);
       return res.status(500).json({ message: "Error al obtener historial" });
     }
     return res.json(rows);
@@ -596,7 +597,7 @@ exports.obtenerIncidenciaFull = (req, res) => {
 
   db.query(sqlDetalle, [incidenciaId], (err, rowsDetalle) => {
     if (err) {
-      console.error("Error al obtener detalle:", err);
+      logger.error("Error al obtener detalle:", err);
       return res.status(500).json({ message: "Error al obtener el detalle" });
     }
     if (!rowsDetalle.length) return res.status(404).json({ message: "Incidencia no encontrada" });
@@ -608,7 +609,7 @@ exports.obtenerIncidenciaFull = (req, res) => {
 
     db.query(sqlHistorial, [incidenciaId], (err2, rowsHistorial) => {
       if (err2) {
-        console.error("Error al obtener historial:", err2);
+        logger.error("Error al obtener historial:", err2);
         return res.status(500).json({ message: "Error al obtener historial" });
       }
 
@@ -641,7 +642,7 @@ exports.resumenIncidencias = (req, res) => {
 
   db.query(sql, params, (err, rows) => {
     if (err) {
-      console.error("Error resumen incidencias:", err);
+      logger.error("Error resumen incidencias:", err);
       return res.status(500).json({ message: "Error al obtener resumen" });
     }
 

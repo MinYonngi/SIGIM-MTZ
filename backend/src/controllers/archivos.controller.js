@@ -2,6 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const db = require('../config/db');
+const logger = require('../utils/logger');
 
 function operadorPuedeGestionarEvidencia(req, assignedTo) {
   if (!req.user || req.user.role !== "OPERADOR") return true;
@@ -12,22 +13,22 @@ function operadorPuedeGestionarEvidencia(req, assignedTo) {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, '../../uploads');
-    console.log('📁 Ruta de uploads:', uploadPath);
-    
+    logger.log('📁 Ruta de uploads:', uploadPath);
+
     if (!fs.existsSync(uploadPath)) {
-      console.log('🔧 Creando carpeta uploads...');
+      logger.log('🔧 Creando carpeta uploads...');
       fs.mkdirSync(uploadPath, { recursive: true });
     }
-    
-    console.log('✅ Carpeta uploads existe');
+
+    logger.log('✅ Carpeta uploads existe');
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const ext = path.extname(file.originalname);
     const filename = 'incidencia-' + uniqueSuffix + ext;
-    
-    console.log('📄 Nombre de archivo generado:', filename);
+
+    logger.log('📄 Nombre de archivo generado:', filename);
     cb(null, filename);
   }
 });
@@ -38,15 +39,15 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024 // 5MB límite
   },
   fileFilter: (req, file, cb) => {
-    console.log('🔍 Filtrando archivo:', file.originalname, 'Tipo:', file.mimetype);
-    
+    logger.log('🔍 Filtrando archivo tipo:', file.mimetype);
+
     // Permitir imágenes y PDF
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
     if (allowedTypes.includes(file.mimetype)) {
-      console.log('✅ Archivo permitido');
+      logger.log('✅ Archivo permitido');
       cb(null, true);
     } else {
-      console.log('❌ Archivo no permitido:', file.mimetype);
+      logger.log('❌ Archivo no permitido:', file.mimetype);
       cb(new Error('Tipo de archivo no permitido. Solo se permiten imágenes (JPG, PNG) y PDF.'), false);
     }
   }
@@ -57,26 +58,24 @@ const upload = multer({
 // POST /api/incidencias/:id/archivos
 // =====================================================
 exports.subirArchivo = (req, res) => {
-  console.log('🚀 Iniciando subirArchivo');
-  console.log('📋 req.params:', req.params);
-  
+  logger.log('🚀 Iniciando subirArchivo, id:', req.params.id);
+
   // Procesar multer primero para que req.body esté disponible
   upload.single('archivo')(req, res, (err) => {
     if (err) {
-      console.error("❌ Error en multer:", err);
-      return res.status(400).json({ 
-        message: err.message || "Error al subir archivo" 
+      logger.error("Error en multer:", err);
+      return res.status(400).json({
+        message: err.message || "Error al subir archivo"
       });
     }
 
-    console.log('📋 req.body después de multer:', req.body);
-    console.log('📋 req.file:', req.file);
+    logger.log('📋 req.file recibido:', req.file ? req.file.filename : 'ninguno');
 
     const incidenciaId = parseInt(req.params.id, 10);
     const uploadedBy = req.user && req.user.id ? Number(req.user.id) : null;
 
     if (!incidenciaId) {
-      console.error("❌ ID de incidencia requerido");
+      logger.error("ID de incidencia requerido");
       return res.status(400).json({ message: "ID de incidencia requerido" });
     }
 
@@ -85,7 +84,7 @@ exports.subirArchivo = (req, res) => {
     }
 
     if (!req.file) {
-      console.error("❌ No se recibió ningún archivo");
+      logger.error("No se recibió ningún archivo");
       return res.status(400).json({ message: "No se recibió ningún archivo" });
     }
 
@@ -94,7 +93,7 @@ exports.subirArchivo = (req, res) => {
       [incidenciaId],
       (chkErr, chkRows) => {
         if (chkErr) {
-          console.error(chkErr);
+          logger.error("Error al validar incidencia:", chkErr);
           return res.status(500).json({ message: "Error al validar incidencia" });
         }
         if (!chkRows.length) {
@@ -107,7 +106,7 @@ exports.subirArchivo = (req, res) => {
         }
 
     const sql = `
-      INSERT INTO incidencia_archivos 
+      INSERT INTO incidencia_archivos
       (incidencia_id, filename, original_name, mime, size, uploaded_by, created_at)
       VALUES (?, ?, ?, ?, ?, ?, NOW())
     `;
@@ -123,13 +122,9 @@ exports.subirArchivo = (req, res) => {
 
     db.query(sql, values, (dbErr, result) => {
       if (dbErr) {
-        console.error("Error SQL detallado:", dbErr);
-        console.error("SQL ejecutado:", sql);
-        console.error("Valores:", values);
-        return res.status(500).json({ 
-          message: "Error al registrar archivo",
-          sql_error: dbErr.sqlMessage,
-          sql_code: dbErr.errno
+        logger.error("Error al registrar archivo:", dbErr);
+        return res.status(500).json({
+          message: "Error al registrar archivo"
         });
       }
 
@@ -141,12 +136,12 @@ exports.subirArchivo = (req, res) => {
       `;
 
       db.query(sqlHistorial, [
-        incidenciaId, 
-        `Se subió archivo: ${req.file.filename}`, 
+        incidenciaId,
+        `Se subió archivo: ${req.file.filename}`,
         uploadedBy
       ], (histErr) => {
         if (histErr) {
-          console.error("Error al registrar en historial (no crítico):", histErr);
+          logger.error("Error al registrar en historial (no crítico):", histErr);
           // No romper la respuesta principal
         }
       });
@@ -172,14 +167,14 @@ exports.subirArchivo = (req, res) => {
 // =====================================================
 exports.listarArchivos = (req, res) => {
   const incidenciaId = parseInt(req.params.id, 10);
-  
+
   if (!incidenciaId) {
     return res.status(400).json({ message: "ID de incidencia requerido" });
   }
 
   db.query("SELECT assigned_to FROM incidencias WHERE id = ?", [incidenciaId], (e0, r0) => {
     if (e0) {
-      console.error(e0);
+      logger.error("Error al validar incidencia:", e0);
       return res.status(500).json({ message: "Error al validar incidencia" });
     }
     if (!r0.length) return res.status(404).json({ message: "Incidencia no encontrada" });
@@ -188,7 +183,7 @@ exports.listarArchivos = (req, res) => {
     }
 
   const sql = `
-    SELECT 
+    SELECT
       id,
       incidencia_id,
       filename,
@@ -197,24 +192,19 @@ exports.listarArchivos = (req, res) => {
       size,
       uploaded_by,
       created_at
-    FROM incidencia_archivos 
+    FROM incidencia_archivos
     WHERE incidencia_id = ?
     ORDER BY created_at DESC
   `;
 
   db.query(sql, [incidenciaId], (err, rows) => {
     if (err) {
-      console.error("Error al listar archivos:", err);
+      logger.error("Error al listar archivos:", err);
       return res.status(500).json({ message: "Error al listar archivos" });
     }
 
-    // Agregar validación de existencia de archivos físicos
-    const fs = require('fs');
-    const path = require('path');
     const uploadsPath = path.join(__dirname, '../../uploads');
-
-    console.log('🔍 Verificando ruta de uploads:', uploadsPath);
-    console.log('🔍 ¿Existe la carpeta uploads?', fs.existsSync(uploadsPath));
+    logger.log('🔍 Verificando archivos en uploads');
 
     const filesWithValidation = rows.map(row => {
       const filePathRoot = path.join(uploadsPath, row.filename);

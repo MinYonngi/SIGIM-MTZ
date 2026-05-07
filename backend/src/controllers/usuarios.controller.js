@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const logger = require('../utils/logger');
 
 // =====================================================
 // 📌 LISTAR TÉCNICOS/OPERADORES ACTIVOS (para dropdown)
@@ -15,7 +16,7 @@ exports.listarTecnicos = (req, res) => {
 
   db.query(sql, (err, rows) => {
     if (err) {
-      console.error('Error listar técnicos:', err);
+      logger.error('Error listar técnicos:', err);
       return res.status(500).json({ message: 'Error al consultar técnicos' });
     }
     return res.json(rows);

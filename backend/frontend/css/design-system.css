@@ -1,0 +1,329 @@
+/* ============================================================
+   SIGIM-MTZ — Design System compartido
+   Componentes reutilizables entre módulos internos:
+   Panel Supervisor, Panel Técnico, Administrador.
+   Requiere styles.css cargado antes.
+   ============================================================ */
+
+
+/* ============================================================
+   BADGE CHIPS — Estado de incidencia
+   Usados en tablas de supervisor y técnico.
+   ============================================================ */
+.badge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.74rem;
+  line-height: 1;
+  font-weight: 700;
+  padding: 0.34rem 0.6rem;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+/* Dot indicador de estado */
+.badge-chip-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.72;
+  flex-shrink: 0;
+}
+
+/* — Variantes de estado — */
+.badge-chip-status.status-nueva {
+  color: #8f5210;
+  background: rgba(255, 205, 109, 0.24);
+  border-color: rgba(255, 205, 109, 0.35);
+}
+
+.badge-chip-status.status-asignada {
+  color: #6a3588;
+  background: rgba(205, 162, 237, 0.26);
+  border-color: rgba(205, 162, 237, 0.38);
+}
+
+.badge-chip-status.status-en-proceso {
+  color: #1f5088;
+  background: rgba(154, 193, 250, 0.28);
+  border-color: rgba(154, 193, 250, 0.40);
+}
+
+.badge-chip-status.status-resuelta {
+  color: #325a23;
+  background: rgba(168, 221, 145, 0.28);
+  border-color: rgba(168, 221, 145, 0.42);
+}
+
+.badge-chip-status.status-cerrada {
+  color: #3f4d69;
+  background: rgba(189, 201, 233, 0.32);
+  border-color: rgba(189, 201, 233, 0.48);
+}
+
+.badge-chip-status.status-rechazada {
+  color: var(--mtz-red);
+  background: var(--mtz-red-bg);
+  border-color: rgba(185, 28, 28, 0.28);
+}
+
+
+/* ============================================================
+   BADGE CHIPS — Prioridad
+   ============================================================ */
+.badge-chip-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-chip-priority i {
+  font-size: 0.68rem;
+}
+
+.badge-chip-priority.prio-alta {
+  color: #8f1f31;
+  background: rgba(255, 95, 115, 0.20);
+  border-color: rgba(255, 95, 115, 0.34);
+}
+
+.badge-chip-priority.prio-media {
+  color: #9e5f00;
+  background: rgba(255, 187, 70, 0.24);
+  border-color: rgba(255, 187, 70, 0.36);
+}
+
+.badge-chip-priority.prio-baja {
+  color: #355b1f;
+  background: rgba(149, 214, 122, 0.25);
+  border-color: rgba(149, 214, 122, 0.42);
+}
+
+
+/* ============================================================
+   TABLA — Scroll horizontal con sombras de desbordamiento
+   Compartido por supervisor y técnico.
+   ============================================================ */
+.table-responsive-mtz {
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--mtz-border);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(90deg,  var(--mtz-card) 30%, rgba(255,255,255,0)) 0   0 / 24px 100% no-repeat,
+    linear-gradient(270deg, var(--mtz-card) 30%, rgba(255,255,255,0)) 100% 0 / 24px 100% no-repeat,
+    linear-gradient(90deg,  rgba(123,27,39,.06), rgba(123,27,39,0))   0   0 / 20px 100% no-repeat,
+    linear-gradient(270deg, rgba(123,27,39,.06), rgba(123,27,39,0)) 100%  0 / 20px 100% no-repeat;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.table-responsive-mtz > .table {
+  margin-bottom: 0;
+}
+
+
+/* ============================================================
+   FILTROS DE TABLA — Grid compartido
+   ============================================================ */
+.dashboard-tabla-filtros {
+  display: grid;
+  gap: 0.85rem;
+  align-items: end;
+  margin: 0.95rem 0 1rem;
+  padding: 0.85rem;
+  border: 1px solid var(--mtz-border);
+  border-radius: var(--radius-md);
+  background: var(--mtz-card);
+}
+
+.dashboard-tabla-filtro-item .form-label {
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #544a54;
+}
+
+.dashboard-tabla-filtro-item .form-control,
+.dashboard-tabla-filtro-item .form-select {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 10px;
+  border: 1px solid #e0dce8;
+  font-size: 0.92rem;
+}
+
+.dashboard-tabla-filtro-item .form-control:focus,
+.dashboard-tabla-filtro-item .form-select:focus {
+  border-color: rgba(200, 164, 71, 0.8);
+  box-shadow: 0 0 0 3px rgba(200, 164, 71, 0.2);
+}
+
+.dashboard-tabla-filtro-accion .btn {
+  width: 100%;
+  min-height: 42px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+
+/* ============================================================
+   MODALES INTERNOS — Header/footer institucional
+   Compartido por supervisor y técnico.
+   ============================================================ */
+.modal-sigim .modal-content {
+  border: 1px solid var(--mtz-border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.14);
+}
+
+.modal-sigim .modal-header {
+  background: linear-gradient(135deg, var(--mtz-wine-deep), var(--mtz-wine));
+  border-bottom: 2px solid var(--mtz-gold);
+  padding: 1rem 1.25rem;
+  color: #fff;
+}
+
+.modal-sigim .modal-header .modal-title {
+  color: #fff;
+  font-weight: 800;
+}
+
+.modal-sigim .modal-header .btn-close {
+  filter: invert(1) brightness(1.8);
+  opacity: 0.82;
+}
+
+.modal-sigim .modal-footer {
+  border-top: 1px solid var(--mtz-border);
+  background: rgba(251, 241, 238, 0.5);
+  padding: 0.85rem 1.25rem;
+}
+
+.modal-sigim .modal-title i {
+  color: var(--mtz-gold-light);
+}
+
+.modal-sigim .modal-body {
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.modal-sigim .form-label {
+  font-size: .82rem;
+  letter-spacing: .02em;
+}
+
+
+/* ============================================================
+   GRÁFICAS — Card contenedora
+   ============================================================ */
+.dashboard-chart-card {
+  border: 1px solid var(--mtz-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #fff, #fcf9f8);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-chart-title {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #2b1e33;
+}
+
+.dashboard-chart-canvas-wrap {
+  position: relative;
+  height: clamp(210px, 30vw, 280px);
+}
+
+
+/* ============================================================
+   BOTONES EN TABLA — Pills de acción
+   ============================================================ */
+#tbody-incidencias .btn.btn-sm.btn-pill {
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  line-height: 1.2;
+  border-width: 1px;
+}
+
+#tbody-incidencias .btn.btn-primary {
+  color: #fff;
+  background: linear-gradient(180deg, var(--mtz-wine), var(--mtz-wine-2));
+  border-color: rgba(255, 255, 255, 0.15);
+}
+#tbody-incidencias .btn.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+#tbody-incidencias .btn.btn-info {
+  color: var(--mtz-wine);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--mtz-gold);
+}
+#tbody-incidencias .btn.btn-info:hover {
+  background: #fff;
+  border-color: var(--mtz-wine);
+}
+
+#tbody-incidencias .btn.btn-success {
+  color: #fff;
+  background: linear-gradient(180deg, var(--mtz-wine), var(--mtz-wine-2));
+  border-color: rgba(255, 255, 255, 0.15);
+}
+#tbody-incidencias .btn.btn-success:hover {
+  filter: brightness(1.05);
+}
+
+#tbody-incidencias .btn.btn-warning {
+  color: #6b4d0f;
+  background: rgba(200, 164, 71, 0.22);
+  border-color: rgba(200, 164, 71, 0.45);
+}
+#tbody-incidencias .btn.btn-warning:hover {
+  background: rgba(200, 164, 71, 0.32);
+  color: #4a3508;
+}
+
+/* Uniformidad de botones de acción en tablas internas */
+#tbody-incidencias .btn.btn-sm {
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+
+/* ============================================================
+   KPI — Chip de usuario en topbar
+   ============================================================ */
+.dashboard-user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.dashboard-user-avatar {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 0.9rem;
+}
+
+.dashboard-user-texto { line-height: 1.05; }
+.dashboard-user-name  { font-size: 0.8rem; font-weight: 700; }
+.dashboard-user-role  { font-size: 0.68rem; opacity: 0.85; letter-spacing: 0.02em; }

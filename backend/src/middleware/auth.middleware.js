@@ -19,10 +19,12 @@ function requireAuth(req, res, next) {
   next();
 }
 
-/** Solo métodos seguros; CONSULTA no puede mutar datos vía API. */
+/** Solo métodos seguros; CONSULTA y QA no pueden mutar datos vía API. */
+const READ_ONLY_ROLES = ["CONSULTA", "QA"];
+
 function forbidConsultaMutation(req, res, next) {
   if (!req.user) return next();
-  if (req.user.role === "CONSULTA" && !["GET", "HEAD", "OPTIONS"].includes(req.method)) {
+  if (READ_ONLY_ROLES.includes(req.user.role) && !["GET", "HEAD", "OPTIONS"].includes(req.method)) {
     return res.status(403).json({
       message: "Permiso denegado: su rol es de solo lectura",
       code: "FORBIDDEN_READ_ONLY",

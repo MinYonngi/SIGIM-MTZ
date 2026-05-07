@@ -10,9 +10,12 @@
 
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 
   <!-- Estilo institucional (Ayuntamiento) -->
   <link rel="stylesheet" href="./css/styles.css">
+  <!-- Componentes compartidos entre paneles internos -->
+  <link rel="stylesheet" href="./css/design-system.css">
   <!-- Dashboard (supervisor): estilos específicos -->
   <link rel="stylesheet" href="./css/dashboard.css">
 </head>
@@ -36,44 +39,61 @@
 
       <div class="topbar-acceso-wrap dashboard-topbar-actions">
         <div class="dropdown dashboard-admin-menu">
-          <button class="dashboard-user-chip dashboard-admin-chip dropdown-toggle"
+          <button class="user-avatar-btn dropdown-toggle"
                   type="button"
                   id="btn-admin-menu"
                   data-bs-toggle="dropdown"
+                  data-bs-offset="0,8"
                   aria-expanded="false"
-                  aria-label="Opciones de administrador">
-            <div class="dashboard-user-avatar" aria-hidden="true">
-              <i class="bi bi-person-fill"></i>
+                  aria-label="Menú de usuario">
+            <div class="user-avatar" aria-hidden="true">
+              <span class="user-avatar-initials">SU</span>
             </div>
-            <div class="dashboard-user-texto">
-              <div id="topbar-user-name" class="dashboard-user-name">Supervisor</div>
-              <div id="topbar-user-role" class="dashboard-user-role">Panel Interno</div>
-            </div>
+            <span class="user-name-short" id="topbar-user-name">Supervisor</span>
+            <i class="ti ti-chevron-down" style="font-size:.8rem;opacity:.7;" aria-hidden="true"></i>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end dashboard-admin-dropdown" aria-labelledby="btn-admin-menu">
-            <li>
+          <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu" aria-labelledby="btn-admin-menu">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">
+                <span class="user-avatar-initials" style="font-size:1.1rem;">SU</span>
+              </div>
+              <div class="profile-dropdown-info">
+                <p class="profile-dropdown-name">Supervisor</p>
+                <span class="profile-dropdown-role" id="topbar-user-role">Panel Interno</span>
+              </div>
+            </div>
+            <div class="profile-dropdown-body">
               <a href="#"
-                 class="dropdown-item js-menu-link is-active"
+                 class="profile-dropdown-item js-menu-link is-active"
                  data-menu-action="panel"
                  aria-label="Abrir vista de panel">
-                <i class="bi bi-house-door-fill" aria-hidden="true"></i> Panel
+                <i class="ti ti-layout-dashboard" aria-hidden="true"></i>
+                Panel
               </a>
-            </li>
-            <li>
               <a href="#"
-                 class="dropdown-item js-menu-link"
+                 class="profile-dropdown-item js-menu-link"
                  data-menu-action="reportes"
                  aria-label="Abrir vista de reportes">
-                <i class="bi bi-clipboard2-data-fill" aria-hidden="true"></i> Reportes
+                <i class="ti ti-chart-bar" aria-hidden="true"></i>
+                Reportes
               </a>
-            </li>
-          </ul>
+              <div class="profile-dropdown-divider"></div>
+              <button type="button"
+                      class="profile-dropdown-item"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalPerfil"
+                      aria-label="Ver mi perfil">
+                <i class="ti ti-user" aria-hidden="true"></i>
+                Ver perfil
+              </button>
+            </div>
+          </div>
         </div>
         <button type="button"
                 id="btn-cerrar-sesion"
-                class="btn btn-outline-light btn-sm fw-bold btn-pill"
+                class="btn btn-mtz btn-mtz-ghost btn-sm"
                 aria-label="Cerrar sesión">
-          <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Salir
+          <i class="ti ti-logout" aria-hidden="true"></i> Salir
         </button>
       </div>
     </div>
@@ -90,7 +110,7 @@
     <!-- Breadcrumb tipo institucional -->
     <nav aria-label="breadcrumb" class="mb-3">
       <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><i class="bi bi-house-door"></i> Inicio</li>
+        <li class="breadcrumb-item"><i class="ti ti-layout-dashboard"></i> Inicio</li>
         <li class="breadcrumb-item">Desarrollo Urbano</li>
         <li class="breadcrumb-item active" aria-current="page">Panel de incidencias</li>
       </ol>
@@ -99,46 +119,81 @@
     <!-- KPIs -->
     <section class="row g-3 mb-3">
       <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
+        <div class="card kpi-card kpi-card-wine hover-lift">
           <div class="card-body">
-            <div class="kpi-title">Total</div>
-            <div class="kpi-value" id="kpi-total">0</div>
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="kpi-title">Total</div>
+                <div class="kpi-value" id="kpi-total">0</div>
+              </div>
+              <div class="kpi-icon-wrap" aria-hidden="true">
+                <i class="ti ti-layout-dashboard"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
+        <div class="card kpi-card kpi-card-amber hover-lift">
           <div class="card-body">
-            <div class="kpi-title">Nuevas</div>
-            <div class="kpi-value" id="kpi-nuevas">0</div>
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="kpi-title">Nuevas</div>
+                <div class="kpi-value" id="kpi-nuevas">0</div>
+              </div>
+              <div class="kpi-icon-wrap" aria-hidden="true">
+                <i class="ti ti-clipboard-list"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
+        <div class="card kpi-card kpi-card-purple hover-lift">
           <div class="card-body">
-            <div class="kpi-title">Asignadas</div>
-            <div class="kpi-value" id="kpi-asignadas">0</div>
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="kpi-title">Asignadas</div>
+                <div class="kpi-value" id="kpi-asignadas">0</div>
+              </div>
+              <div class="kpi-icon-wrap" aria-hidden="true">
+                <i class="ti ti-user-check"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
+        <div class="card kpi-card kpi-card-blue hover-lift">
           <div class="card-body">
-            <div class="kpi-title">En proceso</div>
-            <div class="kpi-value" id="kpi-enproceso">0</div>
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="kpi-title">En proceso</div>
+                <div class="kpi-value" id="kpi-enproceso">0</div>
+              </div>
+              <div class="kpi-icon-wrap" aria-hidden="true">
+                <i class="ti ti-progress-check"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-6 col-lg">
-        <div class="card kpi-card hover-lift">
+        <div class="card kpi-card kpi-card-green hover-lift">
           <div class="card-body">
-            <div class="kpi-title">Cerradas</div>
-            <div class="kpi-value" id="kpi-cerradas">0</div>
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="kpi-title">Cerradas</div>
+                <div class="kpi-value" id="kpi-cerradas">0</div>
+              </div>
+              <div class="kpi-icon-wrap" aria-hidden="true">
+                <i class="ti ti-circle-check"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -148,7 +203,7 @@
     <section class="card mb-4" id="seccion-reportes" style="display: none;">
       <div class="card-header">
         <h5 class="mb-0">
-          <i class="bi bi-clipboard-data"></i> Reportes / Validación documental
+          <i class="ti ti-chart-bar"></i> Reportes / Validación documental
         </h5>
       </div>
       <div class="card-body">
@@ -186,10 +241,10 @@
             <label class="form-label">&nbsp;</label>
             <div class="d-flex flex-wrap gap-2 reportes-acciones-fila">
               <button type="button" class="btn btn-sm btn-mtz btn-mtz-primary" onclick="generarReporteDigitalizacion()">
-                <i class="bi bi-file-earmark-text"></i> Digitalización
+                <i class="ti ti-file-export"></i> Digitalización
               </button>
               <button type="button" class="btn btn-sm btn-mtz btn-mtz-outline" onclick="generarReporteTiempoRespuesta()">
-                <i class="bi bi-clock-history"></i> Tiempo Respuesta (24h)
+                <i class="ti ti-chart-bar"></i> Tiempo Respuesta (24h)
               </button>
             </div>
           </div>
@@ -265,7 +320,7 @@
   <button id="btn-recargar" class="btn-mtz btn-mtz-primary"
           data-bs-toggle="tooltip"
           data-bs-title="Actualizar KPIs y tabla">
-    <i class="bi bi-arrow-clockwise"></i>
+    <i class="ti ti-refresh"></i>
     <span class="btn-text">Recargar</span>
   </button>
 </div>
@@ -360,7 +415,7 @@
           <div class="footer-column footer-horario">
             <div class="horario-contenido">
               <div class="horario-header">
-                <i class="bi bi-clock footer-icono"></i>
+                <i class="ti ti-clock-hour-4 footer-icono"></i>
                 <h4 class="footer-columna-titulo">Horario de atención</h4>
               </div>
               <div class="horario-detalle">
@@ -370,14 +425,48 @@
             </div>
           </div>
 
-          <div class="footer-column footer-ayuda">
-            <div class="ayuda-contenido">
-              <div class="ayuda-header">
-                <i class="bi bi-shield-check footer-icono"></i>
-                <h4 class="footer-columna-titulo">Uso interno</h4>
+          <!-- Columna 3: Contáctanos -->
+          <div class="footer-column footer-contacto">
+            <div class="footer-contacto-contenido">
+              <div class="footer-contacto-header">
+                <i class="ti ti-mail footer-icono"></i>
+                <h4 class="footer-columna-titulo">Contáctanos</h4>
               </div>
-              <div class="ayuda-detalle">
-                <p class="footer-texto">Acceso restringido a personal autorizado del Ayuntamiento.</p>
+              <div class="footer-contacto-detalle">
+                <a href="tel:+522323240600" class="footer-contacto-link">
+                  <i class="ti ti-phone-call"></i>
+                  <span>(232) 324-0600</span>
+                </a>
+                <a href="mailto:atencion@martinezdelatorre.gob.mx" class="footer-contacto-link">
+                  <i class="ti ti-mail"></i>
+                  <span>atencion@martinezdelatorre.gob.mx</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna 4: Síguenos -->
+          <div class="footer-column footer-redes">
+            <div class="footer-redes-contenido">
+              <div class="footer-redes-header">
+                <i class="ti ti-share-2 footer-icono"></i>
+                <h4 class="footer-columna-titulo">Síguenos</h4>
+              </div>
+              <div class="footer-redes-detalle">
+                <div class="footer-redes-grid">
+                  <a href="#" class="footer-red-link">
+                    <span class="footer-social-icon facebook">
+                      <i class="ti ti-brand-facebook"></i>
+                    </span>
+                    <span>AyuntamientoMTZ</span>
+                  </a>
+                  <a href="#" class="footer-red-link">
+                    <span class="footer-social-icon instagram">
+                      <i class="ti ti-brand-instagram"></i>
+                    </span>
+                    <span>@AyMtzDeLaTorre</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -387,19 +476,26 @@
       <div class="footer-legal">
         <div class="footer-linea"></div>
         <p class="footer-copy">
-          © 2025 Ayuntamiento de Martínez de la Torre. Todos los derechos reservados.
+          © 2026 Ayuntamiento de Martínez de la Torre. Todos los derechos reservados.
         </p>
+        <div class="footer-legal-links">
+          <a href="#" class="footer-legal-link">Aviso de privacidad</a>
+          <span class="footer-legal-sep">·</span>
+          <a href="#" class="footer-legal-link">Términos y condiciones</a>
+          <span class="footer-legal-sep">·</span>
+          <a href="#" class="footer-legal-link">Contacto</a>
+        </div>
       </div>
     </div>
   </footer>
 
   <!-- Modal asignar -->
-  <div class="modal fade" id="modalAsignar" tabindex="-1" aria-hidden="true">
+  <div class="modal fade modal-sigim" id="modalAsignar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title fw-bold"><i class="bi bi-person-check"></i> Asignar incidencia</h5>
+          <h5 class="modal-title fw-bold"><i class="ti ti-user-check"></i> Asignar incidencia</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
 
@@ -417,7 +513,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-sm btn-mtz btn-mtz-outline" data-bs-dismiss="modal">Cancelar</button>
           <button id="btn-asignar" type="button" class="btn btn-mtz btn-mtz-primary">
-            <i class="bi bi-check2-circle"></i> Asignar
+            <i class="ti ti-circle-check"></i> Asignar
           </button>
         </div>
 
@@ -425,13 +521,13 @@
     </div>
   </div>
 <!-- Modal Seguimiento (tipo paquetería) -->
-<div class="modal fade" id="modalSeguimiento" tabindex="-1" aria-hidden="true">
+<div class="modal fade modal-sigim" id="modalSeguimiento" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
 
       <div class="modal-header">
         <h5 class="modal-title fw-bold">
-          <i class="bi bi-clock-history"></i> Seguimiento de incidencia
+          <i class="ti ti-notes"></i> Seguimiento de incidencia
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -471,12 +567,12 @@
 </div>
 
   <!-- Modal Detalle con Mapa -->
-  <div class="modal fade" id="modalDetalleIncidencia" tabindex="-1" aria-hidden="true">
+  <div class="modal fade modal-sigim" id="modalDetalleIncidencia" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold">
-            <i class="bi bi-geo-alt"></i> Detalle de incidencia
+            <i class="ti ti-map-2"></i> Detalle de incidencia
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
@@ -484,7 +580,7 @@
           <div class="dashboard-detalle-acciones">
             <div class="dashboard-detalle-seccion-header">
               <span>Acciones</span>
-              <i class="bi bi-chevron-up" aria-hidden="true"></i>
+              <i class="ti ti-chevron-up" aria-hidden="true"></i>
             </div>
 
             <div class="dashboard-detalle-meta">
@@ -511,26 +607,26 @@
 
             <div class="dashboard-detalle-ubicacion">
               <div class="dashboard-detalle-ubicacion-item">
-                <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+                <i class="ti ti-map-pin" aria-hidden="true"></i>
                 <span id="detalle-direccion"></span>
               </div>
               <div class="dashboard-detalle-ubicacion-item">
-                <i class="bi bi-signpost-2-fill" aria-hidden="true"></i>
+                <i class="ti ti-sign-right" aria-hidden="true"></i>
                 <span id="detalle-referencia"></span>
               </div>
               <div class="dashboard-detalle-ubicacion-item">
-                <i class="bi bi-crosshair2" aria-hidden="true"></i>
+                <i class="ti ti-location" aria-hidden="true"></i>
                 <span id="detalle-coordenadas"></span>
               </div>
             </div>
 
             <a id="btn-ver-maps" href="#" target="_blank" class="btn btn-sm btn-outline-primary dashboard-detalle-maps-btn">
-              <i class="bi bi-map"></i> Ver en Google Maps
+              <i class="ti ti-map-2"></i> Ver en Google Maps
             </a>
 
             <div class="dashboard-detalle-asignacion">
               <div class="dashboard-detalle-asignacion-title">
-                <i class="bi bi-person-check" aria-hidden="true"></i>
+                <i class="ti ti-user-check" aria-hidden="true"></i>
                 <span>Asignar</span>
               </div>
               <div class="dashboard-detalle-asignacion-grid">
@@ -554,7 +650,7 @@
             <div class="dashboard-detalle-historial">
               <div class="dashboard-detalle-historial-title">
                 <span>Historial</span>
-                <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                <i class="ti ti-chevron-down" aria-hidden="true"></i>
               </div>
               <div id="detalle-historial-list" class="dashboard-detalle-historial-list"></div>
             </div>
@@ -566,7 +662,7 @@
             <div id="detalle-seguimiento-completo" class="dashboard-detalle-seguimiento-completo">
               <div class="dashboard-detalle-historial-title mb-2">
                 <span>Seguimiento completo</span>
-                <i class="bi bi-list-check" aria-hidden="true"></i>
+                <i class="ti ti-list-details" aria-hidden="true"></i>
               </div>
               <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                 <div class="text-secondary small" id="detalle-seg-folio">Folio: -</div>
@@ -600,11 +696,68 @@
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="toastOk" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
-        <strong class="me-auto"><i class="bi bi-bell"></i> SIGIM-MTZ</strong>
+        <strong class="me-auto"><i class="ti ti-bell"></i> SIGIM-MTZ</strong>
         <small class="text-secondary">Ahora</small>
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Cerrar"></button>
       </div>
       <div class="toast-body" id="toastOkMsg">Listo ✅</div>
+    </div>
+  </div>
+
+  <!-- Modal Mi Perfil -->
+  <div class="modal fade modal-sigim" id="modalPerfil" tabindex="-1" aria-labelledby="modalPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius:var(--radius-lg);overflow:hidden;border:none;box-shadow:var(--shadow-modal);">
+        <div class="profile-dropdown-header" style="padding:1.5rem 1.25rem;display:flex;align-items:center;gap:1rem;position:relative;">
+          <div class="profile-dropdown-avatar" style="width:72px;height:72px;flex-shrink:0;">
+            <span class="user-avatar-initials" id="modal-perfil-initials" style="font-size:1.4rem;">SU</span>
+          </div>
+          <div class="profile-dropdown-info" style="flex:1;min-width:0;">
+            <p class="profile-dropdown-name" id="modal-perfil-nombre" style="font-size:1.05rem;">Supervisor</p>
+            <span class="profile-dropdown-role" id="modal-perfil-rol">Panel Interno</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar" style="position:absolute;top:1rem;right:1rem;"></button>
+        </div>
+        <div class="modal-body p-4">
+          <ul class="list-unstyled mb-0" style="display:flex;flex-direction:column;gap:.9rem;">
+            <li style="display:flex;align-items:flex-start;gap:.75rem;">
+              <i class="ti ti-mail text-mtz-wine mt-1" style="font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mtz-muted);margin-bottom:.15rem;">Correo institucional</div>
+                <div id="modal-perfil-email" style="font-weight:600;color:var(--mtz-ink);font-size:.93rem;">—</div>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:.75rem;">
+              <i class="ti ti-building text-mtz-wine mt-1" style="font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mtz-muted);margin-bottom:.15rem;">Área</div>
+                <div id="modal-perfil-area" style="font-weight:600;color:var(--mtz-ink);font-size:.93rem;">Desarrollo Urbano</div>
+              </div>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:.75rem;">
+              <i class="ti ti-map-pin text-mtz-wine mt-1" style="font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mtz-muted);margin-bottom:.15rem;">Municipio</div>
+                <div style="font-weight:600;color:var(--mtz-ink);font-size:.93rem;">Martínez de la Torre, Ver.</div>
+              </div>
+            </li>
+          </ul>
+          <hr style="border-color:var(--mtz-border);margin:1.25rem 0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:.75rem;">
+            <div style="display:flex;align-items:center;gap:.65rem;">
+              <i class="ti ti-camera text-mtz-wine" style="font-size:1.1rem;flex-shrink:0;"></i>
+              <div>
+                <div style="font-weight:700;font-size:.9rem;">Foto de perfil</div>
+                <div style="font-size:.78rem;color:var(--mtz-muted);">Personaliza tu avatar</div>
+              </div>
+            </div>
+            <span style="background:var(--mtz-gold-light);color:var(--mtz-gold-dark);border:1px solid rgba(200,164,71,.3);border-radius:var(--radius-sm);font-size:.7rem;font-weight:700;padding:.35rem .7rem;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">Próximamente</span>
+          </div>
+        </div>
+        <div class="modal-footer" style="border-top:1px solid var(--mtz-border);padding:.85rem 1.25rem;">
+          <button type="button" class="btn btn-mtz btn-mtz-outline btn-sm" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -614,9 +767,44 @@
 
   <!-- JS Comunes -->
   <script src="./js/common.js"></script>
-  
+
   <!-- JS del Dashboard -->
   <script src="./js/maps-simple.js"></script>
   <script src="./js/dashboard.js"></script>
+  <script>
+  (function () {
+    function calcInitials(name) {
+      return (name || '').trim().split(/\s+/)
+        .filter(Boolean).map(function(w){ return w[0]; })
+        .join('').substring(0, 2).toUpperCase() || '??';
+    }
+    function syncChipInitials(initials) {
+      document.querySelectorAll('.user-avatar-initials').forEach(function(el) {
+        if (el.id !== 'modal-perfil-initials') el.textContent = initials;
+      });
+    }
+    var nameEl = document.getElementById('topbar-user-name');
+    if (nameEl && window.MutationObserver) {
+      new MutationObserver(function() {
+        syncChipInitials(calcInitials(nameEl.textContent));
+      }).observe(nameEl, { childList: true, characterData: true, subtree: true });
+    }
+    var modalEl = document.getElementById('modalPerfil');
+    if (modalEl) {
+      modalEl.addEventListener('show.bs.modal', function () {
+        var u = typeof currentUser !== 'undefined' ? currentUser : null;
+        var name = (u && u.name) || (nameEl && nameEl.textContent) || 'Usuario';
+        var role = (u && u.role) || ((document.getElementById('topbar-user-role') || {}).textContent) || '—';
+        var email = (u && u.email) || '—';
+        var initials = calcInitials(name);
+        var el;
+        if ((el = document.getElementById('modal-perfil-nombre'))) el.textContent = name;
+        if ((el = document.getElementById('modal-perfil-rol')))    el.textContent = role;
+        if ((el = document.getElementById('modal-perfil-email')))  el.textContent = email;
+        if ((el = document.getElementById('modal-perfil-initials'))) el.textContent = initials;
+      });
+    }
+  })();
+  </script>
 </body>
 </html>

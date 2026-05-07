@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../config/db");
 const { sendLoginAlertMail } = require("../services/loginAlertMail.service");
+const logger = require("../utils/logger");
 
 const CREDENTIALS_MSG = "Credenciales incorrectas";
 const NO_PASSWORD_MSG = "Cuenta sin contraseña configurada. Contacte al administrador.";
@@ -54,7 +55,7 @@ exports.login = (req, res) => {
 
   db.query(sql, [email], (err, rows) => {
     if (err) {
-      console.error("auth.login DB:", err);
+      logger.error("auth.login DB:", err);
       return res.status(500).json({
         message: "Error del servidor al iniciar sesión",
         code: "SERVER_ERROR",
@@ -82,9 +83,7 @@ exports.login = (req, res) => {
     }
 
     if (!isValidStoredBcryptHash(u.password_hash)) {
-      console.warn(
-        `auth.login hash inválido para userId=${u.id} email=${u.email}. Verificar almacenamiento de password_hash.`
-      );
+      logger.warn(`auth.login hash inválido para userId=${u.id}. Verificar almacenamiento de password_hash.`);
       return res.status(403).json({
         message: NO_PASSWORD_MSG,
         code: "NO_PASSWORD",
@@ -93,7 +92,7 @@ exports.login = (req, res) => {
 
     bcrypt.compare(password, u.password_hash, (cmpErr, ok) => {
       if (cmpErr) {
-        console.error("auth.login bcrypt:", cmpErr);
+        logger.error("auth.login bcrypt:", cmpErr);
         return res.status(500).json({
           message: "Error del servidor al verificar credenciales",
           code: "SERVER_ERROR",
@@ -106,7 +105,7 @@ exports.login = (req, res) => {
 
       req.session.regenerate((regErr) => {
         if (regErr) {
-          console.error("auth.login regenerate:", regErr);
+          logger.error("auth.login regenerate:", regErr);
           return res.status(500).json({
             message: "Error al iniciar sesión",
             code: "SESSION_ERROR",
@@ -128,7 +127,7 @@ exports.login = (req, res) => {
 
         req.session.save((saveErr) => {
           if (saveErr) {
-            console.error("auth.login session.save:", saveErr);
+            logger.error("auth.login session.save:", saveErr);
             return res.status(500).json({
               message: "Error al guardar la sesión",
               code: "SESSION_ERROR",
@@ -151,7 +150,7 @@ exports.login = (req, res) => {
               // #region agent log
               fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c", { method: "POST", headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "527186" }, body: JSON.stringify({ sessionId: "527186", runId: "pre-fix", hypothesisId: "H5", location: "auth.controller.js:152", message: "Fallo envio de alerta, login continua", data: { role: u.role, errorName: mailErr && mailErr.name ? mailErr.name : "Error", errorMessage: mailErr && mailErr.message ? mailErr.message : "unknown" }, timestamp: Date.now() }) }).catch(() => {});
               // #endregion
-              console.error("auth.login alert email:", mailErr);
+              logger.error("auth.login alert email:", mailErr);
             });
           }
 
@@ -176,7 +175,7 @@ exports.logout = (req, res) => {
   }
   req.session.destroy((err) => {
     if (err) {
-      console.error("auth.logout:", err);
+      logger.error("auth.logout:", err);
       return res.status(500).json({ message: "Error al cerrar sesión", code: "LOGOUT_ERROR" });
     }
     res.clearCookie("sigim.sid", { path: "/" });

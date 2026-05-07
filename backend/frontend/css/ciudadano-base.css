@@ -1,23 +1,16 @@
-/* Base del Portal Ciudadano:
-   Este archivo debe contener solo reglas exclusivas del portal o scopeadas a body.portal-ciudadano.
-   Reglas genéricas compartidas se consolidan en styles.css. */
+/* ==========================================
+   Portal Ciudadano — Transiciones de vista
+   (Los keyframes fadeIn y las clases .vista-activa / .vista-inactiva
+    están definidos globalmente en styles.css. Este archivo solo ajusta
+    la duración de entrada en el contexto del portal ciudadano.)
+   ========================================== */
 
 body.portal-ciudadano .vista-activa {
-  display: block;
-  animation: fadeIn 0.3s ease-in;
+  animation: fadeIn 0.18s ease-out;
 }
 
-body.portal-ciudadano .vista-inactiva {
-  display: none;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@media (prefers-reduced-motion: reduce) {
+  body.portal-ciudadano .vista-activa {
+    animation: none;
   }
 }

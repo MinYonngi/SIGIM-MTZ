@@ -8,7 +8,12 @@ const estadoPortal = {
     reporteActual: null,
     ubicacionActual: null,
     catalogoTiposServicio: null,
-    tipoServicioPendiente: null
+    tipoServicioPendiente: null,
+    ultimoFolioConConfeti: null,
+    wizardReporte: {
+        pasoActual: 1,
+        totalPasos: 3
+    }
 };
 
 // #region agent log
@@ -84,6 +89,7 @@ function aplicarTipoServicioPendiente() {
         }
     }
     estadoPortal.tipoServicioPendiente = null;
+    sincronizarTarjetaTipoSeleccionada();
 }
 
 /**
@@ -118,6 +124,221 @@ function limpiarTipoEnUrlSiInicio() {
     } catch (e) {
         /* ignorar */
     }
+}
+
+function obtenerTextoTipoServicioSeleccionado() {
+    const select = document.getElementById('tipo-servicio');
+    if (!select) return '';
+    const opcionSeleccionada = select.options[select.selectedIndex];
+    if (!opcionSeleccionada) return '';
+    return String(opcionSeleccionada.textContent || '').trim();
+}
+
+function valorTextoSeguro(valor, fallback = 'No especificado') {
+    const texto = String(valor ?? '').trim();
+    return texto || fallback;
+}
+
+function formatearFechaLarga(fecha) {
+    const valorFecha = fecha ? new Date(fecha) : new Date();
+    if (Number.isNaN(valorFecha.getTime())) {
+        return new Date().toLocaleString('es-MX');
+    }
+    return valorFecha.toLocaleString('es-MX', {
+        dateStyle: 'full',
+        timeStyle: 'short'
+    });
+}
+
+function nombreArchivoSeguro(base) {
+    return String(base || 'reporte')
+        .toLowerCase()
+        .replace(/[^a-z0-9\-_.]/gi, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
+function respetaReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function dispararConfetiConfirmacion(reporte) {
+    if (respetaReducedMotion()) return;
+    if (typeof window.confetti !== 'function') return;
+
+    const folioActual = String(reporte?.folio || '').trim();
+    if (!folioActual || estadoPortal.ultimoFolioConConfeti === folioActual) return;
+    estadoPortal.ultimoFolioConConfeti = folioActual;
+
+    const fin = Date.now() + 1900;
+    const defaults = {
+        startVelocity: 28,
+        spread: 62,
+        ticks: 120,
+        gravity: 1.05,
+        scalar: 0.88,
+        zIndex: 2000,
+        colors: ['#7b1b27', '#8a2431', '#c8a447', '#f0d98a', '#ffffff']
+    };
+
+    const intervalo = window.setInterval(() => {
+        const tiempoRestante = fin - Date.now();
+        if (tiempoRestante <= 0) {
+            window.clearInterval(intervalo);
+            return;
+        }
+
+        const conteo = Math.max(6, Math.round(26 * (tiempoRestante / 1900)));
+        window.confetti({
+            ...defaults,
+            particleCount: conteo,
+            origin: { x: 0.16, y: 0.22 }
+        });
+        window.confetti({
+            ...defaults,
+            particleCount: conteo,
+            origin: { x: 0.84, y: 0.22 }
+        });
+    }, 230);
+}
+
+function construirDatosComprobante(reporte) {
+    return {
+        folio: valorTextoSeguro(reporte?.folio, 'SIGIM-SIN-FOLIO'),
+        fechaRegistro: formatearFechaLarga(reporte?.fechaRegistro),
+        tipoServicio: valorTextoSeguro(reporte?.tipoServicioTexto),
+        titulo: valorTextoSeguro(reporte?.titulo),
+        descripcion: valorTextoSeguro(reporte?.descripcion),
+        direccion: valorTextoSeguro(reporte?.direccion),
+        referencia: valorTextoSeguro(reporte?.referencia, 'No proporcionada'),
+        colonia: valorTextoSeguro(reporte?.colonia, 'No proporcionada'),
+        nombre: valorTextoSeguro(reporte?.nombre, 'No proporcionado'),
+        telefono: valorTextoSeguro(reporte?.telefono, 'No proporcionado')
+    };
+}
+
+function cargarImagenComoDataUrl(src) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL('image/png'));
+            } catch (error) {
+                reject(error);
+            }
+        };
+        img.onerror = () => reject(new Error('No se pudo cargar el logo para el comprobante.'));
+        img.src = src;
+    });
+}
+
+async function descargarComprobanteReporteActual() {
+    if (!estadoPortal.reporteActual) {
+        mostrarMensaje('Aún no hay un reporte confirmado para descargar.', 'warning');
+        return;
+    }
+
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+        mostrarMensaje('No se pudo inicializar el generador de PDF.', 'danger');
+        return;
+    }
+
+    const btnDescargar = document.getElementById('btn-descargar-comprobante');
+    const textoOriginal = btnDescargar ? btnDescargar.innerHTML : '';
+    if (btnDescargar) {
+        btnDescargar.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Generando PDF...';
+        btnDescargar.disabled = true;
+    }
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+        const datos = construirDatosComprobante(estadoPortal.reporteActual);
+
+        doc.setFillColor(123, 27, 39);
+        doc.rect(0, 0, 210, 30, 'F');
+
+        try {
+            const logoData = await cargarImagenComoDataUrl('assets/Logo.png');
+            doc.addImage(logoData, 'PNG', 14, 8, 30, 14);
+        } catch (logoError) {
+            console.warn('No se pudo incluir el logo en el comprobante:', logoError);
+        }
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+        doc.text('SIGIM-MTZ | Comprobante de reporte ciudadano', 50, 14);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9.5);
+        doc.text('Ayuntamiento de Martinez de la Torre', 50, 20);
+
+        doc.setTextColor(47, 41, 38);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.text('Confirmacion de registro', 14, 40);
+
+        let y = 50;
+        const fila = (etiqueta, valor) => {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text(`${etiqueta}:`, 14, y);
+            doc.setFont('helvetica', 'normal');
+            const lineas = doc.splitTextToSize(valor, 145);
+            doc.text(lineas, 52, y);
+            y += Math.max(8, lineas.length * 5);
+        };
+
+        fila('Folio', datos.folio);
+        fila('Fecha de registro', datos.fechaRegistro);
+        fila('Tipo de servicio', datos.tipoServicio);
+        fila('Titulo del reporte', datos.titulo);
+        fila('Descripcion', datos.descripcion);
+        fila('Direccion', datos.direccion);
+        fila('Referencia', datos.referencia);
+        fila('Colonia', datos.colonia);
+        fila('Nombre', datos.nombre);
+        fila('Telefono', datos.telefono);
+
+        y += 4;
+        doc.setDrawColor(200, 164, 71);
+        doc.line(14, y, 196, y);
+        y += 8;
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(10);
+        const mensaje = 'Tu reporte fue registrado correctamente. Conserva este comprobante para consulta y seguimiento con tu folio.';
+        doc.text(doc.splitTextToSize(mensaje, 180), 14, y);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(93, 93, 93);
+        doc.text(`Generado el ${new Date().toLocaleString('es-MX')}`, 14, 286);
+
+        const archivo = `comprobante-${nombreArchivoSeguro(datos.folio)}.pdf`;
+        doc.save(archivo);
+        mostrarMensaje('Comprobante descargado correctamente.', 'success');
+    } catch (error) {
+        console.error('❌ Error al generar comprobante:', error);
+        mostrarMensaje('No se pudo generar el comprobante PDF.', 'danger');
+    } finally {
+        if (btnDescargar) {
+            btnDescargar.innerHTML = textoOriginal;
+            btnDescargar.disabled = false;
+        }
+    }
+}
+
+function inicializarAccionesConfirmacion() {
+    const btnDescargar = document.getElementById('btn-descargar-comprobante');
+    if (!btnDescargar || btnDescargar.dataset.ready === '1') return;
+    btnDescargar.dataset.ready = '1';
+    btnDescargar.addEventListener('click', descargarComprobanteReporteActual);
 }
 
 // ==========================================
@@ -182,6 +403,8 @@ function llenarSelectTiposServicio(tiposServicio) {
     console.log(`✅ Select llenado con ${tiposServicio.length} tipos de servicio`);
     
     aplicarTipoServicioPendiente();
+    renderizarTarjetasTipoServicio();
+    sincronizarTarjetaTipoSeleccionada();
 }
 
 /**
@@ -198,6 +421,8 @@ function mantenerOpcionesBasicas() {
     select.innerHTML = `
         <option value="">Selecciona un tipo de servicio...</option>
     `;
+    renderizarTarjetasTipoServicio();
+    sincronizarTarjetaTipoSeleccionada();
     
     console.warn('⚠️ No se pudo cargar el catálogo de servicios. Por favor intenta más tarde.');
     mostrarMensaje('No se pudieron cargar los tipos de servicio. Por favor intenta más tarde.', 'warning');
@@ -275,6 +500,9 @@ function mostrarVista(nombreVista) {
 
         if (nombreVista === 'registrar') {
             aplicarTipoServicioPendiente();
+            mostrarPasoWizard(1);
+            actualizarResumenPaso3();
+            actualizarContadorDescripcion();
         }
         
         // Scroll suave al inicio
@@ -305,6 +533,8 @@ function obtenerUbicacionActual() {
     btnUbicacion.innerHTML = '<i class="bi bi-geo-alt-fill me-2"></i> Obteniendo ubicación...';
     btnUbicacion.disabled = true;
     btnUbicacion.classList.add('loading');
+    btnUbicacion.classList.add('is-locating');
+    btnUbicacion.classList.remove('is-location-ok');
     
     navigator.geolocation.getCurrentPosition(
         // Éxito
@@ -316,6 +546,8 @@ function obtenerUbicacionActual() {
             btnUbicacion.innerHTML = '<i class="bi bi-geo-alt-fill me-2"></i>Ubicación obtenida';
             btnUbicacion.disabled = false;
             btnUbicacion.classList.remove('loading');
+            btnUbicacion.classList.remove('is-locating');
+            btnUbicacion.classList.add('is-location-ok');
             
             console.log('📍 Ubicación obtenida:', { latitude, longitude });
         },
@@ -326,6 +558,8 @@ function obtenerUbicacionActual() {
             btnUbicacion.innerHTML = '<i class="bi bi-geo-alt-fill me-2"></i>Usar mi ubicación actual';
             btnUbicacion.disabled = false;
             btnUbicacion.classList.remove('loading');
+            btnUbicacion.classList.remove('is-locating');
+            btnUbicacion.classList.remove('is-location-ok');
         },
         // Opciones
         {
@@ -339,6 +573,270 @@ function obtenerUbicacionActual() {
 // ==========================================
 // Gestión de Formularios
 // ==========================================
+
+function renderizarTarjetasTipoServicio() {
+    const select = document.getElementById('tipo-servicio');
+    const cardsContainer = document.getElementById('tipo-servicio-cards');
+
+    if (!select || !cardsContainer) return;
+
+    const opciones = [...select.options].filter((opcion) => opcion.value);
+    cardsContainer.innerHTML = '';
+
+    opciones.forEach((opcion) => {
+        const boton = document.createElement('button');
+        boton.type = 'button';
+        boton.className = 'portal-service-card';
+        boton.dataset.value = opcion.value;
+        boton.textContent = opcion.textContent;
+        boton.setAttribute('aria-label', `Seleccionar tipo de servicio ${opcion.textContent}`);
+        boton.addEventListener('click', () => {
+            select.value = opcion.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        cardsContainer.appendChild(boton);
+    });
+}
+
+function sincronizarTarjetaTipoSeleccionada() {
+    const select = document.getElementById('tipo-servicio');
+    const cardsContainer = document.getElementById('tipo-servicio-cards');
+
+    if (!select || !cardsContainer) return;
+
+    cardsContainer.querySelectorAll('.portal-service-card').forEach((card) => {
+        card.classList.toggle('is-selected', card.dataset.value === select.value);
+    });
+}
+
+function actualizarContadorDescripcion() {
+    const descripcion = document.getElementById('descripcion');
+    const contador = document.getElementById('descripcion-contador');
+    if (!descripcion || !contador) return;
+
+    const longitud = descripcion.value.length;
+    contador.textContent = `${longitud} / 600`;
+}
+
+function limpiarErrorCampo(campo) {
+    if (!campo) return;
+    const grupo = campo.closest('.portal-field-group');
+    if (!grupo) return;
+    grupo.classList.remove('portal-field-error');
+    const mensaje = grupo.querySelector('.portal-inline-error');
+    if (mensaje) {
+        mensaje.remove();
+    }
+}
+
+function marcarErrorCampo(campo, mensaje) {
+    if (!campo) return;
+    const grupo = campo.closest('.portal-field-group');
+    if (!grupo) return;
+
+    grupo.classList.add('portal-field-error');
+    let mensajeError = grupo.querySelector('.portal-inline-error');
+    if (!mensajeError) {
+        mensajeError = document.createElement('div');
+        mensajeError.className = 'portal-inline-error';
+        grupo.appendChild(mensajeError);
+    }
+    mensajeError.textContent = mensaje;
+}
+
+function validarPasoActual(paso) {
+    const reglas = {
+        1: [
+            { id: 'tipo-servicio', mensaje: 'Selecciona el tipo de servicio.' },
+            { id: 'titulo', mensaje: 'Ingresa el título del reporte.' },
+            { id: 'descripcion', mensaje: 'Describe la incidencia para continuar.' }
+        ],
+        2: [
+            { id: 'direccion', mensaje: 'Ingresa la dirección del incidente.' }
+        ],
+        3: []
+    };
+
+    const reglasPaso = reglas[paso] || [];
+    const panelPaso = document.querySelector(`#form-reporte .portal-wizard-step[data-step="${paso}"]`);
+    let primerCampoInvalido = null;
+
+    reglasPaso.forEach(({ id, mensaje }) => {
+        const campo = document.getElementById(id);
+        if (!campo) return;
+
+        const valor = String(campo.value || '').trim();
+        if (!valor) {
+            marcarErrorCampo(campo, mensaje);
+            if (!primerCampoInvalido) {
+                primerCampoInvalido = campo;
+            }
+        } else {
+            limpiarErrorCampo(campo);
+        }
+    });
+
+    if (panelPaso) {
+        panelPaso.classList.toggle('portal-step-has-errors', !!primerCampoInvalido);
+    }
+
+    if (primerCampoInvalido) {
+        primerCampoInvalido.focus();
+        return false;
+    }
+
+    return true;
+}
+
+function actualizarStepperUI(pasoActual) {
+    document.querySelectorAll('#form-reporte [data-step-indicator]').forEach((item) => {
+        const paso = Number(item.dataset.stepIndicator);
+        item.classList.remove('is-active', 'is-complete', 'is-pending');
+        if (paso < pasoActual) {
+            item.classList.add('is-complete');
+            return;
+        }
+        if (paso === pasoActual) {
+            item.classList.add('is-active');
+            return;
+        }
+        item.classList.add('is-pending');
+    });
+}
+
+function actualizarResumenPaso3() {
+    const tipoServicio = document.getElementById('tipo-servicio');
+    const titulo = document.getElementById('titulo');
+    const direccion = document.getElementById('direccion');
+    const nombre = document.getElementById('nombre');
+    const telefono = document.getElementById('telefono');
+    const evidencia = document.getElementById('evidencia-foto');
+
+    const resumenTipo = document.getElementById('resumen-tipo');
+    const resumenTitulo = document.getElementById('resumen-titulo');
+    const resumenDireccion = document.getElementById('resumen-direccion');
+    const resumenContacto = document.getElementById('resumen-contacto');
+    const resumenEvidencia = document.getElementById('resumen-evidencia');
+
+    if (resumenTipo && tipoServicio) {
+        const texto = tipoServicio.options[tipoServicio.selectedIndex]?.textContent || 'Sin definir';
+        resumenTipo.textContent = tipoServicio.value ? texto : 'Sin definir';
+    }
+    if (resumenTitulo && titulo) {
+        resumenTitulo.textContent = titulo.value.trim() || 'Sin definir';
+    }
+    if (resumenDireccion && direccion) {
+        resumenDireccion.textContent = direccion.value.trim() || 'Sin definir';
+    }
+    if (resumenContacto && nombre && telefono) {
+        const datos = [nombre.value.trim(), telefono.value.trim()].filter(Boolean).join(' | ');
+        resumenContacto.textContent = datos || 'No proporcionado';
+    }
+    if (resumenEvidencia && evidencia) {
+        resumenEvidencia.textContent = evidencia.files?.[0]?.name || 'Sin archivo';
+    }
+}
+
+function mostrarPasoWizard(pasoObjetivo) {
+    const pasos = document.querySelectorAll('#form-reporte .portal-wizard-step');
+    if (!pasos.length) return;
+
+    const pasoNormalizado = Math.max(1, Math.min(estadoPortal.wizardReporte.totalPasos, Number(pasoObjetivo)));
+    estadoPortal.wizardReporte.pasoActual = pasoNormalizado;
+
+    pasos.forEach((paso) => {
+        const numeroPaso = Number(paso.dataset.step);
+        const visible = numeroPaso === pasoNormalizado;
+        paso.classList.toggle('is-visible', visible);
+        paso.classList.toggle('is-hidden', !visible);
+        paso.setAttribute('aria-hidden', String(!visible));
+    });
+
+    const btnPrev = document.getElementById('btn-wizard-prev');
+    const btnNext = document.getElementById('btn-wizard-next');
+    const btnSubmit = document.getElementById('btn-wizard-submit');
+
+    if (btnPrev) btnPrev.classList.toggle('d-none', pasoNormalizado === 1);
+    if (btnNext) btnNext.classList.toggle('d-none', pasoNormalizado === estadoPortal.wizardReporte.totalPasos);
+    if (btnSubmit) btnSubmit.classList.toggle('d-none', pasoNormalizado !== estadoPortal.wizardReporte.totalPasos);
+
+    actualizarStepperUI(pasoNormalizado);
+    if (pasoNormalizado === 3) {
+        actualizarResumenPaso3();
+    }
+}
+
+function irPasoSiguiente() {
+    const pasoActual = estadoPortal.wizardReporte.pasoActual;
+    if (!validarPasoActual(pasoActual)) {
+        return;
+    }
+    mostrarPasoWizard(pasoActual + 1);
+}
+
+function irPasoAnterior() {
+    mostrarPasoWizard(estadoPortal.wizardReporte.pasoActual - 1);
+}
+
+function inicializarWizardReporte() {
+    const form = document.getElementById('form-reporte');
+    if (!form) return;
+    if (form.dataset.wizardInicializado === '1') return;
+    form.dataset.wizardInicializado = '1';
+
+    const btnPrev = document.getElementById('btn-wizard-prev');
+    const btnNext = document.getElementById('btn-wizard-next');
+    const tipoServicio = document.getElementById('tipo-servicio');
+    const descripcion = document.getElementById('descripcion');
+    const direccion = document.getElementById('direccion');
+    const titulo = document.getElementById('titulo');
+    const nombre = document.getElementById('nombre');
+    const telefono = document.getElementById('telefono');
+    const evidencia = document.getElementById('evidencia-foto');
+
+    if (btnPrev) btnPrev.addEventListener('click', irPasoAnterior);
+    if (btnNext) btnNext.addEventListener('click', irPasoSiguiente);
+
+    if (tipoServicio) {
+        tipoServicio.addEventListener('change', () => {
+            limpiarErrorCampo(tipoServicio);
+            sincronizarTarjetaTipoSeleccionada();
+            actualizarResumenPaso3();
+        });
+    }
+
+    if (descripcion) {
+        descripcion.addEventListener('input', () => {
+            limpiarErrorCampo(descripcion);
+            actualizarContadorDescripcion();
+            actualizarResumenPaso3();
+        });
+    }
+
+    if (titulo) {
+        titulo.addEventListener('input', () => {
+            limpiarErrorCampo(titulo);
+            actualizarResumenPaso3();
+        });
+    }
+
+    if (direccion) {
+        direccion.addEventListener('input', () => {
+            limpiarErrorCampo(direccion);
+            actualizarResumenPaso3();
+        });
+    }
+
+    if (nombre) nombre.addEventListener('input', actualizarResumenPaso3);
+    if (telefono) telefono.addEventListener('input', actualizarResumenPaso3);
+    if (evidencia) evidencia.addEventListener('change', actualizarResumenPaso3);
+
+    renderizarTarjetasTipoServicio();
+    sincronizarTarjetaTipoSeleccionada();
+    actualizarContadorDescripcion();
+    actualizarResumenPaso3();
+    mostrarPasoWizard(1);
+}
 
 /**
  * Inicializa el formulario de registro de reporte
@@ -358,10 +856,18 @@ function inicializarFormularioReporte() {
     if (inputFoto) {
         inputFoto.addEventListener('change', manejarSeleccionFoto);
     }
+
+    inicializarWizardReporte();
     
     // Evento de envío del formulario
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        if (estadoPortal.wizardReporte.pasoActual < estadoPortal.wizardReporte.totalPasos) {
+            irPasoSiguiente();
+            return;
+        }
+
         await procesarRegistroReporte();
     });
 }
@@ -378,6 +884,7 @@ function manejarSeleccionFoto(event) {
     
     if (!archivo) {
         vistaPrevia.classList.add('d-none');
+        actualizarResumenPaso3();
         return;
     }
     
@@ -405,6 +912,7 @@ function manejarSeleccionFoto(event) {
         vistaPrevia.classList.remove('d-none');
     };
     reader.readAsDataURL(archivo);
+    actualizarResumenPaso3();
     
     console.log('📷 Foto seleccionada (TEMPORAL):', archivo.name, archivo.size);
 }
@@ -421,6 +929,7 @@ function eliminarFoto() {
     inputFoto.value = '';
     imagenPrevia.src = '';
     vistaPrevia.classList.add('d-none');
+    actualizarResumenPaso3();
     
     console.log('🗑️ Foto eliminada (TEMPORAL)');
 }
@@ -454,6 +963,7 @@ async function procesarRegistroReporte() {
     
     // Agregar campos del formulario con nombres reales del backend
     const tipoServicio = document.getElementById('tipo-servicio').value;
+    const tipoServicioTexto = obtenerTextoTipoServicioSeleccionado();
     const titulo = document.getElementById('titulo').value;
     const descripcion = document.getElementById('descripcion').value;
     
@@ -527,9 +1037,12 @@ async function procesarRegistroReporte() {
             estadoPortal.reporteActual = {
                 ...result.data,
                 // Agregar datos adicionales para confirmación
+                tipoServicioTexto,
                 titulo: formData.get('titulo'),
                 descripcion: formData.get('descripcion'),
                 direccion: formData.get('direccion'),
+                referencia: formData.get('referencia'),
+                colonia: formData.get('colonia'),
                 nombre: formData.get('ciudadano_nombre'),
                 telefono: formData.get('ciudadano_tel')
             };
@@ -566,11 +1079,21 @@ function mostrarConfirmacionReporte(reporte) {
     if (folioTexto) {
         folioTexto.textContent = reporte.folio;
     }
-    document.getElementById('fecha-registro').textContent = new Date(reporte.fechaRegistro).toLocaleString('es-MX');
-    document.getElementById('titulo-confirmacion').textContent = reporte.titulo;
+    const fechaRegistro = document.getElementById('fecha-registro');
+    const tituloConfirmacion = document.getElementById('titulo-confirmacion');
+    const tipoConfirmacion = document.getElementById('tipo-confirmacion');
+    const direccionConfirmacion = document.getElementById('direccion-confirmacion');
+
+    if (fechaRegistro) fechaRegistro.textContent = formatearFechaLarga(reporte.fechaRegistro);
+    if (tituloConfirmacion) tituloConfirmacion.textContent = valorTextoSeguro(reporte.titulo);
+    if (tipoConfirmacion) tipoConfirmacion.textContent = valorTextoSeguro(reporte.tipoServicioTexto);
+    if (direccionConfirmacion) direccionConfirmacion.textContent = valorTextoSeguro(reporte.direccion);
     
     // Cambiar a vista de confirmación
     mostrarVista('confirmacion');
+    window.requestAnimationFrame(() => {
+        dispararConfetiConfirmacion(reporte);
+    });
 }
 
 /**
@@ -646,15 +1169,22 @@ async function procesarConsultaFolio() {
  */
 function mostrarResultadoConsulta(reporte) {
     // Actualizar datos en la vista
-    document.getElementById('resultado-folio').textContent = reporte.folio;
-    document.getElementById('resultado-titulo').textContent = reporte.titulo;
-    document.getElementById('resultado-fecha').textContent = new Date(reporte.fechaRegistro).toLocaleString('es-MX');
-    document.getElementById('resultado-actualizacion').textContent = new Date(reporte.ultimaActualizacion).toLocaleString('es-MX');
-    
+    setTextById('resultado-folio', reporte.folio || 'Sin folio');
+    setTextById('resultado-fecha', formatearFechaConsulta(reporte.fechaRegistro));
+    setTextById('resultado-actualizacion', formatearFechaConsulta(reporte.ultimaActualizacion || reporte.fechaRegistro));
+    setTextById('resultado-categoria', obtenerCategoriaReporte(reporte));
+    setTextById('resultado-ubicacion', obtenerUbicacionReporte(reporte));
+    setTextById('resultado-descripcion', reporte.descripcion || 'Sin descripción registrada.');
+
     // Actualizar badge de estatus
     const estatusBadge = document.getElementById('resultado-estatus');
-    const estatusClass = obtenerClaseEstatus(reporte.estatus);
-    estatusBadge.innerHTML = `<span class="badge ${estatusClass}">${reporte.estatus}</span>`;
+    const estatusNormalizado = normalizarEstatusReporte(reporte.estatus);
+    const estatusClass = obtenerClaseEstatus(estatusNormalizado);
+    if (estatusBadge) {
+        estatusBadge.innerHTML = `<span class="portal-estado-badge ${estatusClass}">${formatearEtiquetaEstatus(estatusNormalizado)}</span>`;
+    }
+
+    renderizarTimelineConsulta(reporte, estatusNormalizado);
     
     // Ocultar mensaje de no encontrado y mostrar resultado
     document.getElementById('no-encontrado').classList.add('d-none');
@@ -687,15 +1217,131 @@ function mostrarMensajeNoEncontrado() {
  */
 function obtenerClaseEstatus(estatus) {
     const clases = {
-        'NUEVA': 'bg-secondary',
-        'ASIGNADA': 'bg-primary',
-        'EN_PROCESO': 'bg-warning',
-        'RESUELTA': 'bg-info',
-        'CERRADA': 'bg-success',
-        'RECHAZADA': 'bg-danger'
+        NUEVA: 'portal-estado-nueva',
+        ASIGNADA: 'portal-estado-asignada',
+        EN_PROCESO: 'portal-estado-en-proceso',
+        RESUELTA: 'portal-estado-resuelta',
+        CERRADA: 'portal-estado-cerrada',
+        RECHAZADA: 'portal-estado-rechazada'
     };
-    
-    return clases[estatus] || 'bg-secondary';
+
+    return clases[estatus] || 'portal-estado-nueva';
+}
+
+function setTextById(id, valor) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = valor;
+}
+
+function formatearFechaConsulta(fecha) {
+    if (!fecha) return 'Sin fecha disponible';
+    const valor = new Date(fecha);
+    if (Number.isNaN(valor.getTime())) return 'Sin fecha disponible';
+    return valor.toLocaleString('es-MX');
+}
+
+function obtenerCategoriaReporte(reporte) {
+    return (
+        reporte.tipoServicioNombre ||
+        reporte.tipo_servicio_nombre ||
+        reporte.tipoServicio ||
+        reporte.categoria ||
+        'No especificada'
+    );
+}
+
+function obtenerUbicacionReporte(reporte) {
+    const partes = [reporte.direccion, reporte.colonia, reporte.municipio].filter(Boolean);
+    if (partes.length) return partes.join(', ');
+    return 'No especificada';
+}
+
+function normalizarEstatusReporte(estatus) {
+    return String(estatus || 'NUEVA')
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g, '_');
+}
+
+function formatearEtiquetaEstatus(estatus) {
+    return estatus.replaceAll('_', ' ');
+}
+
+function construirMapaFechasEstatus(reporte) {
+    const mapa = new Map();
+    const fuentesHistorial = [
+        reporte?.historial,
+        reporte?.historialEstatus,
+        reporte?.timeline,
+        reporte?.trazabilidad,
+        reporte?.eventos
+    ];
+
+    fuentesHistorial.forEach((fuente) => {
+        if (!Array.isArray(fuente)) return;
+        fuente.forEach((evento) => {
+            const estatusEvento = normalizarEstatusReporte(evento?.estatus || evento?.status || evento?.nombre);
+            if (!estatusEvento) return;
+            const fechaEvento = evento?.fecha || evento?.fechaCambio || evento?.createdAt || evento?.timestamp;
+            if (fechaEvento && !mapa.has(estatusEvento)) {
+                mapa.set(estatusEvento, fechaEvento);
+            }
+        });
+    });
+
+    if (reporte?.fechaRegistro && !mapa.has('NUEVA')) {
+        mapa.set('NUEVA', reporte.fechaRegistro);
+    }
+
+    const actual = normalizarEstatusReporte(reporte?.estatus);
+    if (actual && reporte?.ultimaActualizacion && !mapa.has(actual)) {
+        mapa.set(actual, reporte.ultimaActualizacion);
+    }
+
+    return mapa;
+}
+
+function renderizarTimelineConsulta(reporte, estatusActual) {
+    const contenedor = document.getElementById('resultado-timeline');
+    if (!contenedor) return;
+
+    const estadosBase = ['NUEVA', 'ASIGNADA', 'EN_PROCESO', 'RESUELTA', 'CERRADA'];
+    const mapaFechas = construirMapaFechasEstatus(reporte);
+    const indiceActual = estadosBase.indexOf(estatusActual);
+
+    const items = estadosBase.map((estado, idx) => {
+        let estadoVisual = 'is-pending';
+        if (indiceActual >= 0 && idx < indiceActual) estadoVisual = 'is-complete';
+        if (idx === indiceActual) estadoVisual = 'is-current';
+        if (indiceActual < 0 && estado === 'NUEVA') estadoVisual = 'is-current';
+
+        return {
+            estado,
+            estadoVisual,
+            fecha: mapaFechas.get(estado)
+        };
+    });
+
+    if (estatusActual === 'RECHAZADA') {
+        items.push({
+            estado: 'RECHAZADA',
+            estadoVisual: 'is-current is-rejected',
+            fecha: mapaFechas.get('RECHAZADA') || reporte?.ultimaActualizacion || null
+        });
+    }
+
+    contenedor.innerHTML = `
+        <ol class="portal-timeline-list">
+            ${items.map((item) => `
+                <li class="portal-timeline-item ${item.estadoVisual}">
+                    <span class="portal-timeline-dot" aria-hidden="true"></span>
+                    <p class="portal-timeline-label">${formatearEtiquetaEstatus(item.estado)}</p>
+                    <p class="portal-timeline-date">${item.fecha ? formatearFechaConsulta(item.fecha) : 'Pendiente'}</p>
+                </li>
+            `).join('')}
+        </ol>
+    `;
 }
 
 // ==========================================
@@ -846,6 +1492,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarFormularioReporte();
     inicializarFormularioConsulta();
     inicializarTopbarAccesoInterno();
+    inicializarAccionesConfirmacion();
 
     // #region agent log
     fetch('http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'0bf53b'},body:JSON.stringify({sessionId:'0bf53b',runId:'run2',hypothesisId:'H7',location:'ciudadano.js:DOMContentLoaded',message:'Elementos topbar en DOM',data:{btnTopbarAcceso:!!document.getElementById('btn-topbar-acceso'),panelTopbarAcceso:!!document.getElementById('topbar-acceso-panel'),topbarWrap:!!document.querySelector('.topbar-acceso-wrap')},timestamp:Date.now()})}).catch(()=>{});

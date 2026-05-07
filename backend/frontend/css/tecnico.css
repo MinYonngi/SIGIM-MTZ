@@ -17,39 +17,6 @@
   max-width: min(92vw, 16rem);
 }
 
-.modulo-panel-tecnico .dashboard-user-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.4rem 0.65rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-
-.modulo-panel-tecnico .dashboard-user-avatar {
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  font-size: 0.9rem;
-}
-
-.modulo-panel-tecnico .dashboard-user-name {
-  font-size: 0.8rem;
-  font-weight: 700;
-  line-height: 1.05;
-}
-
-.modulo-panel-tecnico .dashboard-user-role {
-  font-size: 0.68rem;
-  opacity: 0.86;
-  line-height: 1.05;
-}
 
 .modulo-panel-tecnico .dashboard-hero-title {
   font-size: clamp(1.42rem, 2.3vw, 1.9rem);
@@ -82,24 +49,6 @@
   line-height: 1;
 }
 
-.modulo-panel-tecnico .dashboard-chart-card {
-  border: 1px solid var(--mtz-border);
-  border-radius: 16px;
-  background: linear-gradient(180deg, #fff, #fcf9f8);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-}
-
-.modulo-panel-tecnico .dashboard-chart-title {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-  font-weight: 800;
-  color: #2b1e33;
-}
-
-.modulo-panel-tecnico .dashboard-chart-canvas-wrap {
-  position: relative;
-  height: clamp(210px, 30vw, 280px);
-}
 
 .modulo-panel-tecnico .table {
   font-size: 0.875rem;
@@ -121,19 +70,21 @@
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.35rem 0.65rem;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   text-transform: uppercase;
   letter-spacing: 0.25px;
 }
 
 .modulo-panel-tecnico .badge-ok {
-  background: #28a745;
-  color: white;
+  background: var(--mtz-green-bg);
+  color: var(--mtz-green);
+  border: 1px solid rgba(46, 125, 79, 0.22);
 }
 
 .modulo-panel-tecnico .badge-warn {
-  background: #ffc107;
-  color: #000;
+  background: var(--mtz-amber-bg);
+  color: var(--mtz-amber);
+  border: 1px solid rgba(201, 122, 16, 0.22);
 }
 
 .modulo-panel-tecnico .evidencia-item {
@@ -195,44 +146,7 @@
 }
 
 .modulo-panel-tecnico .dashboard-tabla-filtros {
-  display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.85rem;
-  align-items: end;
-  margin: 0.95rem 0 1rem;
-  padding: 0.85rem;
-  border: 1px solid var(--mtz-border);
-  border-radius: 14px;
-  background: #fff;
-}
-
-.modulo-panel-tecnico .dashboard-tabla-filtro-item .form-label {
-  margin-bottom: 0.35rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #544a54;
-}
-
-.modulo-panel-tecnico .dashboard-tabla-filtro-item .form-control,
-.modulo-panel-tecnico .dashboard-tabla-filtro-item .form-select {
-  width: 100%;
-  min-height: 42px;
-  border-radius: 10px;
-  border: 1px solid #e0dce8;
-  font-size: 0.92rem;
-}
-
-.modulo-panel-tecnico .dashboard-tabla-filtro-item .form-control:focus,
-.modulo-panel-tecnico .dashboard-tabla-filtro-item .form-select:focus {
-  border-color: rgba(200, 164, 71, 0.8);
-  box-shadow: 0 0 0 3px rgba(200, 164, 71, 0.2);
-}
-
-.modulo-panel-tecnico .dashboard-tabla-filtro-accion .btn {
-  width: 100%;
-  min-height: 42px;
-  border-radius: 10px;
-  font-weight: 800;
 }
 
 .modulo-panel-tecnico .modal-content {
@@ -243,9 +157,20 @@
 }
 
 .modulo-panel-tecnico .modal-header {
-  background: linear-gradient(180deg, rgba(123, 27, 39, 0.06), transparent);
-  border-bottom: 1px solid var(--mtz-border);
+  background: linear-gradient(135deg, var(--mtz-wine-deep), var(--mtz-wine));
+  border-bottom: 2px solid var(--mtz-gold);
   padding: 1rem 1.25rem;
+  color: #fff;
+}
+
+.modulo-panel-tecnico .modal-header .modal-title {
+  color: #fff;
+  font-weight: 800;
+}
+
+.modulo-panel-tecnico .modal-header .btn-close {
+  filter: invert(1) brightness(1.8);
+  opacity: 0.82;
 }
 
 .modulo-panel-tecnico .modal-footer {
@@ -259,48 +184,6 @@
   max-width: 100%;
 }
 
-.modulo-panel-tecnico #tbody-incidencias .btn.btn-sm.btn-pill {
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.65rem;
-  line-height: 1.2;
-  border-width: 1px;
-}
-
-.modulo-panel-tecnico #tbody-incidencias .btn.btn-info {
-  color: var(--mtz-wine);
-  background: rgba(255, 255, 255, 0.95);
-  border-color: var(--mtz-gold);
-}
-
-.modulo-panel-tecnico #tbody-incidencias .btn.btn-info:hover {
-  background: #fff;
-  border-color: var(--mtz-wine);
-  color: var(--mtz-wine);
-}
-
-.modulo-panel-tecnico #tbody-incidencias .btn.btn-success {
-  color: #fff;
-  background: linear-gradient(180deg, var(--mtz-wine), var(--mtz-wine-2));
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-.modulo-panel-tecnico #tbody-incidencias .btn.btn-success:hover {
-  filter: brightness(1.05);
-  color: #fff;
-}
-
-.modulo-panel-tecnico #tbody-incidencias .btn.btn-warning {
-  color: #6b4d0f;
-  background: rgba(200, 164, 71, 0.22);
-  border-color: rgba(200, 164, 71, 0.45);
-}
-
-.modulo-panel-tecnico #tbody-incidencias .btn.btn-warning:hover {
-  background: rgba(200, 164, 71, 0.32);
-  color: #4a3508;
-}
 
 .modulo-panel-tecnico #btn-como-llegar.btn-success {
   color: #fff !important;
@@ -440,4 +323,42 @@
   .modulo-panel-tecnico .modal-dialog {
     margin: 0.5rem;
   }
+}
+
+/* ==========================================
+   Refinamiento visual técnico (institucional)
+   ========================================== */
+.modulo-panel-tecnico .dashboard-tabla-filtros {
+  border-radius: var(--sigim-radius-lg);
+  background: linear-gradient(180deg, #fff, #fdf8f4);
+  border: 1px solid var(--sigim-border);
+}
+
+.modulo-panel-tecnico .card,
+.modulo-panel-tecnico .dashboard-chart-card,
+.modulo-panel-tecnico .card-mtz-panel {
+  border-radius: var(--sigim-radius-lg);
+}
+
+.modulo-panel-tecnico .table-hover tbody tr:hover {
+  background: rgba(123,27,39,.045) !important;
+}
+
+.modulo-panel-tecnico .upload-area {
+  border-radius: var(--sigim-radius-md);
+  border-color: rgba(123,27,39,.22);
+  background: linear-gradient(180deg, #fff, #fbf5f1);
+}
+
+.modulo-panel-tecnico .upload-area:hover {
+  border-color: rgba(200,164,71,.75);
+}
+
+.modulo-panel-tecnico .profile-dropdown-item i,
+.modulo-panel-tecnico .kpi-icon-wrap i,
+.modulo-panel-tecnico .modal-title i,
+.modulo-panel-tecnico .upload-area i {
+  font-family: "tabler-icons" !important;
+  font-style: normal;
+  font-weight: normal;
 }

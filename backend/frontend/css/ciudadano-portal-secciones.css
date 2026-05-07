@@ -61,11 +61,11 @@
 #carouselReportesSIGIM .carousel-inner {
   border-radius: 20px;
   overflow: hidden;
-  height: clamp(300px, 58vw, 620px);
+  height: var(--carousel-height);
 }
 
 #carouselReportesSIGIM .carousel-item {
-  height: clamp(300px, 58vw, 620px);
+  height: var(--carousel-height);
   position: relative;
   overflow: hidden;
 }
@@ -81,23 +81,28 @@
 
 #carouselReportesSIGIM .carousel-caption {
   position: absolute;
-  bottom: 2rem;
-  left: 2rem;
-  right: 2rem;
-  background: rgba(123, 27, 39, 0.85);
-  border-radius: 12px;
-  padding: 1.2rem;
-  backdrop-filter: blur(8px);
-  text-align: center;
+  bottom: clamp(3.25rem, 6vw, 5rem);
+  left: clamp(1.5rem, 4vw, 3rem);
+  right: auto;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-align: left;
+  z-index: 10;
+  max-width: 72%;
 }
 
 #carouselReportesSIGIM .carousel-caption h5 {
-  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
-  font-weight: 700;
+  font-size: clamp(1.35rem, 2.6vw, 1.95rem);
+  font-weight: 800;
   color: #fff;
   margin: 0;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.70);
+  max-width: 560px;
 }
 
 #carouselReportesSIGIM .carousel-caption p {
@@ -105,26 +110,32 @@
 }
 
 #carouselReportesSIGIM .carousel-indicators {
-  bottom: 1rem;
+  bottom: clamp(0.9rem, 2vw, 1.4rem);
+  left: clamp(1.5rem, 4vw, 3rem);
+  right: auto;
+  margin: 0;
+  justify-content: flex-start;
+  gap: 6px;
   z-index: 10;
-  margin-bottom: 0.5rem;
 }
 
 #carouselReportesSIGIM .carousel-indicators [data-bs-target] {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  margin: 0 6px;
+  width: 38px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.28);
+  border: none;
+  margin: 0;
   opacity: 1;
+  flex-shrink: 0;
+  transition: background-color var(--t-base), width var(--t-base);
 }
 
 #carouselReportesSIGIM .carousel-indicators [data-bs-target].active {
-  background-color: var(--mtz-wine);
-  border-color: #fff;
-  transform: scale(1.2);
-  box-shadow: 0 0 0 2px var(--mtz-gold);
+  background-color: var(--gold-full);
+  width: 54px;
+  transform: none;
+  box-shadow: none;
 }
 
 .carousel-control-moderno {
@@ -146,20 +157,32 @@
 
 #carouselReportesSIGIM .carousel-control-prev,
 #carouselReportesSIGIM .carousel-control-next {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   top: 50%;
   transform: translateY(-50%);
   border-radius: 50%;
-  background: rgba(123, 27, 39, 0.9);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 1;
+  transition: background-color var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+}
+
+#carouselReportesSIGIM .carousel-control-prev {
+  left: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+#carouselReportesSIGIM .carousel-control-next {
+  right: clamp(0.75rem, 1.5vw, 1.25rem);
 }
 
 #carouselReportesSIGIM .carousel-control-prev:hover,
 #carouselReportesSIGIM .carousel-control-next:hover {
-  background: rgba(123, 27, 39, 0.95);
+  background: rgba(200, 164, 71, 0.18);
+  border-color: rgba(200, 164, 71, 0.55);
+  transform: translateY(-50%) scale(1.08);
   opacity: 1;
 }
 
@@ -170,6 +193,55 @@
   width: 24px;
   height: 24px;
   filter: brightness(0) invert(1);
+}
+
+/* ── Overlay editorial del carrusel ── */
+.carousel-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--carousel-overlay);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Etiqueta categórica del slide (eyebrow) ── */
+.carousel-caption-tag {
+  display: block;
+  font-size: 0.70rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--gold-full);
+  margin-bottom: 0.45rem;
+  opacity: 0.92;
+}
+
+/* ── Título principal del slide ── */
+.carousel-caption-title {
+  font-size: clamp(1.35rem, 2.6vw, 1.95rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.70);
+  max-width: 560px;
+}
+
+/* ── Ken Burns: zoom suave en imagen activa ── */
+@keyframes carousel-ken-burns {
+  from { transform: scale(1.0); }
+  to   { transform: scale(1.06); }
+}
+
+#carouselReportesSIGIM .carousel-item.active .carousel-imagen {
+  animation: carousel-ken-burns 8s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #carouselReportesSIGIM .carousel-item.active .carousel-imagen {
+    animation: none;
+  }
 }
 
 /* ==========================================
@@ -338,31 +410,77 @@
 /* ==========================================
    DESTACADOS — “¿Qué puedes hacer en SIGIM-MTZ?”
    ========================================== */
-.portal-bloque-destacados .portal-bloque-titulo {
-  margin-bottom: clamp(1.75rem, 3vw, 2.35rem);
+.portal-bloque-destacados {
+  margin-bottom: clamp(2.2rem, 4vw, 3.2rem);
+}
+
+.portal-flujo-head {
+  text-align: center;
+  max-width: 980px;
+  margin: 0 auto clamp(1.8rem, 3.5vw, 2.65rem);
+}
+
+.portal-flujo-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 0 0 0.95rem;
+  color: #5d4a1d;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+}
+
+.portal-flujo-eyebrow::before,
+.portal-flujo-eyebrow::after {
+  content: "";
+  width: clamp(20px, 4vw, 48px);
+  height: 1.5px;
+  border-radius: 999px;
+  background: rgba(200, 164, 71, 0.65);
+}
+
+.portal-flujo-title {
+  margin: 0 0 0.85rem;
+  color: #121a2f;
+  font-size: clamp(2rem, 3.1vw + 0.9rem, 3.45rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+.portal-flujo-title span {
+  color: var(--mtz-wine);
+}
+
+.portal-flujo-subtitle {
+  margin: 0 auto;
+  max-width: 760px;
+  color: #4a5364;
+  font-size: clamp(1.02rem, 0.8vw + 0.86rem, 1.25rem);
+  line-height: 1.62;
+  letter-spacing: 0.01em;
+  text-wrap: pretty;
 }
 
 .portal-destacados-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1.15rem, 2.2vw, 1.65rem);
+  gap: clamp(1.15rem, 2vw, 1.55rem);
   align-items: stretch;
-}
-
-@media (max-width: 1100px) and (min-width: 901px) {
-  .portal-destacados-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 .portal-destacado-card {
   position: relative;
-  border-radius: var(--card-radius);
-  border: 1px solid var(--mtz-border);
-  background: var(--mtz-card);
-  box-shadow: var(--portal-shadow-card);
-  overflow: hidden;
-  transition: box-shadow 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
+  border-radius: 18px;
+  border: 1px solid rgba(30, 43, 78, 0.12);
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(23, 33, 58, 0.09), 0 2px 8px rgba(23, 33, 58, 0.04);
+  overflow: visible;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
 }
 
 .portal-destacado-card::before {
@@ -372,7 +490,20 @@
   left: 0;
   right: 0;
   height: 4px;
-  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  border-radius: 18px 18px 0 0;
+}
+
+.portal-destacado-card::after {
+  content: attr(data-step);
+  position: absolute;
+  top: clamp(0.7rem, 1.3vw, 0.95rem);
+  left: clamp(0.95rem, 1.6vw, 1.2rem);
+  color: rgba(17, 24, 39, 0.08);
+  font-size: clamp(2.2rem, 3.8vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
 }
 
 .portal-destacado-card--wine::before {
@@ -380,75 +511,194 @@
 }
 
 .portal-destacado-card--gold::before {
-  background: linear-gradient(90deg, var(--mtz-gold), #d4b45e);
+  background: linear-gradient(90deg, #d1ae55, var(--mtz-gold));
 }
 
 .portal-destacado-card:hover {
-  box-shadow: var(--portal-shadow-card-hover);
-  transform: translateY(-3px);
-  border-color: rgba(123, 27, 39, 0.12);
+  transform: translateY(-5px);
+  border-color: rgba(123, 27, 39, 0.22);
+  box-shadow: 0 16px 34px rgba(23, 33, 58, 0.14), 0 4px 12px rgba(123, 27, 39, 0.1);
+}
+
+.portal-destacado-card:not(:last-child) .portal-destacado-card-inner::after {
+  content: "\ea61";
+  font-family: "tabler-icons";
+  position: absolute;
+  right: clamp(-1.1rem, -1.9vw, -0.9rem);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(200, 164, 71, 0.5);
+  background: #fffdf9;
+  color: #7a6328;
+  font-size: 1.05rem;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(23, 33, 58, 0.12);
+  z-index: 4;
 }
 
 .portal-destacado-card-inner {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   height: 100%;
-  padding: clamp(1.35rem, 2.4vw, 1.85rem) clamp(1.2rem, 2vw, 1.55rem) clamp(1.25rem, 2vw, 1.5rem);
+  padding: clamp(1.6rem, 2.8vw, 2rem) clamp(1.15rem, 2vw, 1.5rem) clamp(1.3rem, 2vw, 1.55rem);
   text-align: left;
 }
 
 .portal-destacado-icon {
-  width: clamp(52px, 8vw, 60px);
-  height: clamp(52px, 8vw, 60px);
-  border-radius: 14px;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: clamp(1.35rem, 2.2vw, 1.55rem);
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
   flex-shrink: 0;
+  border: 1px solid rgba(123, 27, 39, 0.26);
+  background: #fff;
+}
+
+.portal-destacado-icon i {
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .portal-destacado-card--wine .portal-destacado-icon {
-  background: rgba(123, 27, 39, 0.1);
   color: var(--mtz-wine);
 }
 
 .portal-destacado-card--gold .portal-destacado-icon {
-  background: rgba(200, 164, 71, 0.2);
-  color: #5a4510;
+  color: #8a6b21;
+  border-color: rgba(200, 164, 71, 0.42);
 }
 
 .portal-destacado-titulo {
-  margin: 0 0 0.65rem;
-  font-size: clamp(1.15rem, 1.5vw + 0.5rem, 1.35rem);
+  margin: 0 0 0.68rem;
+  color: #212a3e;
+  font-size: clamp(1.24rem, 1vw + 0.92rem, 1.42rem);
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--mtz-ink);
+  text-wrap: balance;
+}
+
+.portal-destacado-card--wine .portal-destacado-titulo {
+  color: #651726;
+}
+
+.portal-destacado-card--gold .portal-destacado-titulo {
+  color: #7b5f1d;
 }
 
 .portal-destacado-texto {
   margin: 0 0 1.25rem;
   flex: 1 1 auto;
-  font-size: clamp(1.04rem, 0.5vw + 0.95rem, 1.14rem);
-  line-height: 1.68;
+  color: #4b5568;
+  font-size: clamp(1rem, 0.45vw + 0.92rem, 1.08rem);
+  line-height: 1.6;
   letter-spacing: 0.01em;
-  color: var(--mtz-muted);
 }
 
 body.portal-ciudadano .portal-destacado-ver-mas.btn-mtz-outline {
   margin-top: auto;
   width: 100%;
   justify-content: center;
+  gap: 0.45rem;
+  border-radius: 10px;
+  padding: 0.62rem 1rem;
+  font-size: 0.98rem;
   font-weight: 700;
-  padding: 0.55rem 1.1rem;
-  border-radius: var(--btn-radius);
-  gap: 0.15rem;
+  background: #fff !important;
+  border-width: 1.5px !important;
+  transition: transform var(--portal-transition), box-shadow var(--portal-transition), border-color var(--portal-transition);
+}
+
+body.portal-ciudadano .portal-destacado-ver-mas.btn-mtz-outline:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(23, 33, 58, 0.12);
 }
 
 body.portal-ciudadano .portal-destacado-ver-mas.btn-mtz-outline:focus-visible {
   box-shadow: var(--portal-ring);
+}
+
+.portal-flujo-franja {
+  margin-top: clamp(1.2rem, 2.2vw, 1.8rem);
+  padding: clamp(1rem, 2vw, 1.3rem) clamp(1rem, 2vw, 1.55rem);
+  border-radius: 14px;
+  border: 1px solid rgba(200, 164, 71, 0.34);
+  background:
+    linear-gradient(180deg, #fff 0%, #fffaf1 100%);
+  box-shadow: 0 8px 18px rgba(23, 33, 58, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+}
+
+.portal-flujo-franja-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(123, 27, 39, 0.08);
+  color: var(--mtz-wine);
+  border: 1px solid rgba(123, 27, 39, 0.2);
+  font-size: 1.55rem;
+  flex-shrink: 0;
+}
+
+.portal-flujo-franja-texto {
+  min-width: 0;
+}
+
+.portal-flujo-franja-titulo {
+  margin: 0 0 0.2rem;
+  color: #4a1422;
+  font-size: clamp(1.2rem, 1.25vw + 0.82rem, 1.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.portal-flujo-franja-subtitulo {
+  margin: 0;
+  color: #5b6274;
+  font-size: clamp(0.98rem, 0.45vw + 0.9rem, 1.06rem);
+  line-height: 1.55;
+}
+
+@media (max-width: 1120px) {
+  .portal-destacados-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .portal-destacado-card:not(:last-child) .portal-destacado-card-inner::after {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .portal-flujo-eyebrow {
+    letter-spacing: 0.28em;
+  }
+
+  .portal-flujo-franja {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .portal-flujo-franja-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 1.35rem;
+  }
 }
 
 /* Modales informativos del portal */
@@ -713,15 +963,21 @@ body.portal-ciudadano .portal-info-modal .modal-header .btn-close {
 }
 
 .portal-categoria-premium--bacheo {
-  background: linear-gradient(135deg, #e8a838 0%, #c27612 55%, #a35f0c 100%);
+  background:
+    linear-gradient(155deg, rgba(232, 152, 28, 0.76) 0%, rgba(163, 90, 8, 0.9) 100%),
+    url('../assets/reportes/bacheo.png') center / cover no-repeat;
 }
 
 .portal-categoria-premium--alumbrado {
-  background: linear-gradient(135deg, #7b1b27 0%, #5c1530 50%, #3d0f24 100%);
+  background:
+    linear-gradient(155deg, rgba(80, 15, 30, 0.8) 0%, rgba(40, 5, 18, 0.92) 100%),
+    url('../assets/reportes/alumbrado.png') center / cover no-repeat;
 }
 
 .portal-categoria-premium--areas-verdes {
-  background: linear-gradient(135deg, #5a8f6e 0%, #3d6b4f 55%, #2d523c 100%);
+  background:
+    linear-gradient(155deg, rgba(55, 100, 68, 0.8) 0%, rgba(30, 60, 42, 0.92) 100%),
+    url('../assets/reportes/areas-verdes.png') center / cover no-repeat;
 }
 
 .portal-categoria-premium--danos {
@@ -729,7 +985,9 @@ body.portal-ciudadano .portal-info-modal .modal-header .btn-close {
 }
 
 .portal-categoria-premium--drenaje {
-  background: linear-gradient(135deg, #2a7a8c 0%, #1e5f6e 55%, #164a56 100%);
+  background:
+    linear-gradient(155deg, rgba(28, 100, 120, 0.8) 0%, rgba(15, 68, 84, 0.92) 100%),
+    url('../assets/reportes/drenaje.png') center / cover no-repeat;
 }
 
 .portal-categoria-premium--fugas {
@@ -737,7 +995,9 @@ body.portal-ciudadano .portal-info-modal .modal-header .btn-close {
 }
 
 .portal-categoria-premium--basura {
-  background: linear-gradient(135deg, #7a8f5c 0%, #5c6b45 55%, #465536 100%);
+  background:
+    linear-gradient(155deg, rgba(95, 112, 65, 0.8) 0%, rgba(60, 75, 40, 0.92) 100%),
+    url('../assets/reportes/basura.png') center / cover no-repeat;
 }
 
 .portal-categoria-premium--senalizacion {
@@ -758,32 +1018,7 @@ body.portal-ciudadano .portal-info-modal .modal-header .btn-close {
 }
 
 body.portal-ciudadano .footer-institucional::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.28;
-  background-image: repeating-linear-gradient(
-      -32deg,
-      transparent,
-      transparent 3px,
-      rgba(255, 255, 255, 0.035) 3px,
-      rgba(255, 255, 255, 0.035) 4px
-    ),
-    repeating-linear-gradient(
-      58deg,
-      transparent,
-      transparent 5px,
-      rgba(0, 0, 0, 0.05) 5px,
-      rgba(0, 0, 0, 0.05) 6px
-    ),
-    url("../assets/barra-textura-organica.png");
-  background-repeat: repeat, repeat, repeat;
-  background-size: auto, auto, clamp(200px, 22vw, 280px) auto;
-  background-position: 0 0, 0 0, center top;
-  background-blend-mode: overlay, overlay, soft-light;
-  mix-blend-mode: overlay;
+  display: none;
 }
 
 body.portal-ciudadano .footer-institucional .layout-full {
@@ -797,8 +1032,8 @@ body.portal-ciudadano .footer-institucional .layout-full {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: clamp(2rem, 3vw, 2.5rem);
+  grid-template-columns: 1.5fr 0.85fr 1fr 0.9fr;
+  gap: clamp(1.5rem, 2.5vw, 2.25rem);
   align-items: start;
 }
 
@@ -951,5 +1186,693 @@ body.portal-ciudadano .footer-institucional .layout-full {
 .botones-principales-centrados .btn-mtz:hover {
   transform: translateY(-2px) !important;
   filter: none !important;
+}
+
+/* ==========================================
+   FOOTER — COLUMNA CONTACTO
+   ========================================== */
+.footer-contacto-contenido,
+.footer-redes-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-contacto-header,
+.footer-redes-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-contacto-detalle {
+  margin-left: clamp(2rem, 2.5vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.footer-contacto-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-size: clamp(0.82rem, 1.2vw, 0.94rem);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.footer-contacto-link:hover {
+  color: var(--mtz-gold);
+  text-decoration: none;
+}
+
+.footer-contacto-link i {
+  font-size: 0.88rem;
+  color: rgba(200, 164, 71, 0.8);
+  flex-shrink: 0;
+}
+
+/* ==========================================
+   FOOTER — COLUMNA REDES SOCIALES
+   ========================================== */
+.footer-redes-detalle {
+  margin-left: clamp(2rem, 2.5vw, 2.25rem);
+}
+
+.footer-redes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer-red-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: clamp(0.82rem, 1.2vw, 0.94rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.footer-red-link:hover {
+  color: var(--mtz-gold);
+}
+
+.footer-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.footer-red-link:hover .footer-social-icon {
+  transform: translateY(-2px);
+}
+
+.footer-social-icon.facebook {
+  background: #1877f2;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(24, 119, 242, 0.3);
+}
+
+.footer-social-icon.instagram {
+  background: linear-gradient(45deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(220, 39, 67, 0.3);
+}
+
+/* ==========================================
+   FOOTER — LEGAL LINKS
+   ========================================== */
+.footer-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.55rem;
+}
+
+.footer-legal-link {
+  color: rgba(255, 255, 255, 0.58);
+  text-decoration: none;
+  font-size: clamp(0.74rem, 1vw, 0.82rem);
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+}
+
+.footer-legal-link:hover {
+  color: rgba(200, 164, 71, 0.85);
+  text-decoration: none;
+}
+
+.footer-legal-sep {
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 0.7rem;
+}
+
+/* ==========================================
+   PORTAL INFO — sección divisoria mejorada
+   ========================================== */
+.portal-info-ciudadana {
+  width: 100%;
+  padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1rem, 3vw, 1.5rem) calc(var(--portal-space-seccion) + 0.75rem);
+  background: linear-gradient(180deg, #ffffff 0%, var(--mtz-bg) 45%, var(--mtz-bg2) 100%);
+  position: relative;
+}
+
+/* Acento superior removido por ajuste visual */
+.portal-info-ciudadana::before {
+  display: none;
+}
+
+/* ==========================================
+   SECCIÓN REDES SOCIALES
+   ========================================== */
+.portal-redes-section {
+  background: #4a1018;
+  border-top: 4px solid var(--mtz-gold);
+  border-bottom: 4px solid var(--mtz-gold);
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.portal-redes-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+.portal-redes-texto {
+  flex: 1;
+  min-width: 240px;
+}
+
+.portal-redes-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mtz-gold);
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.portal-redes-titulo {
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 0.5rem;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+}
+
+.portal-redes-lead {
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  line-height: 1.62;
+  max-width: 460px;
+}
+
+.portal-redes-botones {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.portal-red-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.35rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: inherit;
+  min-width: 200px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.portal-red-btn:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.portal-red-btn i {
+  font-size: 1.65rem;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.portal-red-btn-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+
+.portal-red-btn-red {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.2;
+}
+
+.portal-red-btn-handle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.portal-red-btn--facebook {
+  background: #1877f2;
+  box-shadow: 0 4px 16px rgba(24, 119, 242, 0.32);
+}
+
+.portal-red-btn--facebook:hover {
+  box-shadow: 0 8px 24px rgba(24, 119, 242, 0.46);
+}
+
+.portal-red-btn--instagram {
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  box-shadow: 0 4px 16px rgba(220, 39, 67, 0.32);
+}
+
+.portal-red-btn--instagram:hover {
+  box-shadow: 0 8px 24px rgba(220, 39, 67, 0.46);
+}
+
+/* ==========================================
+   Portal Ciudadano — Ajustes canónicos
+   ========================================== */
+
+/* Textura de fondo en footer */
+body.portal-ciudadano .footer-institucional::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  display: block;
+  opacity: 0.2;
+  background-image: url("../assets/barra-textura-organica.png");
+  background-repeat: repeat;
+  background-size: clamp(200px, 22vw, 280px) auto;
+  background-position: center top;
+  mix-blend-mode: soft-light;
+}
+
+/* Footer — orden de columnas */
+body.portal-ciudadano .footer-grid {
+  grid-template-columns: 1.5fr 1fr 0.9fr 0.85fr;
+}
+
+body.portal-ciudadano .footer-identidad { order: 1; }
+body.portal-ciudadano .footer-contacto  { order: 2; }
+body.portal-ciudadano .footer-horario   { order: 3; }
+body.portal-ciudadano .footer-redes     { order: 4; }
+
+body.portal-ciudadano .footer-columna-titulo {
+  color: #ffffff;
+}
+
+body.portal-ciudadano .footer-texto,
+body.portal-ciudadano .footer-descripcion,
+body.portal-ciudadano .footer-contacto-link,
+body.portal-ciudadano .footer-copy {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body.portal-ciudadano .footer-contacto-link i,
+body.portal-ciudadano .footer-icono {
+  color: #ffffff;
+}
+
+body.portal-ciudadano .footer-legal-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body.portal-ciudadano .footer-logo {
+  border-radius: 10px;
+}
+
+/* Social icons — círculos 44px en fila horizontal */
+body.portal-ciudadano .footer-redes-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 0.9rem;
+  margin-top: 0.15rem;
+}
+
+body.portal-ciudadano .footer-red-link {
+  width: auto;
+  height: auto;
+  padding: 0.15rem;
+  justify-content: center;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+body.portal-ciudadano .footer-red-link:hover {
+  transform: translateY(-2px);
+  background: transparent;
+  border: none;
+}
+
+body.portal-ciudadano .footer-social-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+}
+
+/* Ocultar textura de ruido en tarjetas de categoría */
+body.portal-ciudadano .portal-categoria-premium-texture {
+  display: none;
+}
+
+/* Ocultar pseudo-elemento decorativo en header de modal de categoría */
+body.portal-ciudadano .portal-info-modal .modal-header::before {
+  display: none;
+}
+
+/* ==========================================
+   FASE 1 — Rediseño central institucional
+   ========================================== */
+body.portal-ciudadano .portal-destacado-card {
+  border: 1px solid rgba(123, 27, 39, 0.1);
+  box-shadow: 0 8px 22px rgba(30, 35, 60, 0.08), 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+body.portal-ciudadano .portal-destacado-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 34px rgba(30, 35, 60, 0.13), 0 4px 12px rgba(123, 27, 39, 0.12);
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva {
+  border-radius: 18px;
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s ease, filter 0.24s ease;
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 34px rgba(20, 22, 34, 0.25), 0 6px 14px rgba(0, 0, 0, 0.14);
+  filter: saturate(1.04);
+}
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:active {
+  transform: translateY(-1px) scale(0.992);
+}
+
+body.portal-ciudadano .portal-bloque-beneficios .portal-bloque-titulo {
+  margin-bottom: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+body.portal-ciudadano .portal-beneficios-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.95rem, 1.8vw, 1.35rem);
+}
+
+body.portal-ciudadano .portal-beneficio-card {
+  position: relative;
+  background: linear-gradient(180deg, #ffffff 0%, #fffaf4 100%);
+  border: 1px solid rgba(123, 27, 39, 0.1);
+  border-radius: 16px;
+  padding: clamp(1.1rem, 1.8vw, 1.4rem);
+  box-shadow: 0 8px 24px rgba(33, 33, 52, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+body.portal-ciudadano .portal-beneficio-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(90deg, var(--mtz-wine), var(--mtz-gold));
+}
+
+body.portal-ciudadano .portal-beneficio-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(123, 27, 39, 0.18);
+  box-shadow: 0 14px 28px rgba(33, 33, 52, 0.12), 0 4px 10px rgba(123, 27, 39, 0.1);
+}
+
+body.portal-ciudadano .portal-beneficio-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 0.8rem;
+  color: var(--mtz-wine);
+  background: rgba(123, 27, 39, 0.09);
+  border: 1px solid rgba(123, 27, 39, 0.16);
+  font-size: 1.2rem;
+}
+
+body.portal-ciudadano .portal-beneficio-card h3 {
+  margin: 0 0 0.5rem;
+  color: var(--mtz-ink);
+  font-size: clamp(1.05rem, 1vw + 0.72rem, 1.2rem);
+  font-weight: 800;
+}
+
+body.portal-ciudadano .portal-beneficio-card p {
+  margin: 0;
+  color: #4e5566;
+  font-size: clamp(0.94rem, 0.85vw, 1rem);
+  line-height: 1.55;
+}
+
+@media (max-width: 1100px) {
+  body.portal-ciudadano .portal-beneficios-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  body.portal-ciudadano .portal-beneficios-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.portal-ciudadano .portal-destacado-card,
+  body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva,
+  body.portal-ciudadano .portal-beneficio-card {
+    transition: none !important;
+  }
+
+  body.portal-ciudadano .portal-destacado-card:hover,
+  body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:hover,
+  body.portal-ciudadano .portal-beneficio-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ==========================================
+   Ajuste sobrio: categorías y beneficios
+   ========================================== */
+body.portal-ciudadano .portal-bloque-categorias .portal-bloque-titulo p {
+  display: none;
+}
+
+body.portal-ciudadano .portal-categorias-premium-grid {
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+body.portal-ciudadano .portal-categoria-premium {
+  min-height: 132px;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  background: #fff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+body.portal-ciudadano .portal-categoria-premium-texture,
+body.portal-ciudadano .portal-categoria-premium-subtitulo,
+body.portal-ciudadano .portal-categoria-premium-vermas {
+  display: none;
+}
+
+body.portal-ciudadano .portal-categoria-premium-inner {
+  padding: 1rem 0.9rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+body.portal-ciudadano .portal-categoria-premium-main {
+  align-items: center;
+  text-align: center;
+}
+
+body.portal-ciudadano .portal-categoria-premium-icon {
+  width: 42px;
+  height: 42px;
+  font-size: 1.25rem;
+  border-radius: 10px;
+  background: #f8f8f8;
+  color: var(--mtz-wine);
+  box-shadow: none;
+}
+
+body.portal-ciudadano .portal-categoria-premium-titulo {
+  font-size: clamp(0.9rem, 0.85vw + 0.72rem, 1rem);
+  line-height: 1.2;
+  color: #2d3242;
+  text-shadow: none;
+  -webkit-line-clamp: 3;
+}
+
+body.portal-ciudadano .portal-categoria-premium--alumbrado .portal-categoria-premium-icon { color: #f2a900; }
+body.portal-ciudadano .portal-categoria-premium--basura .portal-categoria-premium-icon { color: #2f8e57; }
+body.portal-ciudadano .portal-categoria-premium--bacheo .portal-categoria-premium-icon { color: #2f3447; }
+body.portal-ciudadano .portal-categoria-premium--areas-verdes .portal-categoria-premium-icon { color: #4fa45f; }
+body.portal-ciudadano .portal-categoria-premium--drenaje .portal-categoria-premium-icon { color: #2f86d8; }
+body.portal-ciudadano .portal-categoria-premium--danos .portal-categoria-premium-icon,
+body.portal-ciudadano .portal-categoria-premium--fugas .portal-categoria-premium-icon,
+body.portal-ciudadano .portal-categoria-premium--senalizacion .portal-categoria-premium-icon { color: #5d6274; }
+
+body.portal-ciudadano .portal-categoria-premium.portal-categoria-interactiva:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  filter: none;
+}
+
+body.portal-ciudadano .portal-bloque-beneficios .portal-bloque-titulo {
+  display: none;
+}
+
+body.portal-ciudadano .portal-beneficios-grid {
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  background: #fff;
+  padding: 0.7rem;
+  gap: 0.55rem;
+}
+
+body.portal-ciudadano .portal-beneficio-card {
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: none;
+  padding: 0.6rem 0.55rem;
+}
+
+body.portal-ciudadano .portal-beneficio-card::after {
+  display: none;
+}
+
+body.portal-ciudadano .portal-beneficio-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+body.portal-ciudadano .portal-beneficio-icono {
+  width: 30px;
+  height: 30px;
+  border: none;
+  margin-bottom: 0.35rem;
+  background: transparent;
+  color: var(--mtz-wine);
+  font-size: 1rem;
+}
+
+body.portal-ciudadano .portal-beneficio-card h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.18rem;
+}
+
+body.portal-ciudadano .portal-beneficio-card p {
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+/* ==========================================
+   CARRUSEL — FASE 1 (controlado)
+   Rediseño institucional sin tocar Bootstrap/JS
+   ========================================== */
+body.portal-ciudadano #carouselReportesSIGIM .carousel-inner,
+body.portal-ciudadano #carouselReportesSIGIM .carousel-item {
+  height: var(--carousel-height-inst);
+}
+
+body.portal-ciudadano .carousel-wrap-ajustado {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--carousel-wrap-shadow);
+}
+
+/* Balance visual: oscuro elegante, no agresivo */
+body.portal-ciudadano .carousel-hero-overlay {
+  background: var(--carousel-overlay-inst), var(--carousel-ol-dir);
+}
+
+body.portal-ciudadano #carouselReportesSIGIM .carousel-hero-caption {
+  bottom: var(--carousel-caption-bottom);
+  max-width: var(--carousel-caption-max);
+  padding-left: 18px;
+}
+
+body.portal-ciudadano #carouselReportesSIGIM .carousel-hero-caption::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--carousel-cap-bar-w);
+  border-radius: 2px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--gold-full) 0%,
+    rgba(200, 164, 71, 0.3) 100%
+  );
+}
+
+body.portal-ciudadano #carouselReportesSIGIM .carousel-caption-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.52);
+  opacity: 1;
+}
+
+body.portal-ciudadano #carouselReportesSIGIM .carousel-caption-title {
+  text-shadow: var(--carousel-title-shd);
+}
+
+body.portal-ciudadano #carouselReportesSIGIM .carousel-control-prev {
+  left: var(--carousel-ctrl-pos);
+}
+
+body.portal-ciudadano #carouselReportesSIGIM .carousel-control-next {
+  right: var(--carousel-ctrl-pos);
+}
+
+body.portal-ciudadano #carouselReportesSIGIM .carousel-indicators {
+  left: var(--carousel-ctrl-pos);
+}
+
+@media (max-width: 768px) {
+  body.portal-ciudadano #carouselReportesSIGIM .carousel-inner,
+  body.portal-ciudadano #carouselReportesSIGIM .carousel-item {
+    height: clamp(240px, 46vw, 340px);
+  }
+
+  body.portal-ciudadano #carouselReportesSIGIM .carousel-hero-caption::before {
+    display: none;
+  }
+
+  body.portal-ciudadano #carouselReportesSIGIM .carousel-hero-caption {
+    max-width: 100%;
+    padding-left: 0;
+  }
 }
 
