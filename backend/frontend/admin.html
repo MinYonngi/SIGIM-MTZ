@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIGIM-MTZ | Panel Administrador</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link href="/css/styles.css" rel="stylesheet" />
+  <link href="/css/admin.css" rel="stylesheet" />
+</head>
+<body class="bg-body-tertiary modulo-panel-admin">
+  <nav class="navbar topbar-mtz sticky-top" aria-label="Barra superior del panel administrador">
+    <div class="layout-full topbar-wrap">
+      <div class="topbar-brand">
+        <img src="/assets/escudo.png" class="logo-box topbar-logo-escudo" alt="Escudo Oficial Ayuntamiento Martínez de la Torre">
+        <span class="topbar-brand-pipe" aria-hidden="true"></span>
+        <div class="topbar-marca-sigim">
+          <img src="/assets/Logo.png" class="topbar-logo-app" width="280" height="112" alt="" decoding="async">
+          <div class="topbar-brand-texto">
+            <div class="topbar-titulo">SIGIM-MTZ</div>
+            <div class="topbar-subtitulo">Panel Administrador</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-acceso-wrap">
+        <div class="dropdown">
+          <button class="user-avatar-btn dropdown-toggle"
+                  type="button"
+                  id="btn-admin-menu"
+                  data-bs-toggle="dropdown"
+                  data-bs-offset="0,8"
+                  aria-expanded="false"
+                  aria-label="Menú de usuario">
+            <div class="user-avatar" aria-hidden="true">
+              <span class="user-avatar-initials" id="topbar-user-initials">AD</span>
+            </div>
+            <span class="user-name-short" id="admin-user-name">Administrador</span>
+            <i class="ti ti-chevron-down admin-chevron" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu" aria-labelledby="btn-admin-menu">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">
+                <span class="user-avatar-initials" id="menu-user-initials" style="font-size:1.1rem;">AD</span>
+              </div>
+              <div class="profile-dropdown-info">
+                <p class="profile-dropdown-name" id="menu-user-name">Administrador</p>
+                <span class="profile-dropdown-role">Panel Administrador</span>
+              </div>
+            </div>
+            <div class="profile-dropdown-body">
+              <a href="/admin/perfil" id="link-ver-perfil-topbar" class="profile-dropdown-item">
+                <i class="ti ti-user"></i>
+                Ver perfil
+              </a>
+              <div class="profile-dropdown-divider"></div>
+              <button type="button" class="profile-dropdown-item logout" id="btn-cerrar-sesion-menu">
+                <i class="ti ti-logout"></i>
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+        <button id="admin-btn-logout" type="button" class="btn btn-mtz btn-mtz-ghost btn-sm" aria-label="Cerrar sesión">
+          <i class="ti ti-logout me-1"></i>Salir
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <nav class="nav flex-column">
+        <a class="nav-link active" href="#admin-dashboard">Dashboard</a>
+        <a class="nav-link" href="#admin-usuarios">Usuarios</a>
+        <a class="nav-link" href="#admin-roles">Roles y permisos</a>
+        <a class="nav-link" href="#admin-catalogos">Catálogos</a>
+        <a class="nav-link" href="#admin-auditoria">Seguridad y auditoría</a>
+        <a class="nav-link" href="#admin-mantenimiento">Mantenimiento</a>
+        <a class="nav-link" href="#admin-reportes">Reportes</a>
+        <a class="nav-link" href="/admin/perfil">Mi perfil</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <section id="admin-dashboard" class="admin-section">
+        <h1 class="admin-title">Panel Administrador del sistema</h1>
+        <p class="admin-subtitle">Vista inicial de operación administrativa (Fase 1).</p>
+
+        <div id="admin-alert" class="alert d-none" role="alert"></div>
+
+        <div class="row g-3 mt-1">
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Total usuarios</span><strong id="kpi-total-usuarios">0</strong></article></div>
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Usuarios activos</span><strong id="kpi-usuarios-activos">0</strong></article></div>
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Usuarios inactivos</span><strong id="kpi-usuarios-inactivos">0</strong></article></div>
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Administradores</span><strong id="kpi-total-admins">0</strong></article></div>
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Supervisores</span><strong id="kpi-total-supervisores">0</strong></article></div>
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Operadores</span><strong id="kpi-total-operadores">0</strong></article></div>
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Total incidencias</span><strong id="kpi-total-incidencias">0</strong></article></div>
+          <div class="col-12 col-md-6 col-xl-3"><article class="admin-kpi"><span>Total evidencias</span><strong id="kpi-total-evidencias">0</strong></article></div>
+        </div>
+      </section>
+
+      <section id="admin-usuarios" class="admin-section"><h2>Gestión de usuarios internos</h2><p>Próximamente.</p></section>
+      <section id="admin-roles" class="admin-section"><h2>Roles y permisos</h2><p>Próximamente.</p></section>
+      <section id="admin-catalogos" class="admin-section"><h2>Catálogos</h2><p>Próximamente.</p></section>
+      <section id="admin-auditoria" class="admin-section"><h2>Seguridad y auditoría</h2><p>Próximamente.</p></section>
+      <section id="admin-mantenimiento" class="admin-section"><h2>Mantenimiento</h2><p>Próximamente.</p></section>
+      <section id="admin-reportes" class="admin-section"><h2>Reportes</h2><p>Próximamente.</p></section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

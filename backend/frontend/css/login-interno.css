@@ -23,13 +23,39 @@ body.pagina-login-interno {
   margin: 0;
   min-height: 100vh;
   min-height: 100dvh;
+  position: relative;
+  isolation: isolate;
   font-family: "Montserrat", system-ui, sans-serif;
   color: var(--grafito-900);
   background:
-    radial-gradient(62% 42% at 6% 0%, rgba(122, 35, 51, 0.1) 0%, transparent 70%),
-    radial-gradient(50% 35% at 100% 100%, rgba(189, 155, 94, 0.12) 0%, transparent 70%),
-    linear-gradient(180deg, var(--humo-50) 0%, var(--humo-100) 100%);
+    radial-gradient(58% 40% at 4% 0%, rgba(122, 35, 51, 0.14) 0%, transparent 72%),
+    radial-gradient(46% 34% at 100% 100%, rgba(189, 155, 94, 0.14) 0%, transparent 72%),
+    linear-gradient(180deg, #faf7f2 0%, #f2ebe3 100%);
   -webkit-font-smoothing: antialiased;
+}
+
+body.pagina-login-interno::before,
+body.pagina-login-interno::after {
+  content: "";
+  position: fixed;
+  inset: -12%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body.pagina-login-interno::before {
+  background:
+    radial-gradient(42% 32% at 12% 18%, rgba(122, 35, 51, 0.16) 0%, transparent 72%),
+    radial-gradient(38% 30% at 86% 84%, rgba(189, 155, 94, 0.12) 0%, transparent 74%);
+  animation: loginPageAmbientDrift 16s ease-in-out infinite alternate;
+}
+
+body.pagina-login-interno::after {
+  background:
+    radial-gradient(48% 34% at 80% 12%, rgba(122, 35, 51, 0.08) 0%, transparent 76%),
+    radial-gradient(40% 26% at 24% 84%, rgba(189, 155, 94, 0.08) 0%, transparent 78%);
+  animation: loginPageAmbientDrift 22s ease-in-out infinite alternate-reverse;
+  opacity: 0.8;
 }
 
 .login-interno-shell {
@@ -38,40 +64,48 @@ body.pagina-login-interno {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(0.75rem, 2vw, 1.75rem);
+  padding: clamp(0.55rem, 1.35vw, 1.1rem);
   box-sizing: border-box;
 }
 
 .login-interno-card {
   width: 100%;
-  max-width: min(1400px, 98vw);
-  background: #fff;
+  max-width: min(1540px, 98.8vw);
+  background: linear-gradient(180deg, #fdfbf8 0%, #f8f2ea 100%);
   border-radius: clamp(20px, 2.2vw, 30px);
   box-shadow:
-    0 30px 62px rgba(38, 12, 18, 0.16),
-    0 10px 24px rgba(0, 0, 0, 0.07);
+    0 30px 64px rgba(38, 12, 18, 0.18),
+    0 10px 26px rgba(26, 9, 13, 0.1);
   overflow: hidden;
-  border: 1px solid rgba(74, 18, 29, 0.14);
+  border: 1px solid rgba(74, 18, 29, 0.1);
+  opacity: 0;
+  animation: loginSurfaceIn 620ms cubic-bezier(0.22, 1, 0.36, 1) 20ms forwards;
 }
 
 .login-interno-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
-  min-height: min(89vh, 790px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  min-height: min(92vh, 900px);
 }
 
 .login-interno-art-col {
   position: relative;
   overflow: hidden;
-  border-right: 1px solid rgba(189, 155, 94, 0.32);
+  border-right: 1px solid rgba(189, 155, 94, 0.24);
+  opacity: 0;
+  animation: loginArtPanelIn 620ms cubic-bezier(0.22, 1, 0.36, 1) 110ms forwards;
 }
 
 .login-interno-art {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(136deg, rgba(47, 13, 21, 0.74) 0%, rgba(74, 18, 29, 0.58) 46%, rgba(35, 11, 17, 0.76) 100%),
+    linear-gradient(140deg, rgba(41, 10, 18, 0.68) 0%, rgba(74, 18, 29, 0.52) 48%, rgba(27, 7, 13, 0.7) 100%),
     url("../assets/fondo-login.png") center center / cover no-repeat;
+  transform: scale(1.02);
+  transform-origin: center;
+  animation: loginBackgroundDrift 18s ease-in-out infinite alternate;
+  will-change: transform, filter;
 }
 
 .login-interno-art::before {
@@ -79,34 +113,44 @@ body.pagina-login-interno {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(72% 52% at 8% 10%, rgba(189, 155, 94, 0.16) 0%, transparent 74%),
-    linear-gradient(180deg, rgba(27, 9, 14, 0.02) 0%, rgba(27, 9, 14, 0.45) 100%);
+    radial-gradient(68% 48% at 10% 8%, rgba(189, 155, 94, 0.14) 0%, transparent 78%),
+    linear-gradient(180deg, rgba(25, 9, 14, 0.05) 0%, rgba(25, 9, 14, 0.34) 100%);
+  animation: loginOverlayDrift 14s ease-in-out infinite alternate;
 }
 
 .login-interno-art::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.24;
+  opacity: 0.14;
   background:
-    radial-gradient(88% 64% at 50% 50%, transparent 44%, rgba(0, 0, 0, 0.26) 100%);
+    radial-gradient(88% 64% at 50% 50%, transparent 44%, rgba(0, 0, 0, 0.18) 100%);
 }
 
 .login-interno-art-overlay {
   position: relative;
   z-index: 1;
   min-height: 100%;
-  padding: clamp(2.05rem, 3.4vw, 3.25rem) clamp(1.9rem, 3.1vw, 3rem) clamp(1.45rem, 2.5vw, 2.35rem);
+  padding: clamp(1.7rem, 2.4vw, 2.2rem) clamp(1.45rem, 2vw, 2rem) clamp(1.1rem, 1.6vw, 1.5rem);
   display: flex;
   flex-direction: column;
 }
 
 .login-interno-art-header {
-  margin-bottom: clamp(2.3rem, 8.2vh, 3.9rem);
+  width: min(360px, 82%);
+  margin: 0 auto clamp(1.8rem, 5.6vh, 2.6rem);
+  padding: 0;
+  background: none;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  opacity: 0;
+  animation: loginArtElementIn 520ms cubic-bezier(0.22, 1, 0.36, 1) 230ms both;
 }
 
 .login-interno-art-logos-gob {
-  width: min(470px, 84%);
+  width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
@@ -120,52 +164,70 @@ body.pagina-login-interno {
 }
 
 .login-interno-art-logo {
-  width: min(560px, 100%);
+  width: min(360px, 90%);
   height: auto;
   object-fit: contain;
-  margin-bottom: clamp(1.2rem, 2.75vh, 1.8rem);
-  filter: drop-shadow(0 12px 18px rgba(10, 3, 6, 0.32));
+  margin-bottom: clamp(0.42rem, 1vh, 0.72rem);
+  filter: drop-shadow(0 10px 18px rgba(10, 3, 6, 0.28));
+  opacity: 0;
+  animation: loginArtElementIn 520ms cubic-bezier(0.22, 1, 0.36, 1) 310ms both;
 }
 
 .login-interno-art-branding {
-  margin: auto 0 1.1rem;
-  max-width: 590px;
+  margin: auto auto 1rem;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: none;
+  animation: loginBrandFloat 7.2s ease-in-out 1.2s infinite alternate;
 }
 
 .login-interno-art-title {
   margin: 0;
-  max-width: 560px;
-  color: rgba(255, 247, 233, 0.97);
-  font-size: clamp(0.98rem, 1.24vw, 1.12rem);
-  font-weight: 620;
-  line-height: 1.4;
-  letter-spacing: 0.048em;
+  max-width: 400px;
+  color: rgba(255, 246, 234, 0.97);
+  font-size: clamp(1.02rem, 1.2vw, 1.13rem);
+  font-weight: 600;
+  line-height: 1.38;
+  letter-spacing: 0.024em;
   text-transform: uppercase;
   text-wrap: balance;
   position: relative;
-  padding-bottom: 0.88rem;
+  padding-bottom: 0.62rem;
+  text-align: center;
+  opacity: 0;
+  animation: loginArtElementIn 520ms cubic-bezier(0.22, 1, 0.36, 1) 380ms both;
 }
 
 .login-interno-art-title::after {
   content: "";
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: 0;
-  width: min(310px, 72%);
+  width: min(300px, 70%);
   height: 1px;
+  transform: translateX(-50%);
   background: linear-gradient(90deg, rgba(207, 178, 122, 0.75), rgba(207, 178, 122, 0.08));
 }
 
 .login-interno-art-subtitle {
-  margin: 1rem 0 0;
-  color: rgba(239, 224, 197, 0.95);
-  font-size: clamp(0.83rem, 0.95vw, 0.88rem);
+  margin: 0.58rem 0 0;
+  color: rgba(241, 226, 202, 0.95);
+  font-size: clamp(0.86rem, 0.98vw, 0.92rem);
   font-weight: 500;
-  letter-spacing: 0.015em;
-  max-width: 460px;
+  letter-spacing: 0.012em;
+  max-width: 380px;
   display: inline-flex;
   align-items: center;
   gap: 0.46rem;
+  text-align: center;
+  justify-content: center;
+  opacity: 0;
+  animation: loginArtElementIn 520ms cubic-bezier(0.22, 1, 0.36, 1) 450ms both;
 }
 
 .login-interno-art-subtitle i {
@@ -177,25 +239,27 @@ body.pagina-login-interno {
   margin-top: auto;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.14rem;
-  padding-top: 1.46rem;
-  border-top: 1px solid rgba(189, 155, 94, 0.4);
+  gap: 0.2rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(189, 155, 94, 0.38);
+  opacity: 0;
+  animation: loginArtElementIn 540ms cubic-bezier(0.22, 1, 0.36, 1) 510ms both;
 }
 
 .login-interno-art-trust-item {
   border: none;
   background: transparent;
   color: rgba(255, 246, 231, 0.94);
-  font-size: 0.71rem;
-  font-weight: 550;
+  font-size: 0.68rem;
+  font-weight: 560;
   line-height: 1.35;
   text-align: center;
-  padding: 0.4rem 0.48rem 0.2rem;
+  padding: 0.42rem 0.5rem 0.22rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.46rem;
-  min-height: 80px;
+  min-height: 66px;
 }
 
 .login-interno-art-trust-item + .login-interno-art-trust-item {
@@ -205,27 +269,75 @@ body.pagina-login-interno {
 .login-interno-art-trust-item i {
   color: var(--dorado-400);
   font-size: 1rem;
+  animation: loginTrustIconPulse 3.8s ease-in-out infinite;
+}
+
+.login-interno-art-trust-item:nth-child(2) i {
+  animation-delay: 0.4s;
+}
+
+.login-interno-art-trust-item:nth-child(3) i {
+  animation-delay: 0.8s;
 }
 
 .login-interno-form-col {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  padding: clamp(1.35rem, 2.6vw, 2.25rem);
-  background: linear-gradient(180deg, #fffdfa 0%, var(--humo-100) 100%);
+  padding: clamp(1.45rem, 2.2vw, 2.2rem);
+  background:
+    radial-gradient(62% 65% at 100% 0%, rgba(189, 155, 94, 0.13) 0%, transparent 75%),
+    linear-gradient(180deg, #fffdf9 0%, #f3ece4 100%);
 }
 
 .login-interno-form-card {
   width: 100%;
-  max-width: 500px;
-  border-radius: 22px;
+  max-width: 570px;
+  min-height: clamp(700px, 82vh, 860px);
+  border-radius: 18px;
   border: 1px solid rgba(74, 18, 29, 0.1);
-  background: #fff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 252, 248, 0.96) 100%);
   box-shadow:
-    0 16px 30px rgba(37, 14, 20, 0.075),
-    0 2px 8px rgba(37, 14, 20, 0.04);
-  padding: clamp(1.6rem, 2.45vw, 2.12rem);
-  animation: loginCardIn 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    0 16px 32px rgba(37, 14, 20, 0.08),
+    0 4px 10px rgba(37, 14, 20, 0.04);
+  padding: clamp(1.6rem, 2.3vw, 2rem);
+  animation: loginFormCardIn 620ms cubic-bezier(0.22, 1, 0.36, 1) 130ms both;
+  backdrop-filter: blur(1.8px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.4rem;
+  transition: box-shadow 0.28s ease, transform 0.28s ease;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+.login-interno-form-card:hover {
+  box-shadow:
+    0 20px 36px rgba(37, 14, 20, 0.09),
+    0 6px 12px rgba(37, 14, 20, 0.05);
+}
+
+.login-interno-form-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  width: 84%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(189, 155, 94, 0.9), transparent);
+}
+
+.login-interno-form-card::after {
+  content: "";
+  position: absolute;
+  inset: -20% auto -20% -65%;
+  width: 56%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.26), transparent);
+  transform: rotate(7deg);
+  animation: loginCardSheen 9s ease-in-out 1.8s infinite;
 }
 
 .login-interno-brand-header {
@@ -233,45 +345,50 @@ body.pagina-login-interno {
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.05rem;
+  opacity: 0;
+  animation: loginItemIn 470ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
 }
 
 .login-interno-title {
   font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1.88rem, 2.65vw, 2.2rem);
+  font-size: clamp(2.12rem, 2.45vw, 2.34rem);
   font-weight: 700;
-  color: #35141d;
+  color: #34131c;
   margin: 0;
   text-align: center;
   letter-spacing: -0.01em;
-  line-height: 1.05;
+  line-height: 1.1;
   text-wrap: balance;
+  opacity: 0;
+  animation: loginItemIn 470ms cubic-bezier(0.22, 1, 0.36, 1) 290ms both;
 }
 
 .login-interno-title span {
   display: block;
-  font-weight: 700;
-  font-size: 0.92em;
-  color: #262120;
+  color: #2f2725;
+  font-size: 0.9em;
 }
 
 .login-interno-title strong {
   display: block;
-  margin-top: 0.2rem;
+  margin-top: 0.12rem;
   color: var(--vino-800);
-  letter-spacing: 0.02em;
   font-size: 1.14em;
+  letter-spacing: 0.01em;
 }
 
 .login-interno-lead {
-  font-size: 0.9rem;
-  color: var(--grafito-700);
+  font-size: 0.97rem;
+  color: #726660;
   line-height: 1.5;
   text-align: center;
-  margin: 0.7rem auto 1.3rem;
-  max-width: 320px;
+  margin: 0.66rem auto 0.96rem;
+  max-width: 334px;
   position: relative;
-  padding-bottom: 0.8rem;
+  padding-bottom: 0.72rem;
+  opacity: 0;
+  animation: loginItemIn 470ms cubic-bezier(0.22, 1, 0.36, 1) 350ms both;
 }
 
 .login-interno-lead::after {
@@ -290,49 +407,69 @@ body.pagina-login-interno {
   align-items: center;
   justify-content: center;
   gap: 0.32rem;
-  padding: 0.34rem 0.72rem;
+  padding: 0.36rem 0.76rem;
   border-radius: 999px;
   border: 1px solid rgba(189, 155, 94, 0.46);
   background: linear-gradient(180deg, rgba(189, 155, 94, 0.12) 0%, rgba(189, 155, 94, 0.06) 100%);
   color: #805c25;
-  font-size: 0.66rem;
+  font-size: 0.71rem;
   font-weight: 650;
   letter-spacing: 0.11em;
   text-transform: uppercase;
+  background-size: 200% 100%;
+  animation: loginRestrictedBadgeFlow 6.4s ease-in-out 1.2s infinite;
 }
 
 .login-interno-alert {
   border-radius: 10px;
   border-left: 3px solid var(--error-700);
   font-size: 0.84rem;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.65rem;
+  animation: loginItemIn 320ms ease 0s both;
 }
 
 .login-interno-label {
   display: block;
-  margin: 0 0 0.44rem;
+  margin: 0 0 0.4rem;
   color: #332c29;
-  font-size: 0.82rem;
+  font-size: 0.89rem;
   font-weight: 700;
   letter-spacing: 0.012em;
+  opacity: 0;
+  animation: loginItemIn 420ms cubic-bezier(0.22, 1, 0.36, 1) 380ms both;
 }
 
 .login-interno-field {
   display: flex;
   align-items: center;
   gap: 0.62rem;
-  padding: 0.82rem 0.96rem;
-  margin-bottom: 0.86rem;
-  border: 1px solid #e3d8cc;
+  padding: 0.8rem 0.92rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid #dfd2c4;
   border-radius: 12px;
-  background: #fffdfa;
+  background: #fffefc;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
+#wrap-email,
+#wrap-password {
+  opacity: 0;
+}
+
+#wrap-email {
+  animation: loginItemIn 430ms cubic-bezier(0.22, 1, 0.36, 1) 430ms both;
+}
+
+#wrap-password {
+  animation: loginItemIn 430ms cubic-bezier(0.22, 1, 0.36, 1) 490ms both;
+}
+
 .login-interno-field:focus-within {
-  border-color: rgba(189, 155, 94, 0.86);
+  border-color: rgba(189, 155, 94, 0.94);
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(189, 155, 94, 0.18);
+  box-shadow:
+    0 0 0 3px rgba(189, 155, 94, 0.17),
+    0 7px 16px rgba(74, 18, 29, 0.08);
 }
 
 .login-interno-field.is-invalid {
@@ -351,7 +488,7 @@ body.pagina-login-interno {
   min-width: 0;
   border: none;
   outline: none;
-  font-size: 0.92rem;
+  font-size: 0.97rem;
   font-weight: 500;
   font-family: inherit;
   background: transparent;
@@ -383,12 +520,12 @@ body.pagina-login-interno {
 .login-interno-submit,
 .login-interno-btn-2fa {
   width: 100%;
-  margin-top: 0.3rem;
-  padding: 0.84rem 1.08rem;
-  border: 1px solid #631b29;
-  border-radius: 11px;
+  margin-top: 0.24rem;
+  padding: 0.86rem 1.02rem;
+  border: 1px solid #5f1826;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 0.98rem;
+  font-size: 1.02rem;
   font-weight: 700;
   color: #fff;
   cursor: pointer;
@@ -400,8 +537,8 @@ body.pagina-login-interno {
     linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 45%),
     linear-gradient(160deg, var(--vino-600) 0%, var(--vino-800) 58%, var(--vino-900) 100%);
   box-shadow:
-    0 1px 0 rgba(189, 155, 94, 0.33) inset,
-    0 10px 18px rgba(74, 18, 29, 0.28);
+    0 1px 0 rgba(215, 189, 138, 0.38) inset,
+    0 14px 24px rgba(74, 18, 29, 0.34);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
@@ -409,13 +546,21 @@ body.pagina-login-interno {
     opacity 0.2s ease;
 }
 
+#login-submit {
+  opacity: 0;
+}
+
+#login-submit {
+  animation: loginItemIn 440ms cubic-bezier(0.22, 1, 0.36, 1) 560ms both;
+}
+
 .login-interno-submit:hover:not(:disabled),
 .login-interno-btn-2fa:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: brightness(1.03);
   box-shadow:
-    0 1px 0 rgba(189, 155, 94, 0.4) inset,
-    0 14px 23px rgba(74, 18, 29, 0.34);
+    0 1px 0 rgba(189, 155, 94, 0.42) inset,
+    0 16px 24px rgba(74, 18, 29, 0.32);
 }
 
 .login-interno-submit:active:not(:disabled),
@@ -446,17 +591,19 @@ body.pagina-login-interno {
 .login-interno-btn-portal {
   display: block;
   width: 100%;
-  margin-top: 0.72rem;
-  padding: 0.74rem 0.96rem;
-  border-radius: 11px;
-  border: 1px solid rgba(101, 27, 40, 0.46);
+  margin-top: 0.64rem;
+  padding: 0.72rem 0.92rem;
+  border-radius: 12px;
+  border: 1px solid rgba(101, 27, 40, 0.42);
   font-family: inherit;
-  font-size: 0.89rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 590;
   color: var(--vino-800);
   text-decoration: none;
-  background: linear-gradient(180deg, #fff 0%, #fffaf6 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #fcf6ef 100%);
   transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  animation: loginItemIn 440ms cubic-bezier(0.22, 1, 0.36, 1) 620ms both;
 }
 
 .login-interno-btn-portal__inner {
@@ -468,9 +615,9 @@ body.pagina-login-interno {
 
 .login-interno-btn-portal:hover {
   transform: translateY(-1px);
-  border-color: rgba(101, 27, 40, 0.72);
+  border-color: rgba(101, 27, 40, 0.58);
   background: #fff;
-  box-shadow: 0 8px 16px rgba(74, 18, 29, 0.11);
+  box-shadow: 0 8px 16px rgba(74, 18, 29, 0.09);
 }
 
 .login-interno-btn-portal:active {
@@ -487,6 +634,8 @@ body.pagina-login-interno {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  opacity: 0;
+  animation: loginItemIn 420ms cubic-bezier(0.22, 1, 0.36, 1) 520ms both;
 }
 
 .login-interno-2fa-divider::before,
@@ -498,33 +647,71 @@ body.pagina-login-interno {
 }
 
 .login-interno-security {
-  font-size: 0.71rem;
+  font-size: 0.76rem;
   color: #6c6059;
   line-height: 1.45;
-  margin: 0.76rem 0 0;
+  margin: 0.72rem 0 0;
   text-align: center;
+  opacity: 0;
+  animation: loginItemIn 420ms cubic-bezier(0.22, 1, 0.36, 1) 560ms both;
+}
+
+.login-interno-bottom-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.66rem;
+  margin: 0.64rem 0 0.54rem;
+  opacity: 0;
+  animation: loginItemIn 420ms cubic-bezier(0.22, 1, 0.36, 1) 670ms both;
+}
+
+.login-interno-bottom-divider::before,
+.login-interno-bottom-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(189, 155, 94, 0.52), transparent);
+}
+
+.login-interno-bottom-divider span {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(189, 155, 94, 0.38);
+  background: rgba(189, 155, 94, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.login-interno-bottom-divider i {
+  color: var(--vino-800);
+  font-size: 0.62rem;
 }
 
 .login-interno-seguridad-badges {
-  margin-top: 0.84rem;
+  margin-top: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.4rem;
+  gap: 0.28rem;
+  opacity: 0;
+  animation: loginItemIn 450ms cubic-bezier(0.22, 1, 0.36, 1) 720ms both;
 }
 
 .login-interno-seguridad-badge {
   border-radius: 999px;
-  border: 1px solid rgba(189, 155, 94, 0.34);
-  background: linear-gradient(180deg, rgba(189, 155, 94, 0.11) 0%, rgba(101, 27, 40, 0.03) 100%);
-  color: #605650;
-  font-size: 0.65rem;
-  font-weight: 600;
+  border: 1px solid rgba(189, 155, 94, 0.32);
+  background: linear-gradient(180deg, rgba(189, 155, 94, 0.1) 0%, rgba(189, 155, 94, 0.04) 100%);
+  color: #655a53;
+  font-size: 0.71rem;
+  font-weight: 570;
   text-align: center;
-  padding: 0.31rem 0.42rem;
+  padding: 0.28rem 0.36rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.32rem;
+  gap: 0.24rem;
 }
 
 .login-interno-seguridad-badge i {
@@ -532,17 +719,43 @@ body.pagina-login-interno {
   font-size: 0.74rem;
 }
 
+.login-interno-seguridad-badge:nth-child(1) {
+  animation:
+    loginItemIn 360ms cubic-bezier(0.22, 1, 0.36, 1) 740ms both,
+    loginBadgeGlow 5.6s ease-in-out 1.35s infinite;
+}
+
+.login-interno-seguridad-badge:nth-child(2) {
+  animation:
+    loginItemIn 360ms cubic-bezier(0.22, 1, 0.36, 1) 790ms both,
+    loginBadgeGlow 5.6s ease-in-out 1.65s infinite;
+}
+
+.login-interno-seguridad-badge:nth-child(3) {
+  animation:
+    loginItemIn 360ms cubic-bezier(0.22, 1, 0.36, 1) 840ms both,
+    loginBadgeGlow 5.6s ease-in-out 1.95s infinite;
+}
+
 .login-interno-footer {
-  padding: 0.68rem 1rem 0.88rem;
+  padding: 0.7rem 1rem 0.9rem;
   text-align: center;
-  border-top: 1px solid rgba(74, 18, 29, 0.1);
-  background: rgba(255, 255, 255, 0.88);
+  border-top: 1px solid rgba(74, 18, 29, 0.08);
+  background: rgba(253, 250, 246, 0.92);
 }
 
 .login-interno-footer-links {
-  font-size: 0.69rem;
+  font-size: 0.68rem;
   color: #7c7068;
-  margin-bottom: 0.16rem;
+  margin-bottom: 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+}
+
+.login-interno-footer-links i {
+  color: var(--vino-800);
+  font-size: 0.76rem;
 }
 
 .login-interno-footer-copy {
@@ -551,14 +764,162 @@ body.pagina-login-interno {
   color: #988a80;
 }
 
-@keyframes loginCardIn {
+@keyframes loginSurfaceIn {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.99);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loginPageAmbientDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.76;
+  }
+  50% {
+    transform: translate3d(1.2%, -0.8%, 0) scale(1.03);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(-1%, 0.9%, 0) scale(1.02);
+    opacity: 0.8;
+  }
+}
+
+@keyframes loginBrandFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes loginArtPanelIn {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes loginTrustIconPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(207, 178, 122, 0));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 6px rgba(207, 178, 122, 0.22));
+  }
+}
+
+@keyframes loginBackgroundDrift {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    transform: scale(1.05) translate3d(-0.4%, -0.5%, 0);
+    filter: brightness(1.03) saturate(1.04);
+  }
+  100% {
+    transform: scale(1.03) translate3d(0.5%, -0.2%, 0);
+    filter: brightness(1.01) saturate(1.02);
+  }
+}
+
+@keyframes loginOverlayDrift {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0.88;
+    transform: translate3d(0, -1.2%, 0);
+  }
+}
+
+@keyframes loginArtElementIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loginFormCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loginItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loginCardSheen {
+  0% {
+    left: -65%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.28;
+  }
+  28% {
+    left: 125%;
+    opacity: 0;
+  }
+  100% {
+    left: 125%;
+    opacity: 0;
+  }
+}
+
+@keyframes loginRestrictedBadgeFlow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    filter: saturate(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: saturate(1.08);
+  }
+}
+
+@keyframes loginBadgeGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(189, 155, 94, 0);
+    transform: translateY(0);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(189, 155, 94, 0.14);
+    transform: translateY(-1px);
   }
 }
 
@@ -593,6 +954,10 @@ body.pagina-login-interno {
     font-size: 0.92rem;
   }
 
+  .login-interno-art-branding {
+    transform: none;
+  }
+
   .login-interno-art-subtitle {
     font-size: 0.78rem;
   }
@@ -609,6 +974,7 @@ body.pagina-login-interno {
   }
 
   .login-interno-form-col {
+    align-items: center;
     padding: 1rem;
   }
 
@@ -617,8 +983,83 @@ body.pagina-login-interno {
   }
 }
 
+@media (max-width: 576px) {
+  .login-interno-seguridad-badges {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .login-interno-seguridad-badge {
+    font-size: 0.7rem;
+    padding: 0.36rem 0.46rem;
+  }
+
+  .login-interno-footer-links {
+    display: block;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.35;
+  }
+
+  .login-interno-footer-copy {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 390px) {
+  .login-interno-form-col {
+    padding: 0.7rem;
+  }
+
+  .login-interno-form-card {
+    padding: 1.25rem 1rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  body.pagina-login-interno::before,
+  body.pagina-login-interno::after {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .login-interno-art,
+  .login-interno-art::before {
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .login-interno-card,
+  .login-interno-art-col,
+  .login-interno-art-branding,
+  .login-interno-art-header,
+  .login-interno-art-logo,
+  .login-interno-art-title,
+  .login-interno-art-subtitle,
+  .login-interno-art-trust,
+  .login-interno-brand-header,
+  .login-interno-title,
+  .login-interno-lead,
+  .login-interno-label,
+  .login-interno-field,
+  #login-submit,
+  .login-interno-2fa-divider,
+  .login-interno-security,
+  .login-interno-btn-portal,
+  .login-interno-bottom-divider,
+  .login-interno-seguridad-badges,
+  .login-interno-seguridad-badge {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .login-interno-form-card,
+  .login-interno-form-card::after,
+  .login-interno-art-trust-item i,
+  .login-interno-badge-top,
   .login-btn-spinner,
   .login-interno-submit,
   .login-interno-btn-2fa,
@@ -628,7 +1069,8 @@ body.pagina-login-interno {
   }
 
   .login-interno-submit:hover:not(:disabled),
-  .login-interno-btn-2fa:hover:not(:disabled) {
+  .login-interno-btn-2fa:hover:not(:disabled),
+  .login-interno-btn-portal:hover {
     transform: none;
   }
 }

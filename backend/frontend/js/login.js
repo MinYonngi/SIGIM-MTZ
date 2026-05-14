@@ -14,6 +14,14 @@ const text2fa = document.querySelector(".login-interno-security");
 
 let twoFactorEnabled = false;
 
+function resolveRouteByRole(role) {
+  const normalized = String(role || "").toUpperCase();
+  if (normalized === "ADMIN") return "/admin.html";
+  if (normalized === "SUPERVISOR") return "/dashboard.html";
+  if (normalized === "OPERADOR") return "/tecnico.html";
+  return null;
+}
+
 function showAlert(kind, msg) {
   if (!alertEl) return;
   const cls =
@@ -112,7 +120,8 @@ syncTwoFactorAvailability();
     if (!r.ok) return;
     const data = await r.json();
     const role = data.user && data.user.role;
-    window.location.replace(role === "OPERADOR" ? "/tecnico" : "/");
+    const redirectTo = resolveRouteByRole(role);
+    window.location.replace(redirectTo || "/login.html?invalidRole=1");
   } catch (_) {
     /* ignorar */
   }

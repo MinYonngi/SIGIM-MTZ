@@ -13,6 +13,7 @@ const archivosRoutes = require("./src/routes/archivos.routes");
 const catalogoRoutes = require("./src/routes/catalogo.routes");
 const usuariosRoutes = require("./src/routes/usuarios.routes");
 const reportesRoutes = require("./src/routes/reportes.routes");
+const adminRoutes = require("./src/routes/admin.routes");
 const pool = require("./src/config/db");
 const db = pool.promise();
 
@@ -796,20 +797,164 @@ function attachUser(req, res, next) {
 }
 app.use(attachUser);
 
-// Roles reales en BD: ADMIN, OPERADOR, SUPERVISOR, QA, CONSULTA
+app.use((req, res, next) => {
+  const tracked = new Set(["/admin.html", "/dashboard.html", "/admin/perfil", "/supervisor/perfil", "/mi-perfil"]);
+  if (!tracked.has(req.path)) return next();
+
+  // #region agent log
+  fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "50f0eb" },
+    body: JSON.stringify({
+      sessionId: "50f0eb",
+      runId: "diagnostic-2",
+      hypothesisId: "H7",
+      location: "server.js:trackedRequest",
+      message: "Request a ruta interna protegida",
+      data: {
+        method: req.method,
+        path: req.path,
+        sessionUserId: req.session && req.session.userId ? req.session.userId : null,
+        sessionRole: req.session && req.session.role ? req.session.role : null,
+        sessionEmail: req.session && req.session.email ? req.session.email : null,
+      },
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {});
+  // #endregion
+
+  res.on("finish", () => {
+    // #region agent log
+    fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "50f0eb" },
+      body: JSON.stringify({
+        sessionId: "50f0eb",
+        runId: "diagnostic-2",
+        hypothesisId: "H7",
+        location: "server.js:trackedResponse",
+        message: "Response de ruta interna protegida",
+        data: {
+          method: req.method,
+          path: req.path,
+          statusCode: res.statusCode,
+          locationHeader: res.getHeader("location") || null,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+  });
+
+  return next();
+});
+
+app.use((req, res, next) => {
+  const monitoredPaths = new Set([
+    "/admin/perfil",
+    "/supervisor/perfil",
+    "/tecnico/perfil",
+    "/mi-perfil",
+    "/css/styles.css",
+    "/css/perfil.css",
+    "/js/perfil.js",
+    "/assets/escudo.png",
+    "/assets/Logo.png",
+    "/assets/SIGIM-MTZ.png",
+    "/api/auth/me",
+    "/api/usuarios/me",
+  ]);
+
+  if (!monitoredPaths.has(req.path)) {
+    return next();
+  }
+
+  // #region agent log
+  fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Debug-Session-Id": "ea37ae",
+    },
+    body: JSON.stringify({
+      sessionId: "ea37ae",
+      runId: "pre-fix-1",
+      hypothesisId: "H2",
+      location: "backend/server.js:monitored:request",
+      message: "Solicitud a ruta monitoreada",
+      data: {
+        method: req.method,
+        path: req.path,
+        hasSession: Boolean(req.session && req.session.userId),
+        role: req.session && req.session.role ? req.session.role : null,
+      },
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {});
+  // #endregion
+
+  res.on("finish", () => {
+    // #region agent log
+    fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "ea37ae",
+      },
+      body: JSON.stringify({
+        sessionId: "ea37ae",
+        runId: "pre-fix-1",
+        hypothesisId: "H2",
+        location: "backend/server.js:monitored:response",
+        message: "Respuesta de ruta monitoreada",
+        data: {
+          method: req.method,
+          path: req.path,
+          statusCode: res.statusCode,
+          locationHeader: res.getHeader("location") || null,
+          contentType: res.getHeader("content-type") || null,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+  });
+
+  return next();
+});
+
+// Roles internos permitidos
+function isInternalRole(role) {
+  return ["ADMIN", "SUPERVISOR", "OPERADOR"].includes(role);
+}
+
 function canViewDashboard(role) {
-  return ["ADMIN", "SUPERVISOR", "QA", "CONSULTA"].includes(role);
+  return role === "SUPERVISOR";
 }
 
 function canViewTecnico(role) {
   return role === "OPERADOR";
 }
 
+function canViewSupervisorProfile(role) {
+  return role === "SUPERVISOR";
+}
+
+function canViewAdminProfile(role) {
+  return role === "ADMIN";
+}
+
+function profileRouteByRole(role) {
+  if (role === "ADMIN") return "/admin/perfil";
+  if (role === "SUPERVISOR") return "/supervisor/perfil";
+  if (role === "OPERADOR") return "/tecnico/perfil";
+  return "/mi-perfil";
+}
+
 function redirectByRole(req, res) {
   const role = req.session && req.session.role;
-  if (canViewDashboard(role)) {
-    return res.redirect("/");
-  }
+  if (role === "ADMIN") return res.redirect("/admin.html");
+  if (role === "SUPERVISOR") return res.redirect("/dashboard.html");
   if (canViewTecnico(role)) {
     return res.redirect("/tecnico");
   }
@@ -831,6 +976,18 @@ function protectInternalHtml(target) {
       return redirectByRole(req, res);
     }
     if (target === "tecnico" && !canViewTecnico(role)) {
+      return redirectByRole(req, res);
+    }
+    if (target === "perfil" && !isInternalRole(role)) {
+      return redirectByRole(req, res);
+    }
+    if (target === "supervisorPerfil" && !canViewSupervisorProfile(role)) {
+      return redirectByRole(req, res);
+    }
+    if (target === "tecnicoPerfil" && !canViewTecnico(role)) {
+      return redirectByRole(req, res);
+    }
+    if (target === "adminPerfil" && !canViewAdminProfile(role)) {
       return redirectByRole(req, res);
     }
     next();
@@ -1024,13 +1181,46 @@ app.get("/dashboard.html", protectInternalHtml("dashboard"), (req, res) => {
   res.sendFile(path.join(FRONTEND_DIR, "dashboard.html"));
 });
 
+app.get("/admin.html", (req, res) => {
+  if (!req.session || !req.session.userId) {
+    return redirectUnauthenticated(req, res);
+  }
+  if (req.session.role !== "ADMIN") {
+    return redirectByRole(req, res);
+  }
+  res.sendFile(path.join(FRONTEND_DIR, "admin.html"));
+});
+
 app.get("/tecnico.html", protectInternalHtml("tecnico"), (req, res) => {
   res.sendFile(path.join(FRONTEND_DIR, "tecnico.html"));
+});
+
+app.get("/perfil.html", (req, res) => {
+  res.redirect(302, "/mi-perfil");
+});
+
+app.get("/supervisor/perfil", protectInternalHtml("supervisorPerfil"), (req, res) => {
+  res.sendFile(path.join(FRONTEND_DIR, "perfil.html"));
+});
+
+app.get("/tecnico/perfil", protectInternalHtml("tecnicoPerfil"), (req, res) => {
+  res.sendFile(path.join(FRONTEND_DIR, "perfil.html"));
+});
+
+app.get("/admin/perfil", protectInternalHtml("adminPerfil"), (req, res) => {
+  res.sendFile(path.join(FRONTEND_DIR, "perfil.html"));
+});
+
+app.get("/mi-perfil", protectInternalHtml("perfil"), (req, res) => {
+  res.sendFile(path.join(FRONTEND_DIR, "perfil.html"));
 });
 
 app.get("/", (req, res) => {
   if (!req.session || !req.session.userId) {
     return redirectUnauthenticated(req, res);
+  }
+  if (req.session.role === "ADMIN") {
+    return res.redirect("/admin.html");
   }
   if (!canViewDashboard(req.session.role)) {
     return redirectByRole(req, res);
@@ -1074,6 +1264,7 @@ app.use("/api/incidencias", archivosRoutes);
 app.use("/api/catalogo", catalogoRoutes);
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/reportes", reportesRoutes);
+app.use("/api/admin", adminRoutes);
 
 // 404 API
 app.use("/api", (req, res) => {

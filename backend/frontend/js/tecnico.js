@@ -219,7 +219,7 @@ function filtrarIncidencias(items) {
 }
 
 async function fetchJSON(url, options = {}) {
-  const res = await fetch(url, { credentials: "include", ...options });
+  const res = await fetch(url, { credentials: "include", cache: "no-store", ...options });
   const data = await res.json().catch(() => ({}));
   if (res.status === 401) {
     window.location.replace("/login.html");
@@ -232,8 +232,10 @@ async function fetchJSON(url, options = {}) {
 function pintarUsuarioTopbar(user) {
   const nameEl = document.getElementById("topbar-user-name");
   const roleEl = document.getElementById("topbar-user-role");
+  const profileLinkEl = document.getElementById("link-ver-perfil-topbar");
   if (nameEl) nameEl.textContent = user?.name || "Técnico";
   if (roleEl) roleEl.textContent = user?.role || "Panel Operativo";
+  if (profileLinkEl) profileLinkEl.setAttribute("href", "/tecnico/perfil");
 }
 
 async function cargarCatalogo() {
@@ -964,17 +966,20 @@ document.addEventListener('click', async function(e) {
   }
 });
 
-document.getElementById("btn-cerrar-sesion")?.addEventListener("click", async () => {
+async function cerrarSesion() {
   try {
     await fetch(`${API}/auth/logout`, { method: "POST", credentials: "include" });
   } catch (_) { /* ignorar */ }
   window.location.replace("/login.html");
-});
+}
+
+document.getElementById("btn-cerrar-sesion")?.addEventListener("click", cerrarSesion);
+document.getElementById("btn-cerrar-sesion-menu")?.addEventListener("click", cerrarSesion);
 
 // Init
 (async () => {
   try {
-    const me = await fetchJSON(`${API}/auth/me`);
+    const me = await fetchJSON(`${API}/usuarios/me`);
     currentUser = me.user || null;
     pintarUsuarioTopbar(currentUser);
     await recargarTodo();

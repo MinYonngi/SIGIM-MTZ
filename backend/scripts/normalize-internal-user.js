@@ -4,13 +4,13 @@
  * Reglas:
  * - Requiere exactamente un objetivo: --email o --id
  * - Solo aplica cambios explícitos:
- *   --set-role=ADMIN|OPERADOR
+ *   --set-role=ADMIN|SUPERVISOR|OPERADOR
  *   --reset-password="..."
  *   --activate
  * - Soporta --dry-run (no ejecuta UPDATE)
  *
  * Ejemplos:
- *   npm run normalize:user -- --email tecnico1@sigim-mtz.com --set-role OPERADOR --activate --dry-run
+ *   npm run normalize:user -- --email operador1@sigim-mtz.com --set-role OPERADOR --activate --dry-run
  *   npm run normalize:user -- --id 2 --set-role OPERADOR --reset-password "NuevaClave#2026" --activate
  */
 
@@ -20,7 +20,7 @@ const mysql = require("mysql2/promise");
 
 const BCRYPT_ROUNDS = 12;
 const MIN_PASSWORD_LEN = 8;
-const ALLOWED_ROLES = new Set(["ADMIN", "OPERADOR"]);
+const ALLOWED_ROLES = new Set(["ADMIN", "SUPERVISOR", "OPERADOR"]);
 
 function parseArgs(argv) {
   const args = {};
@@ -44,8 +44,8 @@ function exitWithUsage(message) {
   console.error(
     [
       "Uso:",
-      "  npm run normalize:user -- --email <correo> [--set-role ADMIN|OPERADOR] [--reset-password \"...\"] [--activate] [--dry-run]",
-      "  npm run normalize:user -- --id <id> [--set-role ADMIN|OPERADOR] [--reset-password \"...\"] [--activate] [--dry-run]",
+      "  npm run normalize:user -- --email <correo> [--set-role ADMIN|SUPERVISOR|OPERADOR] [--reset-password \"...\"] [--activate] [--dry-run]",
+      "  npm run normalize:user -- --id <id> [--set-role ADMIN|SUPERVISOR|OPERADOR] [--reset-password \"...\"] [--activate] [--dry-run]",
       "",
       "Notas:",
       "  - Debe indicar un único objetivo: --email o --id",
@@ -90,7 +90,7 @@ async function main() {
 
   const requestedRole = args["set-role"] ? String(args["set-role"]).trim().toUpperCase() : "";
   if (requestedRole && !ALLOWED_ROLES.has(requestedRole)) {
-    exitWithUsage("Rol inválido en --set-role. Permitidos: ADMIN, OPERADOR.");
+    exitWithUsage("Rol inválido en --set-role. Permitidos: ADMIN, SUPERVISOR y OPERADOR.");
   }
 
   const newPassword = args["reset-password"] ? String(args["reset-password"]) : "";

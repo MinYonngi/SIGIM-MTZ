@@ -287,7 +287,7 @@
     inset: auto 0 auto auto !important;
   }
 
-  .modulo-panel-tecnico .dashboard-user-chip {
+  .modulo-panel-tecnico .topbar-acceso-wrap .user-avatar-btn {
     width: 100%;
     justify-content: center;
   }
@@ -317,11 +317,28 @@
 
 .modulo-panel-tecnico main.container .table-responsive > .table {
   margin-bottom: 0;
+  min-width: 820px;
 }
 
 @media (max-width: 575.98px) {
   .modulo-panel-tecnico .modal-dialog {
     margin: 0.5rem;
+  }
+
+  .modulo-panel-tecnico .modal-xl {
+    max-width: calc(100vw - 1rem);
+  }
+
+  .modulo-panel-tecnico .modal-footer {
+    justify-content: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .modulo-panel-tecnico .modal-footer .btn {
+    width: 100%;
   }
 }
 

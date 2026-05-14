@@ -194,13 +194,6 @@ exports.obtenerIncidenciaPorId = (req, res) => {
 // POST /api/incidencias
 // =====================================================
 exports.crearIncidencia = (req, res) => {
-  if (req.user && ["CONSULTA", "QA"].includes(req.user.role)) {
-    return res.status(403).json({
-      message: "Permiso denegado: su rol es de solo lectura",
-      code: "FORBIDDEN_READ_ONLY",
-    });
-  }
-
   const { tipo_servicio_id, descripcion, direccion, referencia, latitud, longitud } = req.body;
 
   if (!tipo_servicio_id || !descripcion) {

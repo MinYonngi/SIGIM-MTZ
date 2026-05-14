@@ -1,9 +1,9 @@
 /**
- * Reset de contraseñas internas (ADMIN / OPERADOR) con bcrypt cost 12.
+ * Reset de contraseñas internas (ADMIN / SUPERVISOR / OPERADOR) con bcrypt cost 12.
  *
  * Uso:
  *   npm run reset:passwords -- --password "NuevaClaveSegura123"
- *   npm run reset:passwords -- --email admin@sigim.local --password "NuevaClaveSegura123"
+ *   npm run reset:passwords -- --email admin.sistema@sigim.local --password "NuevaClaveSegura123"
  *   npm run reset:passwords -- --role OPERADOR --password "NuevaClaveSegura123"
  *
  * También puede leer RESET_PASSWORD desde .env si no se pasa --password.
@@ -13,7 +13,7 @@ require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") }
 const bcrypt = require("bcrypt");
 const mysql = require("mysql2/promise");
 
-const DEFAULT_TARGET_ROLES = ["ADMIN", "OPERADOR"];
+const DEFAULT_TARGET_ROLES = ["ADMIN", "SUPERVISOR", "OPERADOR"];
 const BCRYPT_ROUNDS = 12;
 const MIN_PASSWORD_LEN = 8;
 
@@ -39,7 +39,7 @@ function usageAndExit() {
     [
       "Uso:",
       "  npm run reset:passwords -- --password \"NuevaClaveSegura123\"",
-      "  npm run reset:passwords -- --email admin@sigim.local --password \"NuevaClaveSegura123\"",
+      "  npm run reset:passwords -- --email admin.sistema@sigim.local --password \"NuevaClaveSegura123\"",
       "  npm run reset:passwords -- --role OPERADOR --password \"NuevaClaveSegura123\"",
       "",
       "Opciones:",
@@ -75,8 +75,8 @@ async function run() {
     process.exit(1);
   }
 
-  if (targetRole && !["ADMIN", "OPERADOR", "SUPERVISOR", "QA", "CONSULTA"].includes(targetRole)) {
-    console.error("Rol inválido. Use: ADMIN, OPERADOR, SUPERVISOR, QA o CONSULTA.");
+  if (targetRole && !["ADMIN", "SUPERVISOR", "OPERADOR"].includes(targetRole)) {
+    console.error("Rol inválido. Use: ADMIN, SUPERVISOR u OPERADOR.");
     process.exit(1);
   }
 
@@ -110,9 +110,9 @@ async function run() {
         `
           UPDATE usuarios
           SET password_hash = ?, active = 1
-          WHERE role IN (?, ?)
+          WHERE role IN (?, ?, ?)
         `,
-        [hash, DEFAULT_TARGET_ROLES[0], DEFAULT_TARGET_ROLES[1]]
+        [hash, DEFAULT_TARGET_ROLES[0], DEFAULT_TARGET_ROLES[1], DEFAULT_TARGET_ROLES[2]]
       );
       console.log(`Objetivo por defecto: roles=${DEFAULT_TARGET_ROLES.join(",")}`);
     }

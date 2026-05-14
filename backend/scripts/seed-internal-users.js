@@ -35,11 +35,9 @@ async function main() {
   });
 
   const rows = [
-    ["Administrador semilla", "admin@sigim.local", "ADMIN"],
-    ["Operador semilla", "operador@sigim.local", "OPERADOR"],
-    ["Supervisor semilla", "supervisor@sigim.local", "SUPERVISOR"],
-    ["QA semilla", "qa@sigim.local", "QA"],
-    ["Consulta semilla", "consulta@sigim.local", "CONSULTA"],
+    ["Administrador del sistema", "admin.sistema@sigim.local", "ADMIN"],
+    ["Supervisor del departamento", "supervisor@sigim.local", "SUPERVISOR"],
+    ["Técnico operativo", "operador1@sigim-mtz.com", "OPERADOR"],
   ];
 
   const sql = `

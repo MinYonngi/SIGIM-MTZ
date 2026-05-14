@@ -37,11 +37,21 @@ let incidenciasCache = [];
 let catalogoMap = {};
 let currentUser = null;
 
+function profileRouteByRole(role) {
+  const normalized = String(role || "").toUpperCase();
+  if (normalized === "ADMIN") return "/admin/perfil";
+  if (normalized === "SUPERVISOR") return "/supervisor/perfil";
+  if (normalized === "OPERADOR") return "/tecnico/perfil";
+  return "/mi-perfil";
+}
+
 function pintarUsuarioTopbar(user) {
   const nameEl = document.getElementById("topbar-user-name");
   const roleEl = document.getElementById("topbar-user-role");
+  const profileLinkEl = document.getElementById("link-ver-perfil-topbar");
   if (nameEl) nameEl.textContent = user?.name || "Supervisor";
   if (roleEl) roleEl.textContent = user?.role || "Panel Interno";
+  if (profileLinkEl) profileLinkEl.setAttribute("href", profileRouteByRole(user?.role));
 }
 
 function setLoading(isLoading) {
@@ -284,10 +294,8 @@ function renderSupervisorCharts(items) {
 }
 
 async function fetchJSON(url, options = {}) {
-  console.log('🔍 fetchJSON URL:', url); // Debug
-  const res = await fetch(url, { credentials: "include", ...options });
+  const res = await fetch(url, { credentials: "include", cache: "no-store", ...options });
   const data = await res.json().catch(() => ({}));
-  console.log('📦 fetchJSON Response:', data); // Debug
   if (res.status === 401) {
     window.location.replace("/login.html");
     throw new Error(data?.message || "Sesión no válida");
@@ -1121,17 +1129,20 @@ document.querySelectorAll(".js-menu-link").forEach((el) => {
   });
 });
 
-document.getElementById("btn-cerrar-sesion")?.addEventListener("click", async () => {
+async function cerrarSesion() {
   try {
     await fetch(`${API}/auth/logout`, { method: "POST", credentials: "include" });
   } catch (_) { /* ignorar */ }
   window.location.replace("/login.html");
-});
+}
+
+document.getElementById("btn-cerrar-sesion")?.addEventListener("click", cerrarSesion);
+document.getElementById("btn-cerrar-sesion-menu")?.addEventListener("click", cerrarSesion);
 
 // Init
 (async () => {
   try {
-    const me = await fetchJSON(`${API}/auth/me`);
+    const me = await fetchJSON(`${API}/usuarios/me`);
     currentUser = me.user || null;
     pintarUsuarioTopbar(currentUser);
     await recargarTodo();

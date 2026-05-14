@@ -70,6 +70,7 @@ body {
   color: var(--mtz-ink);
   padding-top: 120px;
   min-width: 320px;
+  overflow-x: hidden;
 }
 
 main       { flex: 1; }
@@ -213,7 +214,7 @@ body.portal-ciudadano {
    ============================================================ */
 body.modulo-panel-supervisor,
 body.modulo-panel-tecnico {
-  padding-top: clamp(140px,13vw,170px);
+  padding-top: clamp(126px, 11vw, 156px);
 }
 
 body.modulo-panel-supervisor {
@@ -1140,7 +1141,7 @@ body.has-bottom-bar { padding-bottom: 88px; }
 
 @media (max-width: 768px) {
   body.modulo-panel-supervisor,
-  body.modulo-panel-tecnico { padding-top: clamp(185px,24vw,220px); }
+  body.modulo-panel-tecnico { padding-top: clamp(160px,22vw,196px); }
 
   body.modulo-panel-supervisor .topbar-wrap,
   body.modulo-panel-tecnico   .topbar-wrap { flex-wrap: wrap; justify-content: center; text-align: center; }
@@ -1154,14 +1155,15 @@ body.has-bottom-bar { padding-bottom: 88px; }
   .topbar-wrap      { justify-content: center; text-align: center; }
   .topbar-brand     { justify-content: center; }
 
-  .card-header .d-flex { flex-direction: column; text-align: center; gap: 1rem; }
+  body.modulo-panel-supervisor .card-header .d-flex,
+  body.modulo-panel-tecnico .card-header .d-flex { flex-direction: column; text-align: center; gap: 1rem; }
 
-  .user-name-short { display: none; }
+  .user-name-short { max-width: 100px; }
 }
 
 @media (max-width: 576px) {
   body.modulo-panel-supervisor,
-  body.modulo-panel-tecnico { padding-top: clamp(210px,34vw,245px); }
+  body.modulo-panel-tecnico { padding-top: clamp(176px,28vw,214px); }
 
   .layout-full { padding-left: clamp(.75rem,1.5vw,1rem); padding-right: clamp(.75rem,1.5vw,1rem); }
 
@@ -1206,6 +1208,15 @@ body.has-bottom-bar { padding-bottom: 88px; }
   .topbar-brand-texto { text-align: center; flex: 1 1 100%; }
   .topbar-titulo      { font-size: clamp(1.05rem,5.5vw,1.55rem); }
   .topbar-subtitulo   { font-size: clamp(.72rem,3.4vw,.95rem); }
+}
+
+@media (max-width: 390px) {
+  .layout-full { padding-left: .7rem; padding-right: .7rem; }
+
+  body.modulo-panel-supervisor,
+  body.modulo-panel-tecnico { padding-top: 172px; }
+
+  .user-name-short { max-width: 84px; font-size: .8rem; }
 }
 
 /* ============================================================

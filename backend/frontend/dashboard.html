@@ -78,13 +78,19 @@
                 Reportes
               </a>
               <div class="profile-dropdown-divider"></div>
-              <button type="button"
-                      class="profile-dropdown-item"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalPerfil"
-                      aria-label="Ver mi perfil">
+              <a href="/supervisor/perfil"
+                 id="link-ver-perfil-topbar"
+                 class="profile-dropdown-item"
+                 aria-label="Ver mi perfil">
                 <i class="ti ti-user" aria-hidden="true"></i>
                 Ver perfil
+              </a>
+              <button type="button"
+                      class="profile-dropdown-item logout"
+                      id="btn-cerrar-sesion-menu"
+                      aria-label="Cerrar sesión desde menú">
+                <i class="ti ti-logout" aria-hidden="true"></i>
+                Cerrar sesión
               </button>
             </div>
           </div>
@@ -106,15 +112,6 @@
         <h1 class="dashboard-hero-title">Mi Dashboard</h1>
       </div>
     </section>
-
-    <!-- Breadcrumb tipo institucional -->
-    <nav aria-label="breadcrumb" class="mb-3">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><i class="ti ti-layout-dashboard"></i> Inicio</li>
-        <li class="breadcrumb-item">Desarrollo Urbano</li>
-        <li class="breadcrumb-item active" aria-current="page">Panel de incidencias</li>
-      </ol>
-    </nav>
 
     <!-- KPIs -->
     <section class="row g-3 mb-3">

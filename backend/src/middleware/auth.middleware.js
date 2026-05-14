@@ -1,6 +1,6 @@
 /**
  * Autenticación por sesión (SIGIM-MTZ).
- * Roles en BD: ADMIN, OPERADOR, SUPERVISOR, QA, CONSULTA (ENUM usuarios.role).
+ * Roles internos: ADMIN, OPERADOR, SUPERVISOR.
  */
 
 function requireAuth(req, res, next) {
@@ -19,17 +19,9 @@ function requireAuth(req, res, next) {
   next();
 }
 
-/** Solo métodos seguros; CONSULTA y QA no pueden mutar datos vía API. */
-const READ_ONLY_ROLES = ["CONSULTA", "QA"];
-
 function forbidConsultaMutation(req, res, next) {
-  if (!req.user) return next();
-  if (READ_ONLY_ROLES.includes(req.user.role) && !["GET", "HEAD", "OPTIONS"].includes(req.method)) {
-    return res.status(403).json({
-      message: "Permiso denegado: su rol es de solo lectura",
-      code: "FORBIDDEN_READ_ONLY",
-    });
-  }
+  // Compatibilidad: se mantiene el middleware en rutas existentes.
+  // Con el esquema actual de tres roles no aplica restricción de solo lectura por rol.
   next();
 }
 

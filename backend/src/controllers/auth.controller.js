@@ -15,15 +15,14 @@ function isValidStoredBcryptHash(value) {
 
 function redirectForRole(role) {
   switch (role) {
-    case "OPERADOR":
-      return "/tecnico";
-    case "SUPERVISOR":
     case "ADMIN":
-    case "QA":
-    case "CONSULTA":
-      return "/";
+      return "/admin.html";
+    case "SUPERVISOR":
+      return "/dashboard.html";
+    case "OPERADOR":
+      return "/tecnico.html";
     default:
-      return "/";
+      return null;
   }
 }
 
@@ -38,6 +37,9 @@ function getClientIp(req) {
 exports.login = (req, res) => {
   const email = (req.body && req.body.email) ? String(req.body.email).trim() : "";
   const password = req.body && req.body.password != null ? String(req.body.password) : "";
+  // #region agent log
+  fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"298080"},body:JSON.stringify({sessionId:"298080",runId:"pre-fix",hypothesisId:"H1",location:"auth.controller.js:40",message:"Intento de login recibido",data:{emailNormalized:email.toLowerCase()},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
 
   if (!email || !password) {
     return res.status(400).json({
@@ -67,6 +69,12 @@ exports.login = (req, res) => {
     }
 
     const u = rows[0];
+    // #region agent log
+    fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"50f0eb"},body:JSON.stringify({sessionId:"50f0eb",runId:"diagnostic-1",hypothesisId:"H1",location:"auth.controller.js:rowSelected",message:"Fila de usuario seleccionada en login",data:{requestEmail:email.toLowerCase(),dbUserId:u.id,dbEmail:String(u.email||"").toLowerCase(),dbRole:u.role,dbActive:u.active},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
+    // #region agent log
+    fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"298080"},body:JSON.stringify({sessionId:"298080",runId:"pre-fix",hypothesisId:"H1",location:"auth.controller.js:71",message:"Usuario encontrado para login",data:{requestedEmail:email.toLowerCase(),dbEmail:String(u.email||"").toLowerCase(),role:u.role,userId:u.id,active:u.active},timestamp:Date.now()})}).catch(()=>{});
+    // #endregion
 
     if (!u.active || u.active === 0) {
       return res.status(403).json({
@@ -118,6 +126,15 @@ exports.login = (req, res) => {
         req.session.email = u.email;
 
         const redirectTo = redirectForRole(u.role);
+        // #region agent log
+        fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"50f0eb"},body:JSON.stringify({sessionId:"50f0eb",runId:"diagnostic-1",hypothesisId:"H2",location:"auth.controller.js:redirectForRole",message:"Redireccion calculada en backend para login",data:{userId:u.id,role:u.role,redirectTo},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
+        if (!redirectTo) {
+          return res.status(403).json({
+            message: "Rol no permitido para acceso interno",
+            code: "INVALID_ROLE",
+          });
+        }
         const userPayload = {
           id: u.id,
           name: u.name,
@@ -133,6 +150,10 @@ exports.login = (req, res) => {
               code: "SESSION_ERROR",
             });
           }
+
+          // #region agent log
+          fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"298080"},body:JSON.stringify({sessionId:"298080",runId:"pre-fix",hypothesisId:"H2",location:"auth.controller.js:144",message:"Sesion guardada tras login",data:{sessionUserId:req.session.userId,sessionRole:req.session.role,sessionEmail:req.session.email,redirectTo},timestamp:Date.now()})}).catch(()=>{});
+          // #endregion
 
           // #region agent log
           fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c", { method: "POST", headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "527186" }, body: JSON.stringify({ sessionId: "527186", runId: "pre-fix", hypothesisId: "H2", location: "auth.controller.js:139", message: "Login exitoso y sesion guardada", data: { role: u.role, willTriggerMail: u.role === "SUPERVISOR" || u.role === "OPERADOR" }, timestamp: Date.now() }) }).catch(() => {});
@@ -187,6 +208,12 @@ exports.me = (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: "No autenticado", code: "UNAUTHENTICATED" });
   }
+  // #region agent log
+  fetch("http://127.0.0.1:7646/ingest/9b4d23ee-cd50-4693-9616-c2870834d19c",{method:"POST",headers:{"Content-Type":"application/json","X-Debug-Session-Id":"298080"},body:JSON.stringify({sessionId:"298080",runId:"pre-fix",hypothesisId:"H3",location:"auth.controller.js:204",message:"Consulta auth/me",data:{sessionUserId:req.session&&req.session.userId?req.session.userId:null,sessionRole:req.session&&req.session.role?req.session.role:null,sessionEmail:req.session&&req.session.email?req.session.email:null,userId:req.user.id,userRole:req.user.role,userEmail:req.user.email},timestamp:Date.now()})}).catch(()=>{});
+  // #endregion
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
   return res.json({
     user: {
       id: req.user.id,

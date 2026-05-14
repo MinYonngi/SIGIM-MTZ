@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIGIM-MTZ | Mi perfil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tabler-icons-webfont@latest/tabler-icons.min.css" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <link href="/css/perfil.css" rel="stylesheet" />
+</head>
+<body class="modulo-perfil-interno">
+  <nav class="navbar topbar-mtz sticky-top" aria-label="Barra superior del perfil interno">
+    <div class="layout-full topbar-wrap">
+      <div class="topbar-brand">
+        <img src="/assets/escudo.png" class="logo-box topbar-logo-escudo" alt="Escudo Oficial Ayuntamiento Martínez de la Torre" />
+        <span class="topbar-brand-pipe" aria-hidden="true"></span>
+        <div class="topbar-marca-sigim">
+          <img src="/assets/Logo.png" class="topbar-logo-app" width="280" height="112" alt="" decoding="async" />
+          <div class="topbar-brand-texto">
+            <div class="topbar-titulo">SIGIM-MTZ</div>
+            <div class="topbar-subtitulo">Mi perfil interno</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-acceso-wrap">
+        <div class="dropdown">
+          <button class="user-avatar-btn dropdown-toggle"
+                  type="button"
+                  id="btn-perfil-menu"
+                  data-bs-toggle="dropdown"
+                  data-bs-offset="0,8"
+                  aria-expanded="false"
+                  aria-label="Menú de usuario">
+            <div class="user-avatar" aria-hidden="true">
+              <span class="user-avatar-initials" id="topbar-user-initials">--</span>
+            </div>
+            <span class="user-name-short" id="topbar-user-name">Usuario</span>
+            <i class="ti ti-chevron-down" style="font-size:.8rem;opacity:.7;" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu" aria-labelledby="btn-perfil-menu">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">
+                <span class="user-avatar-initials" id="menu-user-initials" style="font-size:1.1rem;">--</span>
+              </div>
+              <div class="profile-dropdown-info">
+                <p class="profile-dropdown-name" id="menu-user-name">Usuario interno</p>
+                <span class="profile-dropdown-role" id="topbar-user-role">Panel interno</span>
+              </div>
+            </div>
+            <div class="profile-dropdown-body">
+              <a href="/mi-perfil" id="link-ver-perfil-topbar" class="profile-dropdown-item is-active" aria-current="page">
+                <i class="ti ti-user" aria-hidden="true"></i>
+                Ver perfil
+              </a>
+              <div class="profile-dropdown-divider"></div>
+              <button type="button" class="profile-dropdown-item logout" id="btn-cerrar-sesion-menu">
+                <i class="ti ti-logout" aria-hidden="true"></i>
+                Cerrar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+        <button type="button" id="btn-cerrar-sesion" class="btn btn-mtz btn-mtz-ghost btn-sm" aria-label="Cerrar sesión">
+          <i class="ti ti-logout" aria-hidden="true"></i> Salir
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4 perfil-main">
+    <section class="perfil-header-card">
+      <div class="perfil-header-avatar-wrap">
+        <div class="perfil-avatar-xl" id="perfil-avatar-xl">
+          <img id="avatar-preview-img" alt="Avatar de usuario" class="d-none" />
+          <span id="avatar-initials">--</span>
+        </div>
+      </div>
+      <div class="perfil-header-identidad">
+        <h1 id="perfil-nombre-completo">Mi perfil</h1>
+        <p id="perfil-correo-principal">correo@institucional</p>
+        <div class="perfil-header-badges">
+          <span class="perfil-badge perfil-badge-rol" id="perfil-rol-badge">ROL</span>
+          <span class="perfil-badge perfil-badge-estado" id="perfil-estado-badge">Estado</span>
+        </div>
+      </div>
+      <div class="perfil-header-metas">
+        <div class="perfil-meta-item">
+          <span>Creación</span>
+          <strong id="perfil-fecha-creacion">--</strong>
+        </div>
+        <div class="perfil-meta-item">
+          <span>Última actualización</span>
+          <strong id="perfil-fecha-actualizacion">--</strong>
+        </div>
+      </div>
+    </section>
+
+    <div class="alert d-none mt-3" id="perfil-alert" role="alert"></div>
+
+    <section class="row g-3 mt-1">
+      <div class="col-12 col-xl-8">
+        <article class="perfil-card h-100">
+          <div class="perfil-card-head">
+            <h2>Información personal e institucional</h2>
+          </div>
+          <div class="perfil-grid">
+            <div class="perfil-grid-item">
+              <span>Nombre</span>
+              <strong id="perfil-info-nombre">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Correo</span>
+              <strong id="perfil-info-correo">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Rol</span>
+              <strong id="perfil-info-rol">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Estado</span>
+              <strong id="perfil-info-estado">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Área / Módulo</span>
+              <strong id="perfil-info-area">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Ruta principal</span>
+              <strong id="perfil-info-ruta-principal">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Correo verificado</span>
+              <strong id="perfil-info-email-verified">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>MFA</span>
+              <strong id="perfil-info-mfa">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Fecha de creación</span>
+              <strong id="perfil-info-creacion">--</strong>
+            </div>
+            <div class="perfil-grid-item">
+              <span>Última actualización</span>
+              <strong id="perfil-info-actualizacion">--</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <article class="perfil-card perfil-card-side h-100">
+          <div class="perfil-card-head">
+            <h2>Foto de perfil</h2>
+          </div>
+          <p class="perfil-side-text">Puedes actualizar tu foto para identificarte en la plataforma interna.</p>
+          <div class="perfil-side-actions">
+            <input type="file" id="input-avatar" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden />
+            <button type="button" class="btn btn-mtz btn-mtz-primary" id="btn-seleccionar-avatar">
+              <i class="ti ti-camera" aria-hidden="true"></i>
+              Seleccionar imagen
+            </button>
+            <button type="button" class="btn btn-mtz btn-mtz-outline" id="btn-guardar-avatar" disabled>
+              <i class="ti ti-device-floppy" aria-hidden="true"></i>
+              Guardar foto
+            </button>
+          </div>
+          <small class="perfil-help">Formatos permitidos: JPG, PNG o WEBP. Tamaño máximo: 2MB.</small>
+        </article>
+      </div>
+    </section>
+
+    <section class="row g-3 mt-1">
+      <div class="col-12 col-lg-8">
+        <article class="perfil-card">
+          <div class="perfil-card-head">
+            <h2>Seguridad de cuenta</h2>
+          </div>
+          <div class="perfil-security-grid">
+            <div class="perfil-security-item">
+              <i class="ti ti-shield-check" aria-hidden="true"></i>
+              <div>
+                <span>Cuenta protegida</span>
+                <strong id="perfil-security-cuenta-protegida">--</strong>
+              </div>
+            </div>
+            <div class="perfil-security-item">
+              <i class="ti ti-lock" aria-hidden="true"></i>
+              <div>
+                <span>Correo verificado</span>
+                <strong id="perfil-security-email-verified">--</strong>
+              </div>
+            </div>
+            <div class="perfil-security-item">
+              <i class="ti ti-id-badge-2" aria-hidden="true"></i>
+              <div>
+                <span>Rol asignado</span>
+                <strong id="perfil-security-rol">--</strong>
+              </div>
+            </div>
+            <div class="perfil-security-item">
+              <i class="ti ti-clock-hour-4" aria-hidden="true"></i>
+              <div>
+                <span>Último acceso</span>
+                <strong id="perfil-security-ultimo-acceso">--</strong>
+              </div>
+            </div>
+            <div class="perfil-security-item">
+              <i class="ti ti-lock-open-2" aria-hidden="true"></i>
+              <div>
+                <span>MFA</span>
+                <strong id="perfil-security-mfa">--</strong>
+              </div>
+            </div>
+            <div class="perfil-security-item">
+              <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+              <div>
+                <span>Intentos fallidos</span>
+                <strong id="perfil-security-failed-attempts">--</strong>
+              </div>
+            </div>
+            <div class="perfil-security-item">
+              <i class="ti ti-lock-x" aria-hidden="true"></i>
+              <div>
+                <span>Bloqueo hasta</span>
+                <strong id="perfil-security-locked-until">--</strong>
+              </div>
+            </div>
+            <div class="perfil-security-item">
+              <i class="ti ti-key" aria-hidden="true"></i>
+              <div>
+                <span>Cambio de contraseña</span>
+                <strong id="perfil-security-password-changed">--</strong>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <article class="perfil-card" id="perfil-funciones-card">
+          <div class="perfil-card-head">
+            <h2 id="perfil-funciones-titulo">Funciones del rol</h2>
+          </div>
+          <ul class="perfil-funciones-lista" id="perfil-funciones-lista"></ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="row g-3 mt-1">
+      <div class="col-12">
+        <article class="perfil-card d-none" id="perfil-admin-card">
+          <div class="perfil-card-head">
+            <h2>Acciones de administrador</h2>
+          </div>
+          <p class="perfil-side-text">Accesos de gestión avanzada para usuarios internos.</p>
+          <div class="perfil-admin-links">
+            <a href="/admin.html#admin-usuarios" class="perfil-admin-link"><i class="ti ti-users"></i> Gestión de usuarios</a>
+            <a href="/admin.html#admin-usuarios" class="perfil-admin-link"><i class="ti ti-user-plus"></i> Crear usuarios internos</a>
+            <a href="/admin.html#admin-roles" class="perfil-admin-link"><i class="ti ti-shield-cog"></i> Roles y estados</a>
+            <a href="/admin.html#admin-seguridad" class="perfil-admin-link"><i class="ti ti-key"></i> Seguridad y auditoría</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="perfil-footer-actions mt-3">
+      <button type="button" class="btn btn-mtz btn-mtz-outline" id="btn-volver-panel">
+        <i class="ti ti-arrow-left" aria-hidden="true"></i>
+        <span id="btn-volver-panel-label">Volver al módulo</span>
+      </button>
+      <button type="button" class="btn btn-mtz btn-mtz-ghost" id="btn-cerrar-sesion-footer">
+        <i class="ti ti-logout" aria-hidden="true"></i>
+        Cerrar sesión
+      </button>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/perfil.js"></script>
+</body>
+</html>

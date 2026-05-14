@@ -1648,6 +1648,16 @@ body.portal-ciudadano .portal-consulta-empty-help i {
   body.portal-ciudadano .portal-consulta-resultado-grid {
     grid-template-columns: 1fr;
   }
+
+  body.portal-ciudadano .portal-timeline-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.38rem;
+  }
+
+  body.portal-ciudadano .portal-timeline-label,
+  body.portal-ciudadano .portal-timeline-date {
+    font-size: 0.62rem;
+  }
 }
 
 @media (max-width: 768px) {

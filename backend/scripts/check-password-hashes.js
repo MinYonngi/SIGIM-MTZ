@@ -14,7 +14,7 @@ const mysql = require("mysql2/promise");
 
 const MIN_REASONABLE_HASH_LEN = 20;
 const BCRYPT_HASH_RE = /^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/;
-const VALID_ROLES = new Set(["ADMIN", "SUPERVISOR", "OPERADOR", "QA", "CONSULTA"]);
+const VALID_ROLES = new Set(["ADMIN", "SUPERVISOR", "OPERADOR"]);
 
 function classifyHash(value) {
   const raw = value == null ? "" : String(value);

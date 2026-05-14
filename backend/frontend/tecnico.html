@@ -60,13 +60,20 @@
               </div>
             </div>
             <div class="profile-dropdown-body">
-              <button type="button"
-                      class="profile-dropdown-item"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalPerfil"
-                      aria-label="Ver mi perfil">
+              <a href="/tecnico/perfil"
+                 id="link-ver-perfil-topbar"
+                 class="profile-dropdown-item"
+                 aria-label="Ver mi perfil">
                 <i class="ti ti-user" aria-hidden="true"></i>
                 Ver perfil
+              </a>
+              <div class="profile-dropdown-divider"></div>
+              <button type="button"
+                      class="profile-dropdown-item logout"
+                      id="btn-cerrar-sesion-menu"
+                      aria-label="Cerrar sesión desde menú">
+                <i class="ti ti-logout" aria-hidden="true"></i>
+                Cerrar sesión
               </button>
             </div>
           </div>

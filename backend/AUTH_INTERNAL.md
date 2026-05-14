@@ -8,8 +8,8 @@
 
 ## Redirección tras login
 
-- `OPERADOR` → `/tecnico` (panel técnico).
-- `SUPERVISOR`, `ADMIN`, `QA`, `CONSULTA` → `/` (dashboard).
+- `OPERADOR` → `/tecnico.html` (panel técnico).
+- `SUPERVISOR`, `ADMIN` → `/dashboard.html`.
 
 ## Rutas HTML
 
@@ -25,8 +25,6 @@
 | SUPERVISOR | Dashboard | Asignación vía API (`PUT .../asignar`). |
 | ADMIN      | Dashboard | Misma entrada que supervisor hasta existir `/admin`. |
 | OPERADOR   | Técnico | Lista/KPIs filtrados por `assigned_to` en backend. |
-| QA         | Dashboard | Sin módulo exclusivo; permisos de API como usuario autenticado salvo restricciones futuras. |
-| CONSULTA   | Dashboard | Solo lectura: middleware bloquea métodos que no sean GET en rutas API protegidas; en UI se oculta “Asignar”. |
 
 ## Semilla de usuarios
 
@@ -35,7 +33,7 @@
 npm run seed:users
 ```
 
-Correos de ejemplo: `admin@sigim.local`, `operador@sigim.local`, etc. Requiere `UNIQUE` en `usuarios.email`.
+Correos de ejemplo: `admin.sistema@sigim.local`, `supervisor@sigim.local`, `operador1@sigim-mtz.com`. Requiere `UNIQUE` en `usuarios.email`.
 
 ## Producción (sesiones)
 
@@ -58,6 +56,4 @@ Correos de ejemplo: `admin@sigim.local`, `operador@sigim.local`, etc. Requiere `
 
 ## Pendiente / no implementado
 
-- **ADMIN**: no hay `admin.html` ni rutas `/admin`; el rol entra al dashboard.
-- **QA**: no hay vista dedicada; mismo dashboard con políticas API genéricas.
-- **CONSULTA**: restricción fuerte en API (`forbidConsultaMutation`); revisar que nuevas rutas mutables usen los mismos middlewares.
+- **ADMIN**: no hay `admin.html`; el rol entra a `dashboard.html`.
